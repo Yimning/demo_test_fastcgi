@@ -1,0 +1,14 @@
+1、Make.build完成两个事情，一是生成一个该目录下所有源文件的依赖文件，二是将目录下所有的源文件编译成.o。
+如果调用Make.build的Makefile定义了LOCALDIR，LOCALDIR指定目录名称，那么生成的依赖文件是$(LOCALDIR).depend，
+否则是一个隐藏文件.depend。
+在目录下的Makefile可以用INCLUDES来指定头文件，例如INCLUDES=.  ../includes，不需要-I，-I会在Make.build里自动添加
+Makefile还可以用EXT_CFLAGS来添加额外的编译参数，例如-Dsymbol等。
+目前编译的.o文件是在当前目录下，以后可能添加用于编译到指定目录。
+
+2、Make.subdirs进入下一级目录编译，调用它的Makefile先定义需要进入的下一级目录，
+只需要在Makefile指定subdirs=下一级目录，然后include Make.subdirs这样就可以就可以递归进行编译
+
+3、Make.local用于定义各种编译选项和编译工具定义，会在Make.build里面include
+
+4、Make.lib是用于编译生成静态裤的。只需要在Makefie指定lib=库名，然后include Make.lib即可把当前目录下的所有.o生成库，必须先调用Make.build
+

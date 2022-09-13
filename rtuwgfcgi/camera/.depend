@@ -1,0 +1,17 @@
+rtuwg_menu_camera_detail.o .depend : rtuwg_menu_camera_detail.c \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/include/common.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/include/polcodes.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/webcmd.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/rtuwg_webcmd_handle.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/rtuwg_config_menu.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/rtuwg_config_detail.h \
+ /opt/software/rudecgi-5.0.0/_install/include/rude/cgi.h \
+ /opt/software/fcgi-2.4.0/_install/include/fcgi_stdio.h \
+ /opt/software/fcgi-2.4.0/_install/include/fcgiapp.h \
+ /opt/software/fcgi-2.4.0/_install/include/fcgi_config.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/rtuwg_html_widget.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/rtuwg_mesghandler.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/rtuwg_message.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/rtuwg_ui_parameter.h \
+ rtuwg_menu_camera_detail.h \
+ /opt/rtu_t36z/app/cgifast/rtuwgfcgi/rtuwg_file_handler.h

@@ -1,0 +1,16 @@
+
+.PHONY: ${subdirs}
+
+all: ${subdirs}
+ifdef QUIET
+	@$(ECHO) Subdirectory build for ${subdirs}
+endif
+
+${subdirs}::
+	$Q$(MAKE) -C $@  
+
+clean clean_d install distclean::
+ifdef QUIET
+	@$(ECHO) Subdirectory $@ for ${subdirs}
+endif
+	@(for name in $(subdirs); do $(MAKE) -C $$name $@; done)
