@@ -13,6 +13,11 @@
 #include "cJSON.h"
 #include "stdbool.h"
 
+#include "fprintf.h"
+#include "common.h"
+
+
+
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned long u32_t;
@@ -32,15 +37,22 @@ char* getparameter(char *query_string, int index);
 int sln_string_unescape(char **attr, const char *src, int len);
 int sln_cgi_content_parse(char *input_content);
 
-char* cjson_cgi_content_parse(char *query_string);
+//GET method
+char* cjson_cgi_GET_content_parse(char *query_string);
+char* cjson_cgi_GET_getStrValue(const char *const key);
+int cjson_cgi_GET_getIntValue(const char *const key);
+double cjson_cgi_GET_getDoubleValue(const char *const key);
+bool cjson_cgi_GET_getBoolValue(const char *const key);
 
-char* cjson_cgi_getStrValue(const char *const key);
 
-int cjson_cgi_getIntValue(const char *const key);
+//POST method
+int cjson_cgi_getPostStr(char *postDataBuffer);
+char* cjson_cgi_POST_content_parse(char *query_string);
+char* cjson_cgi_POST_getStrValue(const char *const key);
+int cjson_cgi_POST_getIntValue(const char *const key);
+double cjson_POST_GET_getDoubleValue(const char *const key);
+bool cjson_cgi_POST_getBoolValue(const char *const key);
 
-double cjson_cgi_getDoubleValue(const char *const key);
-
-bool cjson_cgi_getBoolValue(const char *const key);
 
 unsigned char CharToHex(unsigned char bHex);
 unsigned char HexToChar(unsigned char bChar);

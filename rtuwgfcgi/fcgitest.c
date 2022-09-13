@@ -346,8 +346,8 @@ static int login_ok_already(int webcmd, rude::CGI &cgi )
     char password[] = {0}; 
     if (webcmd == WEB_CMD_LOGIN)
     {
-        if (!strcmp(cjson_cgi_getStrValue("USERNAME"), "admin") &&
-            !strcmp(cjson_cgi_getStrValue("PASSWORD"), "123"))
+        if (!strcmp(cjson_cgi_GET_getStrValue("USERNAME"), "admin") &&
+            !strcmp(cjson_cgi_GET_getStrValue("PASSWORD"), "123"))
         {
             login_ok = 1; //  login ok
 			gettimeofday(&t_start, NULL);
@@ -395,7 +395,7 @@ int rtuwg_fcgi_main()
         bzero(top_html_str, sizeof(top_html_str));
         bzero(left_html_str, sizeof(left_html_str));
         bzero(right_html_str, sizeof(right_html_str));
-        pstr = cjson_cgi_getStrValue("CMD");
+        pstr = cjson_cgi_GET_getStrValue("CMD");
         //printf("cjson_cgi_getStrValue:%s\r\n", pstr);
   
         webcmd = (int)web_str2cmd(pstr);
@@ -434,13 +434,13 @@ int rtuwg_fcgi_main()
         {
         case WEB_CMD_HEARTBEAT:
             printf("%s\n\n","Content-Type:text/html;charset=utf-8");
-            printf("heartbeat %s",cjson_cgi_getStrValue("SELECT"));
+            printf("heartbeat %s",cjson_cgi_GET_getStrValue("SELECT"));
             goto CGI_FINISH;
             
         case WEB_CMD_HOME_PAGE:
         case WEB_CMD_LOGIN:
         {
-            display_config_ui(left_html_str, cjson_cgi_getStrValue("SELECT"));
+            display_config_ui(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
             web_html_ui_select(top_html_str,left_html_str,right_html_str);
             //printf("<script>alert(\"这是弹出框提示文本 %d--%d\")</script>",webcmd,login_ok_already(webcmd, cgi));
             goto CGI_FINISH;
@@ -450,9 +450,8 @@ int rtuwg_fcgi_main()
         {
             //printf("%s\n\n","Content-Type:text/html;charset=utf-8");
             //printf("<script>alert(\"WEB_CMD_MENU%d--%d\")</script>",ret,webcmd);
-            display_config_menu(left_html_str, cjson_cgi_getStrValue("SELECT"));
-            display_menu_config_detail(right_html_str,cjson_cgi_getStrValue("SELECT"));
-            CONSOLELOG(DEBUG_PATH,"output",cjson_cgi_getStrValue("SELECT"));
+            display_config_menu(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
+            display_menu_config_detail(right_html_str,cjson_cgi_GET_getStrValue("SELECT"));
             web_html_ui_select2(top_html_str,left_html_str,right_html_str);
             
         }

@@ -1,6 +1,7 @@
 web_menu_device.o .depend : web_menu_device.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/include/common.h \
- webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_device.h
+ webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_device.h \
+ fprintf.h getparameter.h cJSON.h
 fcgitest.o .depend : fcgitest.c \
  /home/yimning/FastCGI/rudecgi-5.0.0/_install/include/rude/cgi.h \
  /home/yimning/FastCGI/fcgi2-2.4.2/_install/include/fcgi_stdio.h \
@@ -16,8 +17,9 @@ web_menu_data.o .depend : web_menu_data.c \
 web_config_menu_detail.o .depend : web_config_menu_detail.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/include/common.h \
  webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_device.h \
- web_menu_data.h
-getparameter.o .depend : getparameter.c getparameter.h cJSON.h
+ web_menu_data.h fprintf.h getparameter.h cJSON.h
+getparameter.o .depend : getparameter.c getparameter.h cJSON.h fprintf.h \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/include/common.h
 web_config_menu.o .depend : web_config_menu.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/include/common.h \
  webcmd.h web_config_menu.h

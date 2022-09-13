@@ -1,8 +1,6 @@
-
-Sep 12 2022 23:20:07---0
-Sep 12 2022 23:25:02--->output:0
-Sep 12 2022 23:25:02--->output:0
-Sep 12 2022 23:25:02--->output:0
-Sep 12 2022 23:25:02--->output:1
-Sep 12 2022 23:25:02--->output:0
-Sep 12 2022 23:25:02--->output:0
+Sep 13 2022 18:01:55--->getenv(REQUEST_METHOD):POST
+Sep 13 2022 18:01:55--->--dat_buf---:
+Sep 13 2022 18:22:27--->getenv(REQUEST_METHOD):POST
+Sep 13 2022 18:22:27--->--dat_buf---:
+Sep 13 2022 18:32:23--->getenv(REQUEST_METHOD):POST
+Sep 13 2022 18:32:23--->--dat_buf---:

@@ -1,8 +1,15 @@
 /*
- * @Author: Yimning 1148967988@qq.com
- * @Date: 2022-08-11 00:12:47
- * @Description: getparameter 
- */
+================================================================
+ * Copyright © 2022 Yimning. All rights reserved.
+ *   
+ * @File Name: getparameter.c
+ * @Author: Yimning
+ * @Email: 1148967988@qq.com
+ * @Created Time: 2022-08-11 00:12:47
+ * @Description:getparameter
+ *
+================================================================
+*/
 
 #include "getparameter.h"
 
@@ -214,7 +221,15 @@ char* cjson_cgi_content_parse(char *query_string)
     return pstr; 
 }
 
-char* cjson_cgi_getStrValue(const char *const key)
+
+/*
+================================================================
+ *
+ * @Description:GET method
+ *
+================================================================
+*/
+char* cjson_cgi_GET_getStrValue(const char *const key)
 {
     /* 解析JSON数据包 */
     cJSON *json, *json_value;
@@ -254,7 +269,7 @@ char* cjson_cgi_getStrValue(const char *const key)
 }
 
 
-int cjson_cgi_getIntValue(const char *const key)
+int cjson_cgi_GET_getIntValue(const char *const key)
 {
     /* 解析JSON数据包 */
     cJSON *json, *json_value;
@@ -279,7 +294,7 @@ int cjson_cgi_getIntValue(const char *const key)
     return ret;
 }
 
-double cjson_cgi_getDoubleValue(const char *const key)
+double cjson_cgi_GET_getDoubleValue(const char *const key)
 {
     /* 解析JSON数据包 */
     cJSON *json, *json_value;
@@ -304,7 +319,203 @@ double cjson_cgi_getDoubleValue(const char *const key)
     return ret;
 }
 
-bool cjson_cgi_getBoolValue(const char *const key)
+bool cjson_cgi_GET_getBoolValue(const char *const key)
+{
+    /* 解析JSON数据包 */
+    cJSON *json, *json_value;
+    bool ret;
+    char *query_string = getenv("QUERY_STRING");
+    char *jsonString = cjson_cgi_content_parse(query_string);
+    if(!jsonString) return NULL;
+
+    json = cJSON_Parse(jsonString);
+    if (json)
+    {
+        json_value = cJSON_GetObjectItem(json, key); 
+        if ((json_value != NULL)&&(json_value->type == cJSON_False)) // 解析值---bool---false
+        {
+            ret = false;
+        }
+        if ((json_value != NULL)&&(json_value->type == cJSON_True)) // 解析值---double---true
+        {
+            ret = true;
+        } 
+
+        // 释放内存空间
+        cJSON_Delete(json);
+    }
+    return ret;
+}
+
+
+/*
+================================================================
+ *
+ * @Description:POST method
+ *
+================================================================
+*/
+
+int cjson_cgi_getPostStr(char *postDataBuffer)
+{
+#if 0
+    char *data_len_str = NULL;
+    int  data_len, read_len;
+    fprintf(stdout, "Content-Type:text/html\n\n");
+    data_len_str = getenv("CONTENT_LENGTH");
+    if (NULL == data_len_str) {
+        data_len_str = "";
+    }
+    
+    data_len = atoi(data_len_str);
+    if (data_len < 0) {
+       return -1;
+    }
+    postDataBuffer = (char *)malloc(data_len);
+    if (NULL == postDataBuffer) {
+        return -1;
+    }
+    char file_buf[1024] = {0};
+    read_len = fread(file_buf, 1, data_len, stdin);
+    sprintf(data_len_str,"%d",read_len);
+    CONSOLELOG(DEBUG_PATH,"--data_len_str----",data_len_str);
+    if (read_len != data_len) {
+        return -1;
+    }
+    
+    return read_len;
+#endif
+
+ 	/* 说明返回内容类型为html文本 */
+	printf("Content-Type:text/html\n\n");
+ 
+	/* 请求方式 */
+	char *req_method = getenv("REQUEST_METHOD");
+ 
+	if (0 == strcmp("POST", req_method)) { /* 处理POST请求 */
+		char *content_len = getenv("CONTENT_LENGTH");//获取数据长度
+		char *content_type = getenv("CONTENT_TYPE");//获取数据类型 application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
+ 
+		int len = 0;
+		if (NULL != content_len) {
+			len = atoi(content_len);
+		}		
+ 
+		if (len > 0) { //获取post数据	
+			//if (NULL != content_type && NULL == strstr(content_type, "multipart/form-data")) {//普通文本参数
+				char dat_buf[50] = {0};
+				if (len > 50) {
+					len = 50;
+				}
+				len = fread(dat_buf, 1, len, stdin);
+				printf("post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
+                CONSOLELOG(DEBUG_PATH,"--dat_buf---",dat_buf);
+                my_fprintf(DEBUG_PATH,"post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
+				//使用字符串分割函数获取各个参数：strtok_r
+			
+        }
+    }
+    return 0;
+}
+
+
+
+char* cjson_cgi_POST_getStrValue(const char *const key)
+{
+    /* 解析JSON数据包 */
+    cJSON *json, *json_value;
+    char *pstr; 
+
+    char *postDataBuffer = NULL;
+    int ret = cjson_cgi_getPostStr(postDataBuffer);
+    CONSOLELOG(DEBUG_PATH,"--postDataBuffer----",postDataBuffer);
+    if(ret < 0) return NULL;
+    
+    char *jsonString = cjson_cgi_content_parse(postDataBuffer);
+    if(!jsonString) return NULL;
+    pstr = (char *)malloc(strlen(jsonString)+1);
+    memset(pstr,0,strlen(jsonString)+1);
+
+    json = cJSON_Parse(jsonString);
+
+    if (!json)
+    {
+        sprintf(pstr,"%s", cJSON_GetErrorPtr());
+    }
+    else
+    {
+        // 解析值---string
+        json_value = cJSON_GetObjectItem(json, key); 
+        if ((json_value != NULL)&&(json_value->type == cJSON_String))
+        {
+            //valuestring中获得结果
+            //return json_value->valuestring;
+            sprintf(pstr,"%s", json_value->valuestring);
+        }
+
+        if ((json_value != NULL)&&(json_value->type == cJSON_Number)) // 解析值---int/double
+        {
+            sprintf(pstr,"%lf", json_value->valuedouble);
+        } 
+
+        // 释放内存空间
+        cJSON_Delete(json);
+    }
+    return pstr;
+}
+
+
+int cjson_cgi_POST_getIntValue(const char *const key)
+{
+    /* 解析JSON数据包 */
+    cJSON *json, *json_value;
+    int ret = -1;
+    char *query_string = getenv("QUERY_STRING");
+    char *jsonString = cjson_cgi_content_parse(query_string);
+    if(!jsonString) return NULL;
+
+    json = cJSON_Parse(jsonString);
+
+    if (json)
+    {
+        json_value = cJSON_GetObjectItem(json, key); 
+        if ((json_value != NULL)&&(json_value->type == cJSON_Number)) // 解析值---int
+        {
+            ret = json_value->valueint;
+        } 
+
+        // 释放内存空间
+        cJSON_Delete(json);
+    }
+    return ret;
+}
+
+double cjson_cgi_POST_getDoubleValue(const char *const key)
+{
+    /* 解析JSON数据包 */
+    cJSON *json, *json_value;
+    double ret = -1;
+    char *query_string = getenv("QUERY_STRING");
+    char *jsonString = cjson_cgi_content_parse(query_string);
+
+    if(!jsonString) return ret;
+
+    json = cJSON_Parse(jsonString);
+    if (json)
+    {
+        json_value = cJSON_GetObjectItem(json, key); 
+        if ((json_value != NULL)&&(json_value->type == cJSON_Number)) // 解析值---double
+        {
+            ret = json_value->valuedouble;
+        } 
+
+        // 释放内存空间
+        cJSON_Delete(json);
+    }
+    return ret;
+}
+
+bool cjson_cgi_POST_getBoolValue(const char *const key)
 {
     /* 解析JSON数据包 */
     cJSON *json, *json_value;

@@ -11,11 +11,14 @@
 #include "web_config_menu.h"
 #include "web_config_menu_detail.h"
 #include "web_menu_device.h"
+#include "fprintf.h"
+#include "getparameter.h"
 
 #include "unistd.h"
 #include "sys/types.h"
 #include "sys/stat.h"
 #include "fcntl.h"
+
 
 
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
