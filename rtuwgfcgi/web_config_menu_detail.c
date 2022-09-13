@@ -14,7 +14,7 @@
 #include "web_menu_data.h"
 
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
-#define JAVASCRIPT_HTML_BUFFER (javascript_html_str+strlen(javascript_html_str))
+
 
 int display_menu_config_detail(char *right_html_str,const char *selstr)
 {
