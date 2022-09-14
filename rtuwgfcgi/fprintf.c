@@ -41,7 +41,7 @@ void FPRINTF_LOG(const char *filename, char *fmt, ...)
 {
     FILE* fp; 
     fp = fopen(filename, "a+");
-    char buff[1024] = {0};
+    char buff[MAX_BUFFER_SIZE] = {0};
 
 	struct tm *time = systemTimeNow();
 
@@ -51,7 +51,7 @@ void FPRINTF_LOG(const char *filename, char *fmt, ...)
 	//可变参数第二步，初始化va_ptr,将va_ptr指向第一个可选参数
 	va_start(va_ptr,fmt);
     
-    vsnprintf(buff,256,fmt,va_ptr);
+    vsnprintf(buff,MAX_BUFFER_SIZE,fmt,va_ptr);
 
     //把buff数据写入文件
     fprintf(fp,"%d.%d.%d %d:%d:%d --------log information\r\n%s\r\n",time->tm_year+1900, time->tm_mon, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec ,buff);   

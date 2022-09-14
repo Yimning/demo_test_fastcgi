@@ -11,6 +11,7 @@
 #include "string.h"
 #include <stdarg.h>
 #include <time.h>
+#define MAX_BUFFER_SIZE 1024
 
 int CONSOLELOG(const char *filename,char *signstr,char *data);
 void FPRINTF_LOG(const char *filename, char *fmt, ...);
