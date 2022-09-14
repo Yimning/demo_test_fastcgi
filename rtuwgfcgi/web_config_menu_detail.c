@@ -45,32 +45,7 @@ int display_menu_config_detail(char *right_html_str,const char *selstr)
 				 	/* 说明返回内容类型为html文本 */
 	//printf("Content-Type:text/html\n\n");
  
-	/* 请求方式 */
-	char *req_method = getenv("REQUEST_METHOD");
- 
-	if (0 == strcmp("POST", req_method)) { /* 处理POST请求 */
-		char *content_len = getenv("CONTENT_LENGTH");//获取数据长度
-		char *content_type = getenv("CONTENT_TYPE");//获取数据类型 application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
- 
-		int len = 0;
-		if (NULL != content_len) {
-			len = atoi(content_len);
-		}		
- 
-		if (len > 0) { //获取post数据	
-			//if (NULL != content_type && NULL == strstr(content_type, "multipart/form-data")) {//普通文本参数
-				char dat_buf[50] = {0};
-				if (len > 50) {
-					len = 50;
-				}
-				len = fread(dat_buf, 1, len, stdin);
-				printf("post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
-                CONSOLELOG(DEBUG_PATH,"--dat_buf---",dat_buf);
-				//使用字符串分割函数获取各个参数：strtok_r
-			
-        }
-    }
-
+	
             }
 			display_menu_device_detail(RIGHT_HTML_BUFFER);
 		}

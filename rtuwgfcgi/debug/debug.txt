@@ -1,6 +1,38 @@
-Sep 13 2022 18:01:55--->getenv(REQUEST_METHOD):POST
-Sep 13 2022 18:01:55--->--dat_buf---:
-Sep 13 2022 18:22:27--->getenv(REQUEST_METHOD):POST
-Sep 13 2022 18:22:27--->--dat_buf---:
-Sep 13 2022 18:32:23--->getenv(REQUEST_METHOD):POST
-Sep 13 2022 18:32:23--->--dat_buf---:
+
+Sep 14 2022 10:28:46--->getenv(REQUEST_METHOD):POST
+Sep 14 2022 10:28:46--->--dat_buf---:
+Sep 14 2022 10:28:46--------log information
+post type:application/x-www-form-urlencoded len:0, data:
+
+Sep 14 2022 10:28:46--->getenv(REQUEST_METHOD):POST
+Sep 14 2022 10:28:46--->--dat_buf---:
+Sep 14 2022 10:28:46--------log information
+post type:application/x-www-form-urlencoded
+,len:0, data:
+
+Sep 14 2022 10:28:46--->getenv(REQUEST_METHOD):POST
+Sep 14 2022 10:28:46--->--dat_buf---:
+Sep 14 2022 10:28:46--------log information
+post type:application/x-www-form-urlencoded
+len:0, data:
+
+Sep 14 2022 10:28:46--------log information
+post type:application/x-www-form-urlencoded,len:23, data:CMD=MENU&SELECT=0&LED=0
+
+Sep 14 2022 10:28:46--->getenv(REQUEST_METHOD):POST
+Sep 14 2022 10:28:46--------log information
+post type:application/x-www-form-urlencoded,len:0, data:
+
+Sep 14 2022 10:28:46--->getenv(REQUEST_METHOD):POST
+Sep 14 2022 10:28:46--------log information
+post type:application/x-www-form-urlencoded,len:0, data:
+
+Sep 14 2022 10:28:46--->getenv(REQUEST_METHOD):POST
+Sep 14 2022 10:28:46--->getenv(REQUEST_METHOD):POST
+Sep 14 2022 10:28:46--------log information
+post type:application/x-www-form-urlencoded,len:23, data:CMD=MENU&SELECT=0&LED=0
+
+Sep 14 2022 10:28:46--->getenv(REQUEST_METHOD):POST
+Sep 14 2022 10:28:46--------log information
+post type:application/x-www-form-urlencoded,len:23, data:CMD=MENU&SELECT=0&LED=0
+

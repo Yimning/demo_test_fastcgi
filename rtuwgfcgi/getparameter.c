@@ -410,7 +410,7 @@ int cjson_cgi_getPostStr(char *postDataBuffer)
 				len = fread(dat_buf, 1, len, stdin);
 				printf("post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
                 CONSOLELOG(DEBUG_PATH,"--dat_buf---",dat_buf);
-                my_fprintf(DEBUG_PATH,"post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
+                FPRINTF_LOG(DEBUG_PATH,"post type:%s    len:%d, data:%s ", content_type, len, dat_buf);
 				//使用字符串分割函数获取各个参数：strtok_r
 			
         }
