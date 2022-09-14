@@ -11,10 +11,13 @@
 #include <time.h>
 #include <sys/stat.h>
 
+#include "getparameter.h"
 #include "common.h"
 #include "fprintf.h"
+#include "api.h"
+
 #include "webcmd.h"
-#include "getparameter.h"
+
 #include "web_config_ui.h"
 #include "web_config_menu.h"
 #include "web_config_menu_detail.h"
@@ -338,12 +341,97 @@ printf("\
     return 0;
 }
 
+
+int cjson_cgi_getPostStr(char **postDataBuffer)
+{
+#if 1
+    char *content_len = NULL;
+    char *tempBuffer = NULL;
+    int  data_len, read_len;
+ 	/* 说明返回内容类型为html文本 */
+	//printf("Content-Type:text/html\n\n");
+
+	/* 请求方式 */
+	char *req_method = getenv("REQUEST_METHOD");
+
+    /* 获取数据类型  */
+    char *content_type = getenv("CONTENT_TYPE");//application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
+    
+    /* 处理POST请求 */
+	if(0 == strcmp("POST", req_method))    
+    { 
+        content_len = getenv("CONTENT_LENGTH");//获取数据长度
+
+        if (NULL == content_len) {
+            content_len = "";
+        }
+        
+        data_len = atoi(content_len);
+        if (data_len < 0) {
+        return -1;
+        }
+        tempBuffer = (char *)malloc(data_len);
+        memset(tempBuffer, 0, data_len);
+        if (NULL == tempBuffer) {
+            return -1;
+        }
+
+        read_len = fread(tempBuffer, 1, data_len, stdin);
+
+        if (read_len != data_len) {
+            return -1;
+        }
+        *postDataBuffer = tempBuffer;
+    }
+    else{
+        *postDataBuffer = NULL;
+    }
+    
+    return read_len;
+#endif
+#if 0
+ 	/* 说明返回内容类型为html文本 */
+	// printf("Content-Type:text/html\n\n");
+ 
+	/* 请求方式 */
+	char *req_method = getenv("REQUEST_METHOD");
+ 
+	if (0 == strcmp("POST", req_method)) { /* 处理POST请求 */
+		char *content_len = getenv("CONTENT_LENGTH");//获取数据长度
+		char *content_type = getenv("CONTENT_TYPE");//获取数据类型 application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
+ 
+		int len = 0;
+		if (NULL != content_len) {
+			len = atoi(content_len);
+		}		
+ 
+		if (len > 0) { //获取post数据	
+			//if (NULL != content_type && NULL == strstr(content_type, "multipart/form-data")) {//普通文本参数
+				char dat_buf[50] = {0};
+				if (len > 50) {
+					len = 50;
+				}
+				len = fread(dat_buf, 1, len, stdin);
+				printf("post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
+                FPRINTF_LOG(DEBUG_PATH,".......post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
+                
+				//使用字符串分割函数获取各个参数：strtok_r
+			
+        }
+    }
+#endif
+    return 0;
+}
+
+
+
 static int login_ok_already(int webcmd, rude::CGI &cgi )
 {
     static int login_ok = 1;
     static struct timeval t_start, t_end;
     char user[] = {0};
     char password[] = {0}; 
+
     if (webcmd == WEB_CMD_LOGIN)
     {
         if (!strcmp(cjson_cgi_GET_getStrValue("USERNAME"), "admin") &&
@@ -381,7 +469,7 @@ int rtuwg_fcgi_main()
     static char left_html_str[1024 * 1024];  // 1024kB
     static char right_html_str[1024 * 1024]; // 1024kB
     static char javascript_html_str[1024 * 1024]; // 1024kB
-    
+    static char tempBuffer[1024*1024]= {0};
     int ret = 0;
     const char *pstr =  NULL;
 
@@ -451,7 +539,24 @@ int rtuwg_fcgi_main()
             //printf("%s\n\n","Content-Type:text/html;charset=utf-8");
             //printf("<script>alert(\"WEB_CMD_MENU%d--%d\")</script>",ret,webcmd);
             display_config_menu(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
+            
+            char *pt = tempBuffer; 
+            
+            cjson_cgi_getPostStr(&pt);
+            FPRINTF_LOG(DEBUG_PATH,"----data--->:%s",pt);
+            if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL))){
+                
+                int ret = display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
+                if(ret >=0)
+                {
+                    FPRINTF_LOG(DEBUG_PATH,"写入成功：%s",cjson_cgi_POST_getStrValue(pt,"LED"));
+                }
+                display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/debug/beep", cjson_cgi_POST_getStrValue(pt,"BEEP"));
+
+            }
+
             display_menu_config_detail(right_html_str,cjson_cgi_GET_getStrValue("SELECT"));
+            
             web_html_ui_select2(top_html_str,left_html_str,right_html_str);
             
         }

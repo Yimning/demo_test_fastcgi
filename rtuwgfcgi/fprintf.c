@@ -6,10 +6,24 @@
 
 #include "fprintf.h"
 
+static struct tm* systemTimeNow()
+{
+    time_t t;
+    struct tm *tm;
+    //获取Unix时间戳。
+    time (&t);
+    //转为时间结构。
+    tm = localtime (&t);
+
+    //printf ( "%d/%d/%d %d:%d:%d\n",tm->tm_year+1900, tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
+    return tm; 
+}
+
 int CONSOLELOG(const char *filename,char *signstr,char *data)
 {
     FILE* fp;
     fp = fopen(filename, "a+");
+	/* 	 __DATE__ 和 __TIME__  分别为编译日期、当前编译时间 */
     fprintf(fp, "%s %s--->%s:%s\r\n", __DATE__ , __TIME__ , signstr ,data);
     fclose(fp);
     return 0;
@@ -28,7 +42,9 @@ void FPRINTF_LOG(const char *filename, char *fmt, ...)
     FILE* fp; 
     fp = fopen(filename, "a+");
     char buff[1024] = {0};
-	
+
+	struct tm *time = systemTimeNow();
+
     //可变参数第一步,定义va_list变量
 	va_list va_ptr;
 
@@ -38,7 +54,7 @@ void FPRINTF_LOG(const char *filename, char *fmt, ...)
     vsnprintf(buff,256,fmt,va_ptr);
 
     //把buff数据写入文件
-    fprintf(fp,"%s %s--------log information\r\n%s\r\n",__DATE__ , __TIME__ ,buff);   
+    fprintf(fp,"%d.%d.%d %d:%d:%d --------log information\r\n%s\r\n",time->tm_year+1900, time->tm_mon, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec ,buff);   
 
 	//可变参数最后一步
 	va_end(va_ptr);

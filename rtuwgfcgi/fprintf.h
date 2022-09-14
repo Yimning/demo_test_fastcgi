@@ -10,9 +10,11 @@
 #include "stdlib.h"
 #include "string.h"
 #include <stdarg.h>
+#include <time.h>
 
 int CONSOLELOG(const char *filename,char *signstr,char *data);
 void FPRINTF_LOG(const char *filename, char *fmt, ...);
 
+static struct tm* systemTimeNow();
 
 #endif
