@@ -11,7 +11,6 @@
 #include "web_config_menu.h"
 #include "web_config_menu_detail.h"
 #include "web_menu_device.h"
-#include "fprintf.h"
 #include "getparameter.h"
 #include "api.h"
 

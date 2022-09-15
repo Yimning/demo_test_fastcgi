@@ -223,6 +223,15 @@ body{
     background-color: papayawhip ;
 }
 
+pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    *word-wrap: break-word;
+    *white-space : normal ;
+}
+
 .accordion{
     background: #8989ee;
     padding-left: 50px;

@@ -17,7 +17,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include <stdarg.h>
-#include "fprintf.h"
+#include <time.h>
 #include "common.h"
 
 #include "unistd.h"
@@ -25,6 +25,13 @@
 #include "sys/stat.h"
 #include "fcntl.h"
 
+
+#define MAX_BUFFER_SIZE 1024*1024
+
+int CONSOLELOG(const char *filename,char *signstr,char *data);
+void FPRINTF_LOG(const char *filename, char *fmt, ...);
+
+struct tm* systemTimeNow();
 
 int display_menu_device_readStatus(const char *filename, char* databuf);
 int display_menu_device_writeStatus(const char *filename,  char *status);

@@ -12,7 +12,7 @@
 #include "web_config_menu_detail.h"
 #include "web_menu_device.h"
 #include "web_menu_data.h"
-#include "fprintf.h"
+#include "api.h"
 #include "getparameter.h"
 
 #include "unistd.h"

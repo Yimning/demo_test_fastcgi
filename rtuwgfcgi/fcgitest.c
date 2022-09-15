@@ -13,7 +13,6 @@
 
 #include "getparameter.h"
 #include "common.h"
-#include "fprintf.h"
 #include "api.h"
 
 #include "webcmd.h"
