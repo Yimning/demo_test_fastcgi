@@ -44,6 +44,6 @@ off_t get_file_size(const char *file_name);
 int fread_file(const char *filename, char** fileBuff);
 
 /* zero file */
-int empty_file(const char *file_name);
+int empty_file(const char *file_name); 
 
 #endif
