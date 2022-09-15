@@ -558,7 +558,10 @@ int rtuwg_fcgi_main()
                     char *pt = tempBuffer; 
                     
                     cjson_cgi_getPostStr(&pt);
-                    if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL))){
+                    if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
+                    {
+                        /* 请求的目的地址 */
+                        FPRINTF_LOG(DEBUG_PATH,"-getenv()---%s\r\n", getenv("REQUEST_URI"));
                         
                         display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
 

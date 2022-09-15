@@ -24,19 +24,26 @@
 #include "sys/types.h"
 #include "sys/stat.h"
 #include "fcntl.h"
+#include "errno.h"
 
 
 #define MAX_BUFFER_SIZE 1024*1024
 
 int CONSOLELOG(const char *filename,char *signstr,char *data);
-void FPRINTF_LOG(const char *filename, char *fmt, ...);
+int FPRINTF_LOG(const char *filename, char *fmt, ...);
 
 struct tm* systemTimeNow();
 
 int display_menu_device_readStatus(const char *filename, char* databuf);
 int display_menu_device_writeStatus(const char *filename,  char *status);
 
-//read file content
+/* get file size */
+off_t get_file_size(const char *file_name);
+
+/* read file content */
 int fread_file(const char *filename, char** fileBuff);
+
+/* zero file */
+int empty_file(const char *file_name);
 
 #endif

@@ -45,8 +45,12 @@ int CONSOLELOG(const char *filename,char *signstr,char *data)
  *
 ================================================================
 */
-void FPRINTF_LOG(const char *filename, char *fmt, ...)
+int FPRINTF_LOG(const char *filename, char *fmt, ...)
 {
+	if(get_file_size(filename)> (MAX_BUFFER_SIZE/2)){
+		empty_file(filename);
+	}
+
     FILE* fp; 
     fp = fopen(filename, "a+");
     char buff[MAX_BUFFER_SIZE] = {0};
@@ -68,6 +72,8 @@ void FPRINTF_LOG(const char *filename, char *fmt, ...)
 	va_end(va_ptr);
 
     fclose(fp);
+	
+	return 0;
 }
 
 
@@ -139,10 +145,45 @@ int display_menu_device_writeStatus(const char *filename,  char *status)
 }
 
 
+off_t get_file_size(const char *file_name)
+{
+	int ret;
+	int fd;
+	struct stat file_stat;
+
+	fd = open(file_name, O_RDONLY);	// 打开文件
+	if (fd == -1) {
+		printf("Open file %s failed : %s\n", file_name, strerror(errno));
+		return -1;
+	}
+	ret = fstat(fd, &file_stat);	// 获取文件状态
+	if (ret == -1) {
+		printf("Get file %s stat failed:%s\n", file_name, strerror(errno));
+		close(fd);
+		return -1;
+	}
+	close(fd);
+	return file_stat.st_size;
+}
+
+int empty_file(const char *file_name)
+{
+	FILE* fp;
+	fp=fopen(file_name,"w+");
+	if(fp == NULL)
+	{
+		printf("Open file %s failed : %s\n", file_name, strerror(errno));
+		return -1;
+	}
+	fclose(fp);
+	return 0;
+}
+
 int fread_file(const char *filename, char** fileBuff)
 {
-	FILE* fp; 
-	if ((fp = fopen(DEBUG_PATH, "r")) == NULL)
+	FILE* fp;
+
+	if ((fp = fopen(filename, "r")) < 0)
 	{
 		*fileBuff = NULL;
 	} 
@@ -153,7 +194,9 @@ int fread_file(const char *filename, char** fileBuff)
 		size_t n=fread(buffer,1,sizeof(char)*MAX_BUFFER_SIZE,fp);
 
 		*fileBuff = buffer; 
+
 	}
 	fclose(fp);
+
 	return 0;
 }
