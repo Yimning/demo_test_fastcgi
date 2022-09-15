@@ -17,13 +17,19 @@
 #include "stdlib.h"
 #include "string.h"
 #include <stdarg.h>
+#include "fprintf.h"
+#include "common.h"
 
 #include "unistd.h"
 #include "sys/types.h"
 #include "sys/stat.h"
 #include "fcntl.h"
 
-int display_menu_device_readStatus(char *filename, char* databuf);
-int display_menu_device_writeStatus(char *filename, char *status);
+
+int display_menu_device_readStatus(const char *filename, char* databuf);
+int display_menu_device_writeStatus(const char *filename,  char *status);
+
+//read file content
+int fread_file(const char *filename, char** fileBuff);
 
 #endif

@@ -6,7 +6,7 @@
 
 #include "fprintf.h"
 
-static struct tm* systemTimeNow()
+struct tm* systemTimeNow()
 {
     time_t t;
     struct tm *tm;

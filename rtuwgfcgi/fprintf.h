@@ -16,6 +16,6 @@
 int CONSOLELOG(const char *filename,char *signstr,char *data);
 void FPRINTF_LOG(const char *filename, char *fmt, ...);
 
-static struct tm* systemTimeNow();
+struct tm* systemTimeNow();
 
 #endif

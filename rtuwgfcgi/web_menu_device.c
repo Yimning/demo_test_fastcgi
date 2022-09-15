@@ -21,9 +21,6 @@
 #include "sys/stat.h"
 #include "fcntl.h"
 
-
-
-
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
 
@@ -35,7 +32,7 @@ int display_menu_device_detail(char *right_html_str)
 	Device led;
 	Device beep;
 
-	int led_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/debug/led",databuf);
+	int led_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led",databuf);
 	if(!strncmp(databuf,"0",1))
 	{
 			led.statusCode = 0;
@@ -50,7 +47,7 @@ int display_menu_device_detail(char *right_html_str)
 			led.key="LED";
 	};
 	
-	int beep_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/debug/beep",databuf);
+	int beep_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep",databuf);
 	if(!strncmp(databuf,"0",1))
 	{
 			beep.statusCode = 0;

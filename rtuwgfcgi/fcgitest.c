@@ -21,6 +21,11 @@
 #include "web_config_ui.h"
 #include "web_config_menu.h"
 #include "web_config_menu_detail.h"
+#include "web_menu_device.h"
+#include "web_menu_data.h"
+#include "web_menu_log.h"
+
+#define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
 using namespace rude;
 
@@ -30,6 +35,8 @@ struct webserver_ctrl
 };
 
 static struct webserver_ctrl wsctrl;
+
+
 
 
 int init_dashboard_page(char *top_html_str, char *left_html_str, char *right_html_str)
@@ -536,29 +543,75 @@ int rtuwg_fcgi_main()
         break;
         case WEB_CMD_MENU:
         {
-            //printf("%s\n\n","Content-Type:text/html;charset=utf-8");
-            //printf("<script>alert(\"WEB_CMD_MENU%d--%d\")</script>",ret,webcmd);
             display_config_menu(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
             
-            char *pt = tempBuffer; 
-            
-            cjson_cgi_getPostStr(&pt);
-            FPRINTF_LOG(DEBUG_PATH,"----data--->:%s",pt);
-            if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL))){
-                
-                int ret = display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
-                if(ret >=0)
+            menu_select select;
+
+            if(!right_html_str) return -1;
+
+            if(!cjson_cgi_GET_getStrValue("SELECT")) select=MENU_DEVICE;
+            else select=(menu_select)atoi(cjson_cgi_GET_getStrValue("SELECT"));
+
+            switch(select)
+            {
+                case MENU_DEVICE:
                 {
-                    FPRINTF_LOG(DEBUG_PATH,"写入成功：%s",cjson_cgi_POST_getStrValue(pt,"LED"));
+                    char *pt = tempBuffer; 
+                    
+                    cjson_cgi_getPostStr(&pt);
+                    if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL))){
+                        
+                        display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
+
+                        display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep", cjson_cgi_POST_getStrValue(pt,"BEEP"));
+                    }
+                    display_menu_device_detail(RIGHT_HTML_BUFFER);
                 }
-                display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/debug/beep", cjson_cgi_POST_getStrValue(pt,"BEEP"));
-
+                break;
+                case MENU_DATA:
+                {
+                    display_menu_data_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_LOG:
+                {
+                    display_menu_log_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_USER:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"serial");
+                    //display_menu_serial_detail(RIGHT_HTML_BUFFER);
+                }
+                break;		
+                case MENU_UPDATEPSD:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"ai");
+                    //display_menu_ai_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_EXIT:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"acqclient");
+                    //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_USER1:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"network");
+                    //display_menu_netowrk_detail(RIGHT_HTML_BUFFER);
+                }
+                break;		
+                case MENU_USER2:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"camera1");
+                    //display_menu_camera_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                default:;
             }
-
-            display_menu_config_detail(right_html_str,cjson_cgi_GET_getStrValue("SELECT"));
             
             web_html_ui_select2(top_html_str,left_html_str,right_html_str);
-            
         }
         break;
         case WEB_CMD_FLUSH_STATUS:

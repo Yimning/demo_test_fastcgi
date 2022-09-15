@@ -13,7 +13,7 @@
 
 #include "api.h"
 
-int display_menu_device_readStatus(char *filename, char* databuf)
+int display_menu_device_readStatus(const char *filename, char* databuf)
 {
 	int fd, retvalue=-1;
 	char buf[20];
@@ -44,11 +44,47 @@ int display_menu_device_readStatus(char *filename, char* databuf)
 
 
 
-int display_menu_device_writeStatus(char *filename, char *status)
+int display_menu_device_writeStatus(const char *filename,  char *status)
 {
 	int fd, retvalue;
-	unsigned char databuf[1];
+	unsigned char databuf[256]={0};
 
+	/* 打开设备驱动 */
+	fd = open(filename, O_RDWR);
+	if(fd < 0){
+		//printf("file %s open failed!\r\n", filename);
+		FPRINTF_LOG(DEBUG_PATH,"file %s open failed!\r\n", filename);
+		return -1;
+	}
+
+	//databuf[0] = atoi(status);	/* 要执行的操作：打开或关闭 */
+	strncpy((char *)databuf, status,strlen(status));
+
+	/* 向文件写入数据 */
+	retvalue = write(fd, databuf, sizeof(databuf));
+
+	if(retvalue < 0){
+		//printf("Device Control Failed!\r\n");
+		FPRINTF_LOG(DEBUG_PATH,"Device Control Failed!\r\n");
+		close(fd);
+		return -1;
+	}
+
+	retvalue = close(fd); /* 关闭文件 */
+	if(retvalue < 0){
+		//printf("file %s close failed!\r\n", filename);
+		FPRINTF_LOG(DEBUG_PATH,"file %s close failed!\r\n");
+		return -1;
+	}
+	return 0;
+}
+
+
+int fread_file(const char *filename, char** fileBuff)
+{
+
+	int fd, retvalue=-1;
+	char buf[20];
 	/* 打开设备驱动 */
 	fd = open(filename, O_RDWR);
 	if(fd < 0){
@@ -56,22 +92,21 @@ int display_menu_device_writeStatus(char *filename, char *status)
 		return -1;
 	}
 
-	databuf[0] = atoi(status);	/* 要执行的操作：打开或关闭 */
-
-	/* 向文件写入数据 */
-	retvalue = write(fd, databuf, sizeof(databuf));
+	/* 向文件读数据 */
+	memset(buf, 0, sizeof(buf));
+	retvalue = read(fd, buf, sizeof(buf));
 	if(retvalue < 0){
 		printf("Device Control Failed!\r\n");
 		close(fd);
 		return -1;
 	}
+	memcpy(databuf, buf, sizeof(buf));
 
 	retvalue = close(fd); /* 关闭文件 */
 	if(retvalue < 0){
 		printf("file %s close failed!\r\n", filename);
 		return -1;
 	}
-	return 0;
+	return retvalue;
+
 }
-
-
