@@ -11,11 +11,20 @@
 #include <time.h>
 #include <sys/stat.h>
 
-#include "common.h"
-#include "webcmd.h"
 #include "getparameter.h"
+#include "common.h"
+#include "api.h"
+
+#include "webcmd.h"
+
 #include "web_config_ui.h"
 #include "web_config_menu.h"
+#include "web_config_menu_detail.h"
+#include "web_menu_device.h"
+#include "web_menu_data.h"
+#include "web_menu_log.h"
+
+#define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
 using namespace rude;
 
@@ -25,6 +34,9 @@ struct webserver_ctrl
 };
 
 static struct webserver_ctrl wsctrl;
+
+
+
 
 int init_dashboard_page(char *top_html_str, char *left_html_str, char *right_html_str)
 {
@@ -141,6 +153,72 @@ int init_dashboard_page(char *top_html_str, char *left_html_str, char *right_htm
         </div>\
     </div>\
     <script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script>\
+</body>\
+</html>\
+");
+    return 0;
+}
+
+
+int web_html_ui_select2(char *top_html_str, char *left_html_str, char *right_html_str)
+{
+    printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+    printf("<!DOCTYPE HTML>\
+<html lang=\"en\">\
+<head>\
+    <meta charset=\"UTF-8\">\
+    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
+    <title>Document</title>\
+    <link rel='stylesheet' href='/demo_test_fastcgi/cgi-bin/css/all.css'>\
+    <link rel=\"stylesheet\" href=\"/demo_test_fastcgi/cgi-bin/css/dashboard_style.css\">\
+    <script src=\"./cgi-bin/js/jquery-3.4.1.min.js\"></script>\
+ \
+</head>\
+<body>\
+    <div class=\"wrapper\">\
+        <div class=\"sidebar\">\
+            <div class=\"bg_shadow\"></div>\
+            <div class=\"sidebar_inner\">\
+                <div class=\"close\">\
+                    <i class=\"fas fa-times\"></i>\
+                </div>\
+                <div class=\"profile_info\">\
+                    <div class=\"profile_img\">\
+                        <img src=\"/demo_test_fastcgi/cgi-bin/images/Profile_id.jpg\" alt=\"\">\
+                    </div>\
+                    <div class=\"profile_data\">\
+                        <p class=\"name\">Yimning</p>\
+                        <span>\
+                            <i class=\"fas fa-map-marker-alt\"></i>\
+                            中国,深圳\
+                        </span>\
+                    </div>\
+                </div>\
+\
+\
+");
+printf("%s\n\n", left_html_str);
+printf("\
+    </div>\
+        </div>\
+        <div class=\"main_container\">\
+            <div class=\"navbar\">\
+                <div class=\"hamburger\">\
+                    <i class=\"fas fa-bars\"></i>\
+                </div>\
+                <div class=\"logo\">\
+                    <a href=\"#\">控制系统</a>\
+                </div>\
+            </div>\
+            ");
+printf("%s",right_html_str);
+printf("\
+        </div>\
+    </div>\
+    <script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script>\
+    ");
+printf("\
 </body>\
 </html>\
 ");
@@ -269,40 +347,119 @@ printf("\
     return 0;
 }
 
+
+int cjson_cgi_getPostStr(char **postDataBuffer)
+{
+#if 1
+    char *content_len = NULL;
+    char *tempBuffer = NULL;
+    int  data_len, read_len;
+ 	/* 说明返回内容类型为html文本 */
+	//printf("Content-Type:text/html\n\n");
+
+	/* 请求方式 */
+	char *req_method = getenv("REQUEST_METHOD");
+
+    /* 获取数据类型  */
+    char *content_type = getenv("CONTENT_TYPE");//application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
+    
+    /* 处理POST请求 */
+	if(0 == strcmp("POST", req_method))    
+    { 
+        content_len = getenv("CONTENT_LENGTH");//获取数据长度
+
+        if (NULL == content_len) {
+            content_len = "";
+        }
+        
+        data_len = atoi(content_len);
+        if (data_len < 0) {
+        return -1;
+        }
+        tempBuffer = (char *)malloc(data_len);
+        memset(tempBuffer, 0, data_len);
+        if (NULL == tempBuffer) {
+            return -1;
+        }
+
+        read_len = fread(tempBuffer, 1, data_len, stdin);
+
+        if (read_len != data_len) {
+            return -1;
+        }
+        *postDataBuffer = tempBuffer;
+    }
+    else{
+        *postDataBuffer = NULL;
+    }
+    
+    return read_len;
+#endif
+#if 0
+ 	/* 说明返回内容类型为html文本 */
+	// printf("Content-Type:text/html\n\n");
+ 
+	/* 请求方式 */
+	char *req_method = getenv("REQUEST_METHOD");
+ 
+	if (0 == strcmp("POST", req_method)) { /* 处理POST请求 */
+		char *content_len = getenv("CONTENT_LENGTH");//获取数据长度
+		char *content_type = getenv("CONTENT_TYPE");//获取数据类型 application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
+ 
+		int len = 0;
+		if (NULL != content_len) {
+			len = atoi(content_len);
+		}		
+ 
+		if (len > 0) { //获取post数据	
+			//if (NULL != content_type && NULL == strstr(content_type, "multipart/form-data")) {//普通文本参数
+				char dat_buf[50] = {0};
+				if (len > 50) {
+					len = 50;
+				}
+				len = fread(dat_buf, 1, len, stdin);
+				printf("post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
+                FPRINTF_LOG(DEBUG_PATH,".......post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
+                
+				//使用字符串分割函数获取各个参数：strtok_r
+			
+        }
+    }
+#endif
+    return 0;
+}
+
+
+
 static int login_ok_already(int webcmd, rude::CGI &cgi )
 {
     static int login_ok = 1;
     static struct timeval t_start, t_end;
     char user[] = {0};
     char password[] = {0}; 
+    char tempBuffer[MAX_BUFFER_SIZE]={0};
+
     if (webcmd == WEB_CMD_LOGIN)
     {
-        //		printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-        //		printf("webcmd = %d\n\n", webcmd);
-        //      devinf_password_self_info();
-        //		printf("%s\n\n     %s\n\n", cgi["USER"], cgi["PASSWD"]);
-
-        // if (!strcmp(cgi["USERNAME"], "admin") &&
-        //     !strcmp(cgi["PASSWORD"], "123"))
-        // {
-        //     login_ok = 1; //  login ok
-		// 	gettimeofday(&t_start, NULL);
-		// 	gettimeofday(&t_end, NULL);
-        //     printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-        //     printf("<script>alert(\"login ok%d--%d\")</script>",t_start.tv_sec,t_end.tv_sec);
-		// }
-        // else
-        // {
-        //     login_ok = -1;
-        // }
-        login_ok ++;
+        if (!strcmp(cjson_cgi_GET_getStrValue("USERNAME"), "admin") &&
+            !strcmp(cjson_cgi_GET_getStrValue("PASSWORD"), "123"))
+        {
+            login_ok = 1; //  login ok
+			gettimeofday(&t_start, NULL);
+			gettimeofday(&t_end, NULL);
+            // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+            // printf("<script>alert(\"login ok%d--%d\")</script>",t_start.tv_sec,t_end.tv_sec);
+		}
+        else
+        {
+            login_ok = -1;
+        }
 	}
 	else
 	{
 		gettimeofday(&t_end, NULL);
-		if((t_end.tv_sec-t_start.tv_sec)>600){
-             printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-            printf("<script>alert(\"ok=%d--webcmd=%d--gettimeofday=%d--%d\")</script>",login_ok,webcmd,t_end.tv_sec,t_start.tv_sec);
+		if((t_end.tv_sec-t_start.tv_sec)>600)    //Login again after 600 seconds
+        {
             login_ok=0;
         }
 		gettimeofday(&t_start, NULL);
@@ -318,43 +475,45 @@ int rtuwg_fcgi_main()
     static char top_html_str[1024 * 1024];   // 1024kB
     static char left_html_str[1024 * 1024];  // 1024kB
     static char right_html_str[1024 * 1024]; // 1024kB
+    static char javascript_html_str[1024 * 1024]; // 1024kB
+    static char tempBuffer[1024*1024]= {0};
     int ret = 0;
-    char *pstr =  NULL;
-
+    const char *pstr =  NULL;
 
     while (FCGI_Accept() >= 0)
     {
         rude::CGI cgi; //必须放在这里定义，否则只执行一次
         int webcmd = 0;
-        pstr = cjson_cgi_getStrValue("CMD");
         
         pthread_mutex_lock(&wsctrl.mutex);
 
         bzero(top_html_str, sizeof(top_html_str));
         bzero(left_html_str, sizeof(left_html_str));
         bzero(right_html_str, sizeof(right_html_str));
-
-        webcmd = (int)web_str2cmd(cgi["CMD"]);
+        pstr = cjson_cgi_GET_getStrValue("CMD");
+        //printf("cjson_cgi_getStrValue:%s\r\n", pstr);
+  
+        webcmd = (int)web_str2cmd(pstr);
         // printf("%s\n\n", "Content-Type:text/html;charset=UTF-8");
         // printf("cgi[CMD] = %s\n\n <br/> webcmd = %d\n\n", cgi["CMD"], webcmd);
         // init_dashboard_page("top_html_str",top_html_str,"left_html_str");
 
-        // if (webcmd != WEB_CMD_HEARTBEAT &&
-        //     ((ret = login_ok_already(webcmd, cgi)) != 1))
-        // { // not login ok
-        //     if (ret == 0)
-        //     {
-        //         printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-        //         printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
-        //     }
-        //     if (ret == -1)
-        //     {
-        //         printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-        //         printf("<p style=\"text-align:center; font-size:18px\">登录用户名密码错误!!!</p>");
-        //     }
+        if (webcmd != WEB_CMD_HEARTBEAT &&
+            ((ret = login_ok_already(webcmd, cgi)) != 1))
+        { // not login ok
+            if (ret == 0)
+            {
+                printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+                printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
+            }
+            if (ret == -1)
+            {
+                printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+                printf("<p style=\"text-align:center; font-size:18px\">登录用户名密码错误!!!</p>");
+            }
 
-        //     goto CGI_FINISH;
-        // }
+            goto CGI_FINISH;
+        }
 
         if (!cgi.exists("CMD"))
         {
@@ -370,26 +529,92 @@ int rtuwg_fcgi_main()
         {
         case WEB_CMD_HEARTBEAT:
             printf("%s\n\n","Content-Type:text/html;charset=utf-8");
-            printf("heartbeat %s",cgi["SELECT"]);
+            printf("heartbeat %s",cjson_cgi_GET_getStrValue("SELECT"));
             goto CGI_FINISH;
             
         case WEB_CMD_HOME_PAGE:
         case WEB_CMD_LOGIN:
         {
-            //init_dashboard_page(top_html_str,left_html_str,right_html_str);
-            display_config_ui(left_html_str, cgi["SELECT"]);
+            display_config_ui(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
             web_html_ui_select(top_html_str,left_html_str,right_html_str);
-            printf("<script>alert(\"这是弹出框提示文本 %d--%d\")</script>",webcmd,login_ok_already(webcmd, cgi));
+            //printf("<script>alert(\"这是弹出框提示文本 %d--%d\")</script>",webcmd,login_ok_already(webcmd, cgi));
             goto CGI_FINISH;
         }
         break;
         case WEB_CMD_MENU:
         {
-            printf("%s\n\n","Content-Type:text/html;charset=utf-8");
-            printf("<script>alert(\"WEB_CMD_MENU%d--%d\")</script>",ret,webcmd);
-            //display_config_menu(left_html_str, cgi["SELECT"]);
-            //web_html_ui_select(top_html_str,left_html_str,right_html_str);
+            display_config_menu(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
             
+            menu_select select;
+
+            if(!right_html_str) return -1;
+
+            if(!cjson_cgi_GET_getStrValue("SELECT")) select=MENU_DEVICE;
+            else select=(menu_select)atoi(cjson_cgi_GET_getStrValue("SELECT"));
+
+            switch(select)
+            {
+                case MENU_DEVICE:
+                {
+                    char *pt = tempBuffer; 
+                    
+                    cjson_cgi_getPostStr(&pt);
+                    if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
+                    {
+                        /* 请求的目的地址 */
+                        FPRINTF_LOG(DEBUG_PATH,"-getenv(\"REQUEST_URI\")---%s\r\n", getenv("REQUEST_URI"));
+                        
+                        display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
+
+                        display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep", cjson_cgi_POST_getStrValue(pt,"BEEP"));
+                    }
+                    display_menu_device_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_DATA:
+                {
+                    display_menu_data_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_LOG:
+                {
+                    display_menu_log_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_USER:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"serial");
+                    //display_menu_serial_detail(RIGHT_HTML_BUFFER);
+                }
+                break;		
+                case MENU_UPDATEPSD:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"ai");
+                    //display_menu_ai_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_EXIT:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"acqclient");
+                    //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                case MENU_USER1:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"network");
+                    //display_menu_netowrk_detail(RIGHT_HTML_BUFFER);
+                }
+                break;		
+                case MENU_USER2:
+                {
+                    //sprintf(RIGHT_HTML_BUFFER,"camera1");
+                    //display_menu_camera_detail(RIGHT_HTML_BUFFER);
+                }
+                break;
+                default:;
+            }
+            
+            web_html_ui_select2(top_html_str,left_html_str,right_html_str);
         }
         break;
         case WEB_CMD_FLUSH_STATUS:
@@ -414,7 +639,7 @@ int rtuwg_fcgi_main()
         //web_html_ui_select(top_html_str,left_html_str,right_html_str);
         // rtuwg_html_ui2("top_html_str", "left_html_str", "right_html_str");
     CGI_FINISH:
-        cgi.finish();
+        //cgi.finish();
         pthread_mutex_unlock(&wsctrl.mutex);
     }
     return 0;

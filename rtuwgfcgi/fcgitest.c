@@ -350,7 +350,6 @@ printf("\
 
 int cjson_cgi_getPostStr(char **postDataBuffer)
 {
-#if 1
     char *content_len = NULL;
     char *tempBuffer = NULL;
     int  data_len, read_len;
@@ -362,19 +361,19 @@ int cjson_cgi_getPostStr(char **postDataBuffer)
 
     /* 获取数据类型  */
     char *content_type = getenv("CONTENT_TYPE");//application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
-    
+
     /* 处理POST请求 */
-	if(0 == strcmp("POST", req_method))    
+	if((req_method!=NULL)&&(!strcmp("POST", req_method)))    
     { 
         content_len = getenv("CONTENT_LENGTH");//获取数据长度
 
         if (NULL == content_len) {
             content_len = "";
         }
-        
+
         data_len = atoi(content_len);
         if (data_len < 0) {
-        return -1;
+            return -1;
         }
         tempBuffer = (char *)malloc(data_len);
         memset(tempBuffer, 0, data_len);
@@ -394,7 +393,7 @@ int cjson_cgi_getPostStr(char **postDataBuffer)
     }
     
     return read_len;
-#endif
+
 #if 0
  	/* 说明返回内容类型为html文本 */
 	// printf("Content-Type:text/html\n\n");
@@ -425,23 +424,22 @@ int cjson_cgi_getPostStr(char **postDataBuffer)
 			
         }
     }
-#endif
     return 0;
+#endif
 }
 
 
 
-static int login_ok_already(int webcmd, rude::CGI &cgi )
+static int login_ok_already(int webcmd, char* username, char* password)
 {
     static int login_ok = 1;
     static struct timeval t_start, t_end;
-    char user[] = {0};
-    char password[] = {0}; 
+
+    char tempBuffer[MAX_BUFFER_SIZE]={0};
 
     if (webcmd == WEB_CMD_LOGIN)
     {
-        if (!strcmp(cjson_cgi_GET_getStrValue("USERNAME"), "admin") &&
-            !strcmp(cjson_cgi_GET_getStrValue("PASSWORD"), "123"))
+        if((!strcmp(username, "admin")) &&(!strcmp(password, "123")))
         {
             login_ok = 1; //  login ok
 			gettimeofday(&t_start, NULL);
@@ -453,6 +451,7 @@ static int login_ok_already(int webcmd, rude::CGI &cgi )
         {
             login_ok = -1;
         }
+
 	}
 	else
 	{
@@ -468,6 +467,7 @@ static int login_ok_already(int webcmd, rude::CGI &cgi )
 	return login_ok;
 }
 
+
 int rtuwg_fcgi_main()
 {
     system("mode con cp select=65001");
@@ -477,6 +477,8 @@ int rtuwg_fcgi_main()
     static char javascript_html_str[1024 * 1024]; // 1024kB
     static char tempBuffer[1024*1024]= {0};
     int ret = 0;
+    char *username;
+    char *password; 
     const char *pstr =  NULL;
 
     while (FCGI_Accept() >= 0)
@@ -489,16 +491,24 @@ int rtuwg_fcgi_main()
         bzero(top_html_str, sizeof(top_html_str));
         bzero(left_html_str, sizeof(left_html_str));
         bzero(right_html_str, sizeof(right_html_str));
-        pstr = cjson_cgi_GET_getStrValue("CMD");
-        //printf("cjson_cgi_getStrValue:%s\r\n", pstr);
-  
-        webcmd = (int)web_str2cmd(pstr);
+        //pstr = cjson_cgi_GET_getStrValue("CMD");
+        char *cmd = tempBuffer; 
+        char *req_method = getenv("REQUEST_METHOD");
+
+        cjson_cgi_getPostStr(&cmd);
+        if((req_method != NULL)&&(cmd!=NULL))
+        {
+            webcmd = (int)web_str2cmd(cjson_cgi_POST_getStrValue(cmd,"CMD"));
+            username = cjson_cgi_POST_getStrValue(cmd,"USERNAME");
+            password = cjson_cgi_POST_getStrValue(cmd,"PASSWORD");
+        }
+
         // printf("%s\n\n", "Content-Type:text/html;charset=UTF-8");
         // printf("cgi[CMD] = %s\n\n <br/> webcmd = %d\n\n", cgi["CMD"], webcmd);
         // init_dashboard_page("top_html_str",top_html_str,"left_html_str");
 
-        if (webcmd != WEB_CMD_HEARTBEAT &&
-            ((ret = login_ok_already(webcmd, cgi)) != 1))
+        if ((webcmd != WEB_CMD_HEARTBEAT) &&
+            ((ret = login_ok_already(webcmd, username, password)) != 1))
         { // not login ok
             if (ret == 0)
             {
@@ -514,6 +524,7 @@ int rtuwg_fcgi_main()
             goto CGI_FINISH;
         }
 
+
         if (!cgi.exists("CMD"))
         {
             if (!strcmp("POST", getenv("REQUEST_METHOD")))
@@ -526,120 +537,121 @@ int rtuwg_fcgi_main()
 
         switch (webcmd)
         {
-        case WEB_CMD_HEARTBEAT:
-            printf("%s\n\n","Content-Type:text/html;charset=utf-8");
-            printf("heartbeat %s",cjson_cgi_GET_getStrValue("SELECT"));
-            goto CGI_FINISH;
-            
-        case WEB_CMD_HOME_PAGE:
-        case WEB_CMD_LOGIN:
-        {
-            display_config_ui(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
-            web_html_ui_select(top_html_str,left_html_str,right_html_str);
-            //printf("<script>alert(\"这是弹出框提示文本 %d--%d\")</script>",webcmd,login_ok_already(webcmd, cgi));
-            goto CGI_FINISH;
-        }
-        break;
-        case WEB_CMD_MENU:
-        {
-            display_config_menu(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
-            
-            menu_select select;
-
-            if(!right_html_str) return -1;
-
-            if(!cjson_cgi_GET_getStrValue("SELECT")) select=MENU_DEVICE;
-            else select=(menu_select)atoi(cjson_cgi_GET_getStrValue("SELECT"));
-
-            switch(select)
+            case WEB_CMD_HEARTBEAT:
+                printf("%s\n\n","Content-Type:text/html;charset=utf-8");
+                printf("heartbeat %s",cjson_cgi_GET_getStrValue("SELECT"));
+                goto CGI_FINISH;
+                
+            case WEB_CMD_HOME_PAGE:
+            case WEB_CMD_LOGIN:
             {
-                case MENU_DEVICE:
-                {
-                    char *pt = tempBuffer; 
-                    
-                    cjson_cgi_getPostStr(&pt);
-                    if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
-                    {
-                        /* 请求的目的地址 */
-                        FPRINTF_LOG(DEBUG_PATH,"-getenv()---%s\r\n", getenv("REQUEST_URI"));
-                        
-                        display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
-
-                        display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep", cjson_cgi_POST_getStrValue(pt,"BEEP"));
-                    }
-                    display_menu_device_detail(RIGHT_HTML_BUFFER);
-                }
-                break;
-                case MENU_DATA:
-                {
-                    display_menu_data_detail(RIGHT_HTML_BUFFER);
-                }
-                break;
-                case MENU_LOG:
-                {
-                    display_menu_log_detail(RIGHT_HTML_BUFFER);
-                }
-                break;
-                case MENU_USER:
-                {
-                    //sprintf(RIGHT_HTML_BUFFER,"serial");
-                    //display_menu_serial_detail(RIGHT_HTML_BUFFER);
-                }
-                break;		
-                case MENU_UPDATEPSD:
-                {
-                    //sprintf(RIGHT_HTML_BUFFER,"ai");
-                    //display_menu_ai_detail(RIGHT_HTML_BUFFER);
-                }
-                break;
-                case MENU_EXIT:
-                {
-                    //sprintf(RIGHT_HTML_BUFFER,"acqclient");
-                    //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);
-                }
-                break;
-                case MENU_USER1:
-                {
-                    //sprintf(RIGHT_HTML_BUFFER,"network");
-                    //display_menu_netowrk_detail(RIGHT_HTML_BUFFER);
-                }
-                break;		
-                case MENU_USER2:
-                {
-                    //sprintf(RIGHT_HTML_BUFFER,"camera1");
-                    //display_menu_camera_detail(RIGHT_HTML_BUFFER);
-                }
-                break;
-                default:;
+                display_config_ui(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
+                web_html_ui_select(top_html_str,left_html_str,right_html_str);
+                //printf("<script>alert(\"这是弹出框提示文本 %d--%d\")</script>",webcmd,login_ok_already(webcmd, cgi));
+                goto CGI_FINISH;
             }
-            
-            web_html_ui_select2(top_html_str,left_html_str,right_html_str);
-        }
-        break;
-        case WEB_CMD_FLUSH_STATUS:
-        {
-            static int count = 0;
-            char *pack_buffer = top_html_str;
-            // printf("%s\n\n","Content-Type:text/html;charset=gb2312");
-            printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-            // printf("login success %d",count++);
-            // package formate
-            // printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
-            // status_flush_package(pack_buffer);
-            printf("%s", pack_buffer);
-            // NOTE :: continue below
-            goto CGI_FINISH;
-        }
-        default:
-            printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-            printf("NO such cmd %s !!!", cgi["CMD"]);
-            goto CGI_FINISH;
-        }
-        //web_html_ui_select(top_html_str,left_html_str,right_html_str);
-        // rtuwg_html_ui2("top_html_str", "left_html_str", "right_html_str");
-    CGI_FINISH:
-        //cgi.finish();
-        pthread_mutex_unlock(&wsctrl.mutex);
+            break;
+            case WEB_CMD_MENU:
+            {
+                display_config_menu(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
+                
+                menu_select select;
+
+                if(!right_html_str) return -1;
+
+                if(!cjson_cgi_GET_getStrValue("SELECT")) select=MENU_DEVICE;
+                else select=(menu_select)atoi(cjson_cgi_GET_getStrValue("SELECT"));
+
+                switch(select)
+                {
+                    case MENU_DEVICE:
+                    {
+                        char *pt = tempBuffer; 
+                        
+                        cjson_cgi_getPostStr(&pt);
+                        if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
+                        {
+                            /* 请求的目的地址 */
+                            FPRINTF_LOG(DEBUG_PATH,"-getenv(\"REQUEST_URI\")---%s\r\n", getenv("REQUEST_URI"));
+                            
+                            display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
+
+                            display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep", cjson_cgi_POST_getStrValue(pt,"BEEP"));
+                        }
+                        display_menu_device_detail(RIGHT_HTML_BUFFER);
+                    }
+                    break;
+                    case MENU_DATA:
+                    {
+                        display_menu_data_detail(RIGHT_HTML_BUFFER);
+                    }
+                    break;
+                    case MENU_LOG:
+                    {
+                        display_menu_log_detail(RIGHT_HTML_BUFFER);
+                    }
+                    break;
+                    case MENU_USER:
+                    {
+                        //sprintf(RIGHT_HTML_BUFFER,"serial");
+                        //display_menu_serial_detail(RIGHT_HTML_BUFFER);
+                    }
+                    break;		
+                    case MENU_UPDATEPSD:
+                    {
+                        //sprintf(RIGHT_HTML_BUFFER,"ai");
+                        //display_menu_ai_detail(RIGHT_HTML_BUFFER);
+                    }
+                    break;
+                    case MENU_EXIT:
+                    {
+                        //sprintf(RIGHT_HTML_BUFFER,"acqclient");
+                        //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);
+                    }
+                    break;
+                    case MENU_USER1:
+                    {
+                        //sprintf(RIGHT_HTML_BUFFER,"network");
+                        //display_menu_netowrk_detail(RIGHT_HTML_BUFFER);
+                    }
+                    break;		
+                    case MENU_USER2:
+                    {
+                        //sprintf(RIGHT_HTML_BUFFER,"camera1");
+                        //display_menu_camera_detail(RIGHT_HTML_BUFFER);
+                    }
+                    break;
+                    default:;
+                }
+                
+                web_html_ui_select2(top_html_str,left_html_str,right_html_str);
+            }
+            break;
+            case WEB_CMD_FLUSH_STATUS:
+            {
+                static int count = 0;
+                char *pack_buffer = top_html_str;
+                // printf("%s\n\n","Content-Type:text/html;charset=gb2312");
+                printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+                // printf("login success %d",count++);
+                // package formate
+                // printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
+                // status_flush_package(pack_buffer);
+                printf("%s", pack_buffer);
+                // NOTE :: continue below
+                goto CGI_FINISH;
+            }
+            default:
+                printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+                printf("NO such cmd %s !!!", cgi["CMD"]);
+                goto CGI_FINISH;
+            }
+            //web_html_ui_select(top_html_str,left_html_str,right_html_str);
+            // rtuwg_html_ui2("top_html_str", "left_html_str", "right_html_str");
+
+        CGI_FINISH:
+            //cgi.finish();
+            pthread_mutex_unlock(&wsctrl.mutex);
     }
     return 0;
 }
