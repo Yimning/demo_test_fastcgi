@@ -27,7 +27,7 @@ function $(id) {
 
 function signIn() {
    if(checkUser() == true) {
-        document.click_submit.action = "/demo_test_fastcgi/fcgitest.fcgi";
+        document.click_submit.action = "/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGIN";
         document.click_submit.submit();
    }
 }

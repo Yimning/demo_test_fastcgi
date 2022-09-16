@@ -1,9 +1,31 @@
-2022.8.15 16:37:0 --------log information
--getenv()---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
 
-2022.8.15 16:37:28 --------log information
--getenv()---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+2022.8.16 14:56:12 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
 
-2022.8.16 10:51:55 --------log information
--getenv()---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+2022.8.16 14:56:13 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 14:56:14 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 14:56:16 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 14:56:18 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 14:56:19 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 14:56:21 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 14:56:22 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 14:56:25 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 14:56:26 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
 

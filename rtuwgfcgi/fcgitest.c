@@ -495,13 +495,26 @@ int rtuwg_fcgi_main()
         char *cmd = tempBuffer; 
         char *req_method = getenv("REQUEST_METHOD");
 
-        cjson_cgi_getPostStr(&cmd);
-        if((req_method != NULL)&&(cmd!=NULL))
+        pstr = cjson_cgi_GET_getStrValue("CMD");
+        webcmd = (int)web_str2cmd(pstr);
+        
+        //GET request method
+        if((req_method != NULL)&&(!strcmp("GET",req_method)))
         {
-            webcmd = (int)web_str2cmd(cjson_cgi_POST_getStrValue(cmd,"CMD"));
-            username = cjson_cgi_POST_getStrValue(cmd,"USERNAME");
-            password = cjson_cgi_POST_getStrValue(cmd,"PASSWORD");
+            username = cjson_cgi_GET_getStrValue("USERNAME");
+            password = cjson_cgi_GET_getStrValue("PASSWORD");
         }
+
+        //POS request method
+        // cjson_cgi_getPostStr(&cmd);
+        // if((req_method != NULL)&&(!strcmp("POST",req_method))&&(cmd!=NULL))
+        // {
+        //     webcmd = (int)web_str2cmd(cjson_cgi_POST_getStrValue(cmd,"CMD"));
+        //     username = cjson_cgi_POST_getStrValue(cmd,"USERNAME");
+        //     password = cjson_cgi_POST_getStrValue(cmd,"PASSWORD");
+        // }
+
+
 
         // printf("%s\n\n", "Content-Type:text/html;charset=UTF-8");
         // printf("cgi[CMD] = %s\n\n <br/> webcmd = %d\n\n", cgi["CMD"], webcmd);
@@ -521,17 +534,6 @@ int rtuwg_fcgi_main()
                 printf("<p style=\"text-align:center; font-size:18px\">登录用户名密码错误!!!</p>");
             }
 
-            goto CGI_FINISH;
-        }
-
-
-        if (!cgi.exists("CMD"))
-        {
-            if (!strcmp("POST", getenv("REQUEST_METHOD")))
-            { // upload file
-                char save_file_name[50] = {0};
-                int file_size;
-            }
             goto CGI_FINISH;
         }
 
