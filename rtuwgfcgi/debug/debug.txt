@@ -29,3 +29,39 @@
 2022.8.16 14:56:26 --------log information
 -getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
 
+2022.8.16 22:13:47 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.16 22:13:48 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.17 15:11:51 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.17 15:11:52 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.17 15:11:54 --------log information
+-getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.17 16:11:38 --------log information
+cJSON_GetStringValue=admin
+
+2022.8.17 16:11:38 --------log information
+cJSON_GetIntValue=0
+
+2022.8.17 16:11:38 --------log information
+cJSON_GetDoubleValue=123.056000
+
+2022.8.17 16:13:30 --------log information
+cJSON_GetStringValue=admin
+
+2022.8.17 16:13:30 --------log information
+cJSON_GetIntValue=0
+
+2022.8.17 16:13:30 --------log information
+cJSON_GetDoubleValue=123.056000
+
+2022.8.17 16:13:30 --------log information
+cJSON_GetBoolValue=1
+

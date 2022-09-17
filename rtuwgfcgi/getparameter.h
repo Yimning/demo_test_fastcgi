@@ -16,8 +16,6 @@
 #include "api.h"
 #include "common.h"
 
-
-
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned long u32_t;
@@ -36,6 +34,13 @@ char* getparameter(char *query_string, int index);
  //返回二维数组的地址，必须制定它的一维的长度
 int sln_string_unescape(char **attr, const char *src, int len);
 int sln_cgi_content_parse(char *input_content);
+
+/* cJSON */
+char* cJSON_GetStrValue(char *jsonString, const char *const key);
+int cJSON_GetIntValue(char *jsonString, const char *const key);
+double cJSON_GetDoubleValue(char *jsonString, const char *const key);
+bool cJSON_GetBoolValue(char *jsonString, const char *const key);
+
 
 //GET method
 char* cjson_cgi_GET_content_parse(char *query_string);

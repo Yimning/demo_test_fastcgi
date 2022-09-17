@@ -496,6 +496,8 @@ int rtuwg_fcgi_main()
         char *req_method = getenv("REQUEST_METHOD");
 
         pstr = cjson_cgi_GET_getStrValue("CMD");
+
+
         webcmd = (int)web_str2cmd(pstr);
         
         //GET request method

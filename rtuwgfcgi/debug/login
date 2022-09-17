@@ -1,9 +1,4 @@
-/*
- * @Author: Yimning 1148967988@qq.com
- * @Date: 2022-08-16 04:03:42
-*/
-
 {
-    "username":"admin";
-    "password":"123";
+    "username":"admin",
+    "password":"123"
 }
