@@ -23,6 +23,7 @@
 #include "web_menu_device.h"
 #include "web_menu_data.h"
 #include "web_menu_log.h"
+#include "web_menu_updatepsw.h"
 
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
@@ -160,6 +161,55 @@ int init_dashboard_page(char *top_html_str, char *left_html_str, char *right_htm
 }
 
 
+int web_html_ui_select(char *top_html_str, char *left_html_str, char *right_html_str)
+{
+
+    if (!top_html_str || !left_html_str || !right_html_str)
+        return -1;
+
+    printf("%s \n\n", "Content-Type:text/html;charset=utf-8");
+
+printf("<!DOCTYPE HTML>\
+<html lang=\"en\">\
+<head>\
+    <meta charset=\"UTF-8\">\
+    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
+    <title>Document</title>\
+    <link rel='stylesheet' href='/demo_test_fastcgi/cgi-bin/css/all.css'>\
+    <link rel=\"stylesheet\" href=\"/demo_test_fastcgi/cgi-bin/css/dashboard_style.css\">\
+    <script src=\"./cgi-bin/js/jquery-3.4.1.min.js\"></script>\
+ \
+</head>\
+<body>\
+    <div class=\"wrapper\">\
+        <div class=\"main_container1\">\
+            <div class=\"navbar\">\
+                <div class=\"hamburger\">\
+                    <i class=\"fas fa-bars\"></i>\
+                </div>\
+                <div class=\"logo\">\
+                    <a href=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=HOME_PAGE\">控制系统</a>\
+                </div>\
+            </div>\
+            <div class=\"content1\">");
+printf("%s\n\n", left_html_str);
+printf("\
+            </div>\
+        </div>\
+    </div>\
+    <script>\
+        console.log(\"left_html_str\");\
+    </script>\
+</body>\
+</html>\
+");    
+
+    return 0;
+}
+
+
+
 int web_html_ui_select2(char *top_html_str, char *left_html_str, char *right_html_str)
 {
     printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
@@ -172,6 +222,7 @@ int web_html_ui_select2(char *top_html_str, char *left_html_str, char *right_htm
     <title>Document</title>\
     <link rel='stylesheet' href='/demo_test_fastcgi/cgi-bin/css/all.css'>\
     <link rel=\"stylesheet\" href=\"/demo_test_fastcgi/cgi-bin/css/dashboard_style.css\">\
+    <link rel=\"stylesheet\" href=\"/demo_test_fastcgi/cgi-bin/css/index_style.css\">\
     <script src=\"./cgi-bin/js/jquery-3.4.1.min.js\"></script>\
  \
 </head>\
@@ -222,128 +273,6 @@ printf("\
 </body>\
 </html>\
 ");
-    return 0;
-}
-
-int rtuwg_html_ui2(char *top_html_str, char *left_html_str, char *right_html_str)
-{
-
-    if (!top_html_str || !left_html_str || !right_html_str)
-        return -1;
-
-    printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-    printf("<html> \
-    <head>  \
-    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />  \
-    <script src=\"/cgi-bin/javascripts/jquery-3.1.1.min.js\" type=\"text/javascript\"></script>\
-    <script src=\"/cgi-bin/javascripts/json2.js\" type=\"text/javascript\"></script>\ 
-    <title></title>  \
-    </head>  \
-    <style>  \
-    div{margin:0;padding:0;border:0}  \
-    </style>  \
-    <body style=\"margin:0; padding:0; overflow:hidden\">");
-    printf("<div style=\" height:100px; background-color:#009ad6\" id=\"top\">%s</div>", top_html_str);
-    printf("<div style=\" background-color:#039\" >");
-    printf("<div style=\"float:left;width:500px;height:500px; background-color:#f6f5ec\" id=\"left\">%s</div>", left_html_str);
-    // printf("<div style=\"float:left; width:10px; height:500px; background-color:#ffffff;overflow:scroll;\" id=\"right\">%s</div>",right_html_str);
-    printf("</div>");
-#if 0 // conflict with serial popping box
-printf("<link rel=\"stylesheet\" type=\"text/css\" href=\"/cgi-bin/javascripts/jquery.datetimepicker.css\"/>");
-printf("<script src=\"/cgi-bin/javascripts/jquery.js\"></script>");
-printf("<script src=\"/cgi-bin/javascripts/jquery.datetimepicker.js\"></script>");
-printf("<script language=\"javascript\">  \
-$('#datetimepicker').datetimepicker();\
-$('#datetimepicker').datetimepicker({\
-      lang:\"ch\",           \
-      format:\"Y-m-d H:i:s\",      \
-      timepicker:true,    \
-      yearStart:2000, \
-      yearEnd:2099, \
-      todayButton:true\
-});</script>");
-#endif
-#if 1
-    printf("<script language=\"javascript\">  \
-    function g(id){  \
-        return document.getElementById(id);  \
-    }  \
-    var left_width = 550;\
-    var page_min_height = 500;\
-      \
-    function resetFrame()  \
-    {  \
-        try{  \
-            var xy = [window.innerWidth,window.innerHeight];  \
-            var width = xy[0];  \
-            var height = xy[1];  \
-            if(width<left_width) width=left_width;  \
-            if(height<page_min_height) height=page_min_height;  \
-            var left_obj = g('left');  \
-            var top_obj = g('top');  \
-\
-            left_obj.style.height = height-100+\"px\";  \
-            left_obj.style.width = width+\"px\";  \
-                     \
-        }catch(e){  \
-            alert();  \
-        }  \
-    }  \
-    resetFrame();  \
-    window.onresize = resetFrame;  \
-    </script>");
-#endif
-
-    printf("</body>  \
-    </html>");
-
-    return 0;
-}
-
-int web_html_ui_select(char *top_html_str, char *left_html_str, char *right_html_str)
-{
-
-    if (!top_html_str || !left_html_str || !right_html_str)
-        return -1;
-
-    printf("%s \n\n", "Content-Type:text/html;charset=utf-8");
-
-printf("<!DOCTYPE HTML>\
-<html lang=\"en\">\
-<head>\
-    <meta charset=\"UTF-8\">\
-    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
-    <title>Document</title>\
-    <link rel='stylesheet' href='/demo_test_fastcgi/cgi-bin/css/all.css'>\
-    <link rel=\"stylesheet\" href=\"/demo_test_fastcgi/cgi-bin/css/dashboard_style.css\">\
-    <script src=\"./cgi-bin/js/jquery-3.4.1.min.js\"></script>\
- \
-</head>\
-<body>\
-    <div class=\"wrapper\">\
-        <div class=\"main_container1\">\
-            <div class=\"navbar\">\
-                <div class=\"hamburger\">\
-                    <i class=\"fas fa-bars\"></i>\
-                </div>\
-                <div class=\"logo\">\
-                    <a href=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=HOME_PAGE\">控制系统</a>\
-                </div>\
-            </div>\
-            <div class=\"content1\">");
-printf("%s\n\n", left_html_str);
-printf("\
-            </div>\
-        </div>\
-    </div>\
-    <script>\
-        console.log(\"left_html_str\");\
-    </script>\
-</body>\
-</html>\
-");    
-
     return 0;
 }
 
@@ -523,11 +452,6 @@ int rtuwg_fcgi_main()
         // }
 
 
-
-        // printf("%s\n\n", "Content-Type:text/html;charset=UTF-8");
-        // printf("cgi[CMD] = %s\n\n <br/> webcmd = %d\n\n", cgi["CMD"], webcmd);
-        // init_dashboard_page("top_html_str",top_html_str,"left_html_str");
-
         if ((webcmd != WEB_CMD_HEARTBEAT) &&
             ((ret = login_ok_already(webcmd, username, password)) != 1))
         { // not login ok
@@ -609,8 +533,7 @@ int rtuwg_fcgi_main()
                     break;		
                     case MENU_UPDATEPSD:
                     {
-                        //sprintf(RIGHT_HTML_BUFFER,"ai");
-                        //display_menu_ai_detail(RIGHT_HTML_BUFFER);
+                        display_menu_updatepsd_detail(RIGHT_HTML_BUFFER);
                     }
                     break;
                     case MENU_EXIT:

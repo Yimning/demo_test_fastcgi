@@ -1,3 +1,10 @@
+/*
+ * @Author: Yimning
+ * @Date: 2022-09-16 11:04:57
+ * @Time: $CURRENT_YEAR/$CURRENT_MONTH/$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND
+ * @LastEditTime: 2022-09-18 02:42:51
+ * @Description: 
+ */
 $(document).ready(function(){
     $(".siderbar_menu li").click(function(){
         $(".siderbar_menu li").removeClass("active");
@@ -23,4 +30,53 @@ function clearCookie() {
         }
     }
     console.log('已清除');
+}
+
+function checkpsd() {
+    var result = document.getElementById("npid").value;
+    var password = document.getElementById("npsdid").value;
+    result = result.trim()
+    if ((result == "")){
+        alert("密码不能为空");
+        return false;
+    }
+     
+    if (password == "") {
+        alert("再次输入的密码");
+        return false;
+    }
+    
+
+    if(result == password)
+    {
+        return true;
+    }
+    else alert("两次输入的密码一致");
+
+    return false;
+}
+
+
+
+function pwdIn() {
+    if(checkpsd() == true) {
+        document.click_submit.action = "/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4";
+        document.click_submit.submit();
+   }
+
+}
+function cancel() {
+    //location.reload();    //刷新当前页面
+    /* <meta http-equiv="refresh" content="5"> */   //页面自动刷新；5 指每隔 5 秒刷新一次页面
+    document.getElementById("npid").value = '';
+    document.getElementById("npsdid").value = '';
+    console.log('已清除');
+}
+
+function ok_keyup_submit(e){ 
+    var evt = window.event || e; 
+    if (evt.keyCode == 13){
+        //回车事件
+        pwdIn();
+    }
 }

@@ -19,63 +19,7 @@ arrT* getOneChar(char *query_string)
     char *pstr= (char *)malloc(strlen(query_string) + 1);
     int len = strlen(query_string); 
     char *p = query_string;
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     for (int m = 0; m < len; m++)
     {
         pstr[m] = p[m];   // ptr[m] = *(p+m);
