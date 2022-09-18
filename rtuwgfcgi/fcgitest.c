@@ -437,15 +437,21 @@ static int login_ok_already(int webcmd, char* username, char* password)
 
     char tempBuffer[MAX_BUFFER_SIZE]={0};
 
+    char *pstr = NULL;
+    pstr = tempBuffer;
+    fread_file(LOGIN_PATH,&pstr);
+
     if (webcmd == WEB_CMD_LOGIN)
     {
-        if((!strcmp(username, "admin")) &&(!strcmp(password, "123")))
+        if((pstr != NULL) &&(!strcmp(username, cJSON_GetStrValue(pstr,"username"))) &&(!strcmp(password, cJSON_GetStrValue(pstr,"password"))))
         {
             login_ok = 1; //  login ok
 			gettimeofday(&t_start, NULL);
 			gettimeofday(&t_end, NULL);
             // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
             // printf("<script>alert(\"login ok%d--%d\")</script>",t_start.tv_sec,t_end.tv_sec);
+
+            FPRINTF_LOG(DEBUG_PATH,"%s登录操作---%s\r\n", web_cmd2str((web_cmd_t)webcmd), getenv("REQUEST_URI"));         
 		}
         else
         {
@@ -463,7 +469,7 @@ static int login_ok_already(int webcmd, char* username, char* password)
 		gettimeofday(&t_start, NULL);
 
 	}
-
+    free(pstr);
 	return login_ok;
 }
 

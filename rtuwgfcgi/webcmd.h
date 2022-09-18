@@ -1,3 +1,7 @@
+/*
+ * @Author: Yimning
+ * @Date: 2022-08-16 11:04:57
+ */
 
 #ifndef WEBCMD
 #define WEBCMD
@@ -42,5 +46,7 @@ static const char * const  web_cmd_str[]={
 
 
 extern web_cmd web_str2cmd(const char *cmd_str);
+
+extern const char* web_cmd2str(web_cmd cmd);
 
 #endif

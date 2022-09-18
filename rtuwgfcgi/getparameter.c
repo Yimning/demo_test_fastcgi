@@ -306,15 +306,9 @@ char *cJSON_GetStrValue(char *jsonString ,const char *const key)
         json_value = cJSON_GetObjectItem(json, key); 
         if ((json_value != NULL)&&(json_value->type == cJSON_String))
         {
-            //valuestring中获得结果
             //return json_value->valuestring;
             sprintf(pstr,"%s", json_value->valuestring);
         }
-
-        if ((json_value != NULL)&&(json_value->type == cJSON_Number)) // 解析值---int/double
-        {
-            sprintf(pstr,"%lf", json_value->valuedouble);
-        } 
 
         // 释放内存空间
         cJSON_Delete(json);

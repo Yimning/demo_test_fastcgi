@@ -1,3 +1,8 @@
+/*
+ * @Author: Yimning
+ * @Date: 2022-09-16 11:04:57
+ * @Description: 
+ */
 #include "stdlib.h"
 #include "string.h"
 
@@ -20,6 +25,10 @@ web_cmd web_str2cmd(const char *cmd_str)
 	return WEB_CMD_MAX;
 }
 
+const char* web_cmd2str(web_cmd cmd)
+{
+	return web_cmd_str[cmd];
+}
 
 
 

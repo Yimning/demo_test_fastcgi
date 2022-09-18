@@ -18,9 +18,10 @@
 
 int display_menu_log_detail(char *right_html_str)
 {
-     static char tempBuffer[MAX_BUFFER_SIZE] = {0};
-     char *pstr = tempBuffer;
-     fread_file(DEBUG_PATH,&pstr);
+	char tempBuffer[MAX_BUFFER_SIZE] = {0};
+	char *pstr = tempBuffer;
+	fread_file(DEBUG_PATH,&pstr);
+
 	if(!right_html_str) return -1;
 	sprintf(RIGHT_HTML_BUFFER,"\
 	     <div class=\"content\">\
@@ -31,5 +32,6 @@ int display_menu_log_detail(char *right_html_str)
 			</div>\
           </div>\
 		",pstr);
+	free(pstr);
 	return 0;
 }

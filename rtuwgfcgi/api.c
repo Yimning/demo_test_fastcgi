@@ -182,21 +182,23 @@ int empty_file(const char *file_name)
 int fread_file(const char *filename, char** fileBuff)
 {
 	FILE* fp;
-
-	if ((fp = fopen(filename, "r")) < 0)
+	int ret = 0;
+	//char buffer[MAX_BUFFER_SIZE]={0};
+	char *buffer = (char*)malloc(MAX_BUFFER_SIZE); /* 最好用动态分配,注：一般调用完之后要free(void *__ptr)手动释放 */
+	memset(buffer, 0 , sizeof(buffer));
+	//fileBuff = NULL;
+	if ((fp = fopen(filename, "r")) == NULL)
 	{
 		*fileBuff = NULL;
+		ret = NULL;
 	} 
 	else 
 	{
 		//读取文件
-		char buffer[MAX_BUFFER_SIZE]={0};
-		size_t n=fread(buffer,1,sizeof(char)*MAX_BUFFER_SIZE,fp);
-
+		size_t size = fread(buffer,1,sizeof(char)*MAX_BUFFER_SIZE,fp);
 		*fileBuff = buffer; 
-
+		ret = size;
 	}
 	fclose(fp);
-
-	return 0;
+	return ret;
 }
