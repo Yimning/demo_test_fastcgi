@@ -410,8 +410,6 @@ bool cjson_cgi_GET_getBoolValue(const char *const key)
 char* cjson_cgi_POST_getStrValue(char *parm_string,const char *const key)
 {
     char *pstr; 
-    char *query_string = getenv("QUERY_STRING");
-    
     char *jsonString = cjson_cgi_content_parse(parm_string);
     
     if((jsonString == NULL) || (key == NULL)) return NULL;
@@ -426,7 +424,6 @@ char* cjson_cgi_POST_getStrValue(char *parm_string,const char *const key)
 int cjson_cgi_POST_getIntValue(char *parm_string,const char *const key)
 {
     int ret = -1;
-
     char *jsonString = cjson_cgi_content_parse(parm_string);
     
     if((!jsonString) || (!key)) return NULL;
@@ -438,7 +435,6 @@ int cjson_cgi_POST_getIntValue(char *parm_string,const char *const key)
 double cjson_cgi_POST_getDoubleValue(char *parm_string,const char *const key)
 {
     double ret = -1;
-
     char *jsonString = cjson_cgi_content_parse(parm_string);
     
     if((!jsonString) || (!key)) return ret;
@@ -450,7 +446,6 @@ double cjson_cgi_POST_getDoubleValue(char *parm_string,const char *const key)
 bool cjson_cgi_POST_getBoolValue(char *parm_string,const char *const key)
 {
     bool ret;
-
     char *jsonString = cjson_cgi_content_parse(parm_string);
  
     if((!jsonString) || (!key)) return ret;

@@ -166,6 +166,23 @@ off_t get_file_size(const char *file_name)
 	return file_stat.st_size;
 }
 
+int write_file(const char *file_name,const char *modes,const char *content)
+{
+	FILE* fp;
+	
+	fp=fopen(file_name,modes);
+	if(fp == NULL)
+	{
+		printf("Open file %s failed : %s\n", file_name, strerror(errno));
+		return -1;
+	}
+
+	int ret = fwrite(content, 1 ,strlen(content), fp );
+
+	fclose(fp);
+	return ret;
+}
+
 int empty_file(const char *file_name)
 {
 	FILE* fp;

@@ -45,7 +45,6 @@ double cJSON_GetDoubleValue(char *jsonString, const char *const key);
 bool cJSON_GetBoolValue(char *jsonString, const char *const key);
 
 //GET method
-char* cjson_cgi_GET_content_parse(char *query_string);
 char* cjson_cgi_GET_getStrValue(const char *const key);
 int cjson_cgi_GET_getIntValue(const char *const key);
 double cjson_cgi_GET_getDoubleValue(const char *const key);

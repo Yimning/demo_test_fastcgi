@@ -56,5 +56,6 @@ extern int display_config_menu(char *left_html_str,const char *select);
 
 extern int display_console_printf(char *javascript_html_str);
 
+
 #endif
 

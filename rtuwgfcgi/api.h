@@ -40,6 +40,9 @@ int display_menu_device_writeStatus(const char *filename,  char *status);
 /* get file size */
 off_t get_file_size(const char *file_name);
 
+/* write file content */
+int write_file(const char *file_name,const char *modes,const char *content);
+
 /* read file content */
 int fread_file(const char *filename, char** fileBuff);
 

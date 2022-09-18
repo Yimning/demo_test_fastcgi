@@ -9,6 +9,7 @@
 
 #define LEFT_HTML_BUFFER (left_html_str+strlen(left_html_str))
 
+#if 0
 static struct menu_list menulist[]=
 {
 	{
@@ -54,6 +55,7 @@ static struct menu_list menulist[]=
 		.select=MENU_EXIT,
 	},	
 };
+#endif
 
 int display_config_ui(char *left_html_str,const char *select)
 {

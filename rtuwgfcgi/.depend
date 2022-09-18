@@ -29,7 +29,7 @@ webcmd.o .depend : webcmd.c \
  webcmd.h
 web_config_menu.o .depend : web_config_menu.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/include/common.h \
- webcmd.h web_config_menu.h
+ webcmd.h web_config_menu.h web_config_ui.h
 web_menu_log.o .depend : web_menu_log.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/include/common.h \
  webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_log.h api.h

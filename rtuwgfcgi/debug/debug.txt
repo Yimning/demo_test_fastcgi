@@ -1,311 +1,357 @@
-2022.8.18 11:38:17 --------log information
-0000pt0000---0x7ffe5c87eb30
 
-2022.8.18 11:38:17 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
+2022.8.18 15:5:0 --------log information
+HEARTBEAT设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
 
-2022.8.18 11:38:17 --------log information
+2022.8.18 15:18:55 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 11:39:32 --------log information
-0000pt0000---0x7ffdfcbdbd60
-
-2022.8.18 11:39:32 --------log information
-111111111111111111111111111111登录操作SS---?---
-
-2022.8.18 11:39:32 --------log information
+2022.8.18 15:23:33 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 11:39:59 --------log information
-0000pt0000---0x7ffc7060af00
+2022.8.18 15:23:43 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
 
-2022.8.18 11:39:59 --------log information
-111111111111111111111111111111登录操作SS---?---
+---
 
-2022.8.18 11:39:59 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+2022.8.18 15:24:52 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
 
-2022.8.18 11:41:26 --------log information
-0000pt0000---0x7ffc31c632e0
-
-2022.8.18 11:41:26 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:41:26 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
-
-2022.8.18 11:41:28 --------log information
-0000pt0000---0x7ffc31c632e0
-
-2022.8.18 11:41:28 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:42:4 --------log information
-0000pt0000---0x7ffc31c632e0
-
-2022.8.18 11:42:4 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:42:5 --------log information
-0000pt0000---0x7ffc31c632e0
-
-2022.8.18 11:42:5 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:42:5 --------log information
--getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
-
-2022.8.18 11:42:7 --------log information
-0000pt0000---0x7ffc31c632e0
-
-2022.8.18 11:42:7 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:42:55 --------log information
-0000pt0000---0x7ffecebf8860
-
-2022.8.18 11:42:55 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:42:59 --------log information
-0000pt0000---0x7ffecebf8860
-
-2022.8.18 11:42:59 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:42:59 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
-
-2022.8.18 11:43:1 --------log information
-0000pt0000---0x7ffecebf8860
-
-2022.8.18 11:43:1 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:43:3 --------log information
-0000pt0000---0x7ffecebf8860
-
-2022.8.18 11:43:3 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:43:5 --------log information
-0000pt0000---0x7ffecebf8860
-
-2022.8.18 11:43:5 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:43:5 --------log information
--getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
-
-2022.8.18 11:43:7 --------log information
-0000pt0000---0x7ffecebf8860
-
-2022.8.18 11:43:7 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:43:7 --------log information
--getenv("REQUEST_URI")---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
-
-2022.8.18 11:43:10 --------log information
-0000pt0000---0x7ffecebf8860
-
-2022.8.18 11:43:10 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:43:40 --------log information
-0000pt0000---0x7fff7ce59680
-
-2022.8.18 11:43:40 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:43:46 --------log information
-0000pt0000---0x7fff7ce59680
-
-2022.8.18 11:43:46 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:43:46 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
-
-2022.8.18 11:43:47 --------log information
-0000pt0000---0x7fff7ce59680
-
-2022.8.18 11:43:47 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:43:48 --------log information
-0000pt0000---0x7fff7ce59680
-
-2022.8.18 11:43:48 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:44:27 --------log information
-0000pt0000---0x7ffeaef5c0e0
-
-2022.8.18 11:44:27 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:44:27 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
-
-2022.8.18 11:44:28 --------log information
-0000pt0000---0x7ffeaef5c0e0
-
-2022.8.18 11:44:28 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:44:30 --------log information
-0000pt0000---0x7ffeaef5c0e0
-
-2022.8.18 11:44:30 --------log information
-111111111111111111111111111111登录操作SS---?---(nil)
-
-2022.8.18 11:49:18 --------log information
-0000pt0000---0x7ffc64431e90
-
-2022.8.18 11:49:18 --------log information
-111111111111111111111111111111登录操作SS---?---
-
-2022.8.18 11:49:18 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
-
-2022.8.18 11:50:7 --------log information
-0000pt0000---0x7ffd25ca6d50
-
-2022.8.18 11:50:7 --------log information
-111111111111111111111111111111登录操作SS---?---
-
-2022.8.18 11:50:7 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
-
-2022.8.18 11:53:9 --------log information
-53登录操作SS---1111
+2022.8.18 15:24:52 --------log information
 {
     "username":"admin",
     "password":"123"
-}
+}---
 
-2022.8.18 11:53:9 --------log information
+2022.8.18 15:51:15 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 11:53:28 --------log information
-cJSON_GetStrValue(pstr,"username"){cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrVcJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")cJSON_GetStrValue(pstr,"username")alue(pstr,"username")
-    "username":"admin",
-    "password":"123"
-}
+2022.8.18 15:51:21 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
 
-2022.8.18 11:55:3 --------log information
-53登录操作SS---1111
+2022.8.18 15:51:21 --------log information
 {
-    "username":"admin",
-    "password":"123"
-}
+	"username":	"admin",
+	"password":	"123"
+}---
 
-2022.8.18 11:55:3 --------log information
+2022.8.18 15:51:21 --------log information
+-1111--
+
+2022.8.18 15:57:4 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 11:55:4 --------log information
-53登录操作SS---1111
+2022.8.18 15:57:10 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 15:57:10 --------log information
 {
-    "username":"admin",
-    "password":"123"
-}
+	"username":	"admin",
+	"password":	"123"
+}---
 
-2022.8.18 11:55:6 --------log information
-53登录操作SS---1111
+2022.8.18 15:57:10 --------log information
+-1111--
+
+2022.8.18 15:59:0 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.18 15:59:9 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 15:59:9 --------log information
 {
-    "username":"admin",
-    "password":"123"
-}
+	"username":	"admin",
+	"password":	"123"
+}---
 
-2022.8.18 12:2:40 --------log information
-53登录操作SS---1111
+2022.8.18 15:59:9 --------log information
 {
-    "username":"admin",
-    "password":"123"
+	"username":	"admin",
+	"password":	"bbb"
+}-1111--
+
+2022.8.18 16:5:36 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.18 16:5:43 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 16:5:43 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}-1111--
+
+2022.8.18 16:7:27 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.18 16:7:36 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 16:7:36 --------log information
+{
+	"username":	"admin",
+	"password":	"546"
+}-1111--
+
+2022.8.18 16:20:15 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.18 16:20:24 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 16:20:24 --------log information
+{
+	"username":	"admin",
+	"password":	"456"
 }
 
-2022.8.18 12:3:25 --------log information
-48登录操作SS---{
-    "username":"admin",
-    "password":"123"
+2022.8.18 16:20:24 --------log information
+1
+
+2022.8.18 16:26:44 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.18 16:26:53 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 16:26:53 --------log information
+{
+	"username":	"admin",
+	"password":	"456"
 }
 
-2022.8.18 12:4:3 --------log information
-48登录操作SS---admin
+2022.8.18 16:26:53 --------log information
+8
 
-2022.8.18 12:4:6 --------log information
-48登录操作SS---admin
-
-2022.8.18 12:5:37 --------log information
-48登录操作SS---admin---123
-
-2022.8.18 12:6:31 --------log information
-48登录操作SS---admin---123
-
-2022.8.18 12:6:31 --------log information
+2022.8.18 16:34:2 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 12:6:33 --------log information
-48登录操作SS---admin---123
+2022.8.18 16:34:12 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
 
-2022.8.18 12:6:37 --------log information
-48登录操作SS---admin---123
+2022.8.18 16:34:12 --------log information
+{
+	"username":	"admin",
+	"password":	"456"
+}
 
-2022.8.18 12:12:19 --------log information
-48登录操作SS---admin---123
+2022.8.18 16:34:12 --------log information
+44
 
-2022.8.18 12:35:6 --------log information
+2022.8.18 17:34:48 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 12:41:18 --------log information
+2022.8.18 17:34:57 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 17:34:57 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 17:34:57 --------log information
+44
+
+2022.8.18 17:36:20 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 12:42:58 --------log information
+2022.8.18 17:36:28 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 17:36:28 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 17:36:28 --------log information
+44
+
+2022.8.18 18:55:50 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 12:56:34 --------log information
+2022.8.18 18:55:57 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 18:55:57 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 18:55:57 --------log information
+44
+
+2022.8.18 18:57:35 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 12:59:18 --------log information
+2022.8.18 18:57:42 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 18:57:42 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 18:57:42 --------log information
+44
+
+2022.8.18 19:38:22 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:0:22 --------log information
+2022.8.18 19:38:31 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 19:38:31 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 19:38:31 --------log information
+44
+
+2022.8.18 19:56:45 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:6:24 --------log information
+2022.8.18 19:56:53 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 19:56:53 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 19:56:53 --------log information
+44
+
+2022.8.18 20:11:12 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:14:49 --------log information
+2022.8.18 20:11:20 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 20:11:20 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 20:11:20 --------log information
+44
+
+2022.8.18 20:25:33 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:16:15 --------log information
+2022.8.18 20:25:40 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 20:25:40 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 20:25:40 --------log information
+44
+
+2022.8.18 20:25:40 --------log information
+(null)------
+
+2022.8.18 21:6:30 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:22:4 --------log information
+2022.8.18 21:6:37 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 21:6:37 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 21:6:37 --------log information
+44
+
+2022.8.18 21:6:37 --------log information
+(null)------
+
+2022.8.18 21:8:41 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:23:33 --------log information
+2022.8.18 21:8:56 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 21:8:56 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 21:8:56 --------log information
+44
+
+2022.8.18 21:8:56 --------log information
+(null)------
+
+2022.8.18 21:10:2 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:25:25 --------log information
+2022.8.18 21:10:4 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:28:5 --------log information
+2022.8.18 21:10:11 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 21:10:11 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 21:10:11 --------log information
+44
+
+2022.8.18 21:10:11 --------log information
+(null)------
+
+2022.8.18 21:13:33 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:31:17 --------log information
+2022.8.18 21:14:11 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 21:14:11 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 21:14:11 --------log information
+44
+
+2022.8.18 21:14:11 --------log information
+(null)------
+
+2022.8.18 21:14:41 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
-2022.8.18 13:32:43 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+2022.8.18 21:14:49 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
 
-2022.8.18 13:34:42 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+2022.8.18 21:14:49 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
 
-2022.8.18 13:37:44 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+2022.8.18 21:14:49 --------log information
+44
 
-2022.8.18 13:42:49 --------log information
-LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+2022.8.18 21:14:49 --------log information
+(null)------
 

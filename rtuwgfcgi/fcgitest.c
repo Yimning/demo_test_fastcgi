@@ -10,6 +10,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 
 #include "getparameter.h"
 #include "common.h"
@@ -403,6 +404,34 @@ static int login_ok_already(int webcmd, char* username, char* password)
 }
 
 
+void serve_dynamic(int fd, char* filename, char* cgiargs)
+{
+    char buf[MAX_BUFFER_SIZE], *emptylist[] = { NULL };
+
+    // 返回结果头部设置
+    sprintf(buf, "HTTP/1.0 200 OK\r\n");
+    write(fd, buf, strlen(buf));
+    sprintf(buf, "Server: Tiny Web Server\r\n");
+    write(fd, buf, strlen(buf));
+    // 子线程执行 
+    if (fork() == 0) { 
+        // 设置CGI 应用使用的参数
+        setenv("QUERY_STRING", cgiargs, 1);  
+        // 将CGI应用的输出重定向到客户端的socket上去
+        dup2(fd, STDOUT_FILENO); 
+       // 执行CGI应用
+        execve(filename, emptylist, environ); 
+    }
+    // 回收
+    wait(NULL);
+}
+
+// 处理静态文件
+void serve_static(int fd, char* filename, int filesize)
+{
+
+}
+
 int rtuwg_fcgi_main()
 {
     system("mode con cp select=65001");
@@ -506,7 +535,7 @@ int rtuwg_fcgi_main()
                         if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
                         {
                             /* 请求的目的地址 */
-                            FPRINTF_LOG(DEBUG_PATH,"-getenv(\"REQUEST_URI\")---%s\r\n", getenv("REQUEST_URI"));
+                            FPRINTF_LOG(DEBUG_PATH,"%s---%s---%s\r\n", web_cmd2str((web_cmd_t)WEB_CMD_MENU), menulist[MENU_DEVICE].name, getenv("REQUEST_URI"));
                             
                             display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
 
@@ -517,6 +546,7 @@ int rtuwg_fcgi_main()
                     break;
                     case MENU_DATA:
                     {
+
                         display_menu_data_detail(RIGHT_HTML_BUFFER);
                     }
                     break;
@@ -533,6 +563,57 @@ int rtuwg_fcgi_main()
                     break;		
                     case MENU_UPDATEPSD:
                     {
+                        char *pt = tempBuffer; 
+    
+                        cjson_cgi_getPostStr(&pt);
+                        if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
+                        {
+                            char buffer[MAX_BUFFER_SIZE]={0};
+                            char *pstr = NULL;
+                            pstr = buffer;
+                            fread_file(LOGIN_PATH,&pstr);
+
+                            FPRINTF_LOG(DEBUG_PATH,"%s---%s---%s\r\n", web_cmd2str((web_cmd_t)WEB_CMD_MENU), menulist[MENU_UPDATEPSD].name, getenv("REQUEST_URI"));
+                            
+                            cJSON *json = cJSON_Parse(pstr);
+                            
+                            // cJSON_GetObjectItem(json,"int")->valueint = 2;
+                            // cJSON_GetObjectItem(json,"float")->valuedouble = 2.0;
+                            strcpy(cJSON_GetObjectItem(json,"password")->valuestring,cjson_cgi_POST_getStrValue(pt,"NPSD1"));
+
+                            //修改对象的值
+                            //cJSON_ReplaceItemInObject(json,"word",cJSON_CreateString("password"));
+                            FPRINTF_LOG(DEBUG_PATH,"%s\r\n",cJSON_Print(json));
+
+                            int ret = write_file(LOGIN_PATH,"w+",cJSON_Print(json));
+
+                            printf("<html><head><title></title></head><body><script>alert(\"这是弹出框提示文本\");console.log(123)</script></body></html>");
+                           
+                            FPRINTF_LOG(DEBUG_PATH,"%d\r\n",ret);
+
+                            printf("Set-Cookie: username=%s;\r\n Set-Cookie: password=%s;\r\n","username","password");
+                            
+                            /* 设置状态码 */
+                            //printf("ResponseBody:405\n\n");
+
+                            /* 设置状态码 */
+                            //printf("Status:405\n\n");
+
+                            /* 跳转html */
+                            //printf("Location:/test.html\n\n");
+
+                            fflush(stdout);
+                            FPRINTF_LOG(DEBUG_PATH,"%s---%s---\r\n",getenv("HTTP_COOKIE"),stdout);
+                            int fp ;
+
+                            fp = open("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep",O_RDWR);
+
+                            serve_dynamic(fp,"/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep", "a");
+
+
+                            cJSON_Delete(json);
+                        }                                                            
+                        free(pt);
                         display_menu_updatepsd_detail(RIGHT_HTML_BUFFER);
                     }
                     break;
