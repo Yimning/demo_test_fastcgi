@@ -590,10 +590,9 @@ int rtuwg_fcgi_main()
                             printf("<html><head><title></title></head><body><script>alert(\"这是弹出框提示文本\");console.log(123)</script></body></html>");
                            
                             FPRINTF_LOG(DEBUG_PATH,"%d\r\n",ret);
+                            /* 设置Cookie时，需在 printf("Content-type:text/html\n\n"); 前设置： */
+                            //printf("Set-Cookie: username=%s\n\n Set-Cookie: password=%s\n\n","username","password");
 
-                            printf("Set-Cookie: username=%s;\r\n Set-Cookie: password=%s;\r\n","username","password");
-                            
-                            /* 设置状态码 */
                             //printf("ResponseBody:405\n\n");
 
                             /* 设置状态码 */

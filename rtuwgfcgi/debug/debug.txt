@@ -355,3 +355,21 @@ MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
 2022.8.18 21:14:49 --------log information
 (null)------
 
+2022.8.18 21:22:19 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.18 21:22:31 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.18 21:22:31 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.18 21:22:31 --------log information
+44
+
+2022.8.18 21:22:31 --------log information
+(null)------
+
