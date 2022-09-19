@@ -591,8 +591,7 @@ int rtuwg_fcgi_main()
                            
                             FPRINTF_LOG(DEBUG_PATH,"%d\r\n",ret);
                             /* 设置Cookie时，需在 printf("Content-type:text/html\n\n"); 前设置： */
-                            //printf("Set-Cookie: username=%s\n\n Set-Cookie: password=%s\n\n","username","password");
-
+                            //printf("Set-Cookie: username=%s;\nSet-Cookie: password=%s;\n","username","password");
                             //printf("ResponseBody:405\n\n");
 
                             /* 设置状态码 */
