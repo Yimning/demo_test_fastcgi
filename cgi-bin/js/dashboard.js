@@ -2,7 +2,7 @@
  * @Author: Yimning
  * @Date: 2022-09-16 11:04:57
  * @Time: $CURRENT_YEAR/$CURRENT_MONTH/$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND
- * @LastEditTime: 2022-09-18 02:42:51
+ * @LastEditTime: 2022-09-20 14:05:29
  * @Description: 
  */
 $(document).ready(function(){
@@ -62,8 +62,8 @@ function pwdIn() {
     if(checkpsd() == true) {
         document.click_submit.action = "/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4";
         document.click_submit.submit();
-   }
-
+        console.log(document.getElementById("npid").value);
+    }
 }
 function cancel() {
     //location.reload();    //刷新当前页面

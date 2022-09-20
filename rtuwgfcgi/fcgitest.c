@@ -587,20 +587,21 @@ int rtuwg_fcgi_main()
 
                             int ret = write_file(LOGIN_PATH,"w+",cJSON_Print(json));
 
-                            printf("<html><head><title></title></head><body><script>alert(\"这是弹出框提示文本\");console.log(123)</script></body></html>");
+                            printf("<script language=\"javascript\">alert(\"这是弹出框提示文本\");console.log(123)</script>");
+                           
+
+                            printf("<html><head><title></title></head><body><script language=\"javascript\">alert(\"这是弹出框提示文本\");console.log(123)</script></body></html>");
                            
                             FPRINTF_LOG(DEBUG_PATH,"%d\r\n",ret);
                             /* 设置Cookie时，需在 printf("Content-type:text/html\n\n"); 前设置： */
-                            //printf("Set-Cookie: username=%s;\nSet-Cookie: password=%s;\n","username","password");
-                            //printf("ResponseBody:405\n\n");
-
+                            printf("Set-Cookie: username=%s;\nSet-Cookie: password=%s;\n","username","password");
+                            //printf("<div><input type=\"hidden\" id=\"rid\" value=\"%s\"></input></div>","1");
                             /* 设置状态码 */
-                            //printf("Status:405\n\n");
+                            //printf("Status:404\n\n");
 
                             /* 跳转html */
                             //printf("Location:/test.html\n\n");
 
-                            fflush(stdout);
                             FPRINTF_LOG(DEBUG_PATH,"%s---%s---\r\n",getenv("HTTP_COOKIE"),stdout);
                             int fp ;
 
@@ -613,6 +614,9 @@ int rtuwg_fcgi_main()
                         }                                                            
                         free(pt);
                         display_menu_updatepsd_detail(RIGHT_HTML_BUFFER);
+                        sprintf(RIGHT_HTML_BUFFER,"<script language=\"javascript\">alert(\"这是弹出框提示文本\");console.log(7777)</script>");
+
+
                     }
                     break;
                     case MENU_EXIT:

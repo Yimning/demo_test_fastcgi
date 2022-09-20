@@ -49,6 +49,7 @@ int display_menu_updatepsd_detail(char *right_html_str)
 			<div/>\
           </div>\
 		");
+                           
 	free(pstr);
 	return 0;
 }
