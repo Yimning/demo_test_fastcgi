@@ -2,7 +2,7 @@
  * @Author: Yimning
  * @Date: 2022-09-16 11:04:57
  * @Time: $CURRENT_YEAR/$CURRENT_MONTH/$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND
- * @LastEditTime: 2022-09-20 16:04:46
+ * @LastEditTime: 2022-09-20 16:13:51
  * @Description: 
  */
 $(document).ready(function(){
@@ -30,7 +30,8 @@ function clearAllCookie() {
     }
      // 关闭浏览器窗口的时候清空浏览器缓存在localStorage的数据
     var storage = window.localStorage;
-    storage.clear()
+    storage.clear();
+    window.sessionStorage.clear();
 
     console.log('已清除');
 }
@@ -83,39 +84,4 @@ function ok_keyup_submit(e){
         //回车事件
         pwdIn();
     }
-}
-
-
-//浏览器返回键事件
-pushHistory();
-window.addEventListener(
-    "popstate", function (e) {
-        //判断移动端
-        var userAgentInfo = navigator.userAgent;
-        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
-        var equipmentType = false;
-
-        for (var v = 0; v < Agents.length; v++) {
-            if (userAgentInfo.indexOf(Agents[v]) != -1) {
-                equipmentType = true;
-                break;
-            }
-        }
-        if (equipmentType) {
-            $("#mask-back").show();
-            $("#mask-back .back-close").on(
-                "click", function () {
-                    $("#mask-back").hide();
-                })
-        }
-        pushHistory(); //注，此处调用，可以让用户一直停留着这个页面
-    },
-    false);
-
-function pushHistory() {
-    var state = {
-        title: "title",
-        url: "#"
-    };
-    window.history.pushState(state, "title", "#");
 }

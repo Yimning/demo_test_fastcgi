@@ -21,14 +21,14 @@ typedef enum web_cmd_t{
 	WEB_CMD_DOWNLOAD,
 	WEB_CMD_CALIB,
 	WEB_CMD_FLV, // media flv
-
+	WEB_CMD_LOGOUT,
 	WEB_CMD_MAX,
 }web_cmd;
 
 static const char * const  web_cmd_str[]={
 	"HEARTBEAT",
 	"LOGON",
-	"HOME_PAGE",
+	"HOME",
 	"MENU",
 	"FLUSH_DATA",
 	"DETAIL",
@@ -40,7 +40,7 @@ static const char * const  web_cmd_str[]={
 	"DOWNLOAD",
 	"CALIB",
 	"FLV",
-
+	"LOGOUT",
 	"",
 };
 

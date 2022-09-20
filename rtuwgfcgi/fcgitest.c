@@ -193,7 +193,7 @@ printf("<!DOCTYPE HTML>\
                     <i class=\"fas fa-bars\"></i>\
                 </div>\
                 <div class=\"logo\">\
-                    <a href=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=HOME_PAGE\">控制系统</a>\
+                    <a href=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU\">控制系统</a>\
                 </div>\
             </div>\
             <div class=\"content1\">");
@@ -202,7 +202,6 @@ printf("\
             </div>\
         </div>\
     </div>\
-    <script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script>\
     <script>\
         console.log(\"left_html_str\");\
     </script>\
@@ -264,7 +263,7 @@ printf("\
                     <i class=\"fas fa-bars\"></i>\
                 </div>\
                 <div class=\"logo\">\
-                    <a href=\"#\">控制系统</a>\
+                    <a href=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=HOME\">控制系统</a>\
                 </div>\
             </div>\
             ");
@@ -273,6 +272,7 @@ printf("\
         </div>\
     </div>\
     <script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script>\
+    <script src=\"/demo_test_fastcgi/cgi-bin/js/pushHistory.js\"></script>\
     ");
 printf("\
 </body>\
@@ -408,34 +408,6 @@ static int login_ok_already(int webcmd, char* username, char* password)
 }
 
 
-void serve_dynamic(int fd, char* filename, char* cgiargs)
-{
-    char buf[MAX_BUFFER_SIZE], *emptylist[] = { NULL };
-
-    // 返回结果头部设置
-    sprintf(buf, "HTTP/1.0 200 OK\r\n");
-    write(fd, buf, strlen(buf));
-    sprintf(buf, "Server: Tiny Web Server\r\n");
-    write(fd, buf, strlen(buf));
-    // 子线程执行 
-    if (fork() == 0) { 
-        // 设置CGI 应用使用的参数
-        setenv("QUERY_STRING", cgiargs, 1);  
-        // 将CGI应用的输出重定向到客户端的socket上去
-        dup2(fd, STDOUT_FILENO); 
-       // 执行CGI应用
-        execve(filename, emptylist, environ); 
-    }
-    // 回收
-    wait(NULL);
-}
-
-// 处理静态文件
-void serve_static(int fd, char* filename, int filesize)
-{
-
-}
-
 int rtuwg_fcgi_main()
 {
     system("mode con cp select=65001");
@@ -505,10 +477,12 @@ int rtuwg_fcgi_main()
         switch (webcmd)
         {
             case WEB_CMD_HEARTBEAT:
+            {
                 printf("%s\n\n","Content-Type:text/html;charset=utf-8");
                 printf("heartbeat %s",cjson_cgi_GET_getStrValue("SELECT"));
                 goto CGI_FINISH;
-                
+            }
+
             case WEB_CMD_HOME_PAGE:
             case WEB_CMD_LOGIN:
             {
@@ -619,8 +593,9 @@ int rtuwg_fcgi_main()
                     break;
                     case MENU_EXIT:
                     {
-                        //sprintf(RIGHT_HTML_BUFFER,"acqclient");
+                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">window.location.href = \"index.html\";clearAllCookie()</script>");
                         //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);
+                        //<a href="#" target="_top">退出</a>
                     }
                     break;
                     case MENU_USER1:
