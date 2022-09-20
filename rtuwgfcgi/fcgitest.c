@@ -49,6 +49,9 @@ int init_dashboard_page(char *top_html_str, char *left_html_str, char *right_htm
     <meta charset=\"UTF-8\">\
     <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
+    <meta http-equiv=\"Pragma\" content=\"no-cache\">\
+    <meta http-equiv=\"Cache-Control\" content=\"no-cache\">\
+    <meta http-equiv=\"Expires\" content=\"0\">\
     <title>Document</title>\
     <link rel='stylesheet' href='/demo_test_fastcgi/cgi-bin/css/all.css'>\
     <link rel=\"stylesheet\" href=\"/demo_test_fastcgi/cgi-bin/css/dashboard_style.css\">\
@@ -199,12 +202,13 @@ printf("\
             </div>\
         </div>\
     </div>\
+    <script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script>\
     <script>\
         console.log(\"left_html_str\");\
     </script>\
 </body>\
 </html>\
-");    
+");
 
     return 0;
 }
@@ -510,7 +514,6 @@ int rtuwg_fcgi_main()
             {
                 display_config_ui(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
                 web_html_ui_select(top_html_str,left_html_str,right_html_str);
-                //printf("<script>alert(\"这是弹出框提示文本 %d--%d\")</script>",webcmd,login_ok_already(webcmd, cgi));
                 goto CGI_FINISH;
             }
             break;
@@ -564,7 +567,8 @@ int rtuwg_fcgi_main()
                     case MENU_UPDATEPSD:
                     {
                         char *pt = tempBuffer; 
-    
+                        int status_code = 404;
+
                         cjson_cgi_getPostStr(&pt);
                         if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
                         {
@@ -587,12 +591,11 @@ int rtuwg_fcgi_main()
 
                             int ret = write_file(LOGIN_PATH,"w+",cJSON_Print(json));
 
-                            printf("<script language=\"javascript\">alert(\"这是弹出框提示文本\");console.log(123)</script>");
-                           
+                            if(ret > 0){
+                              status_code = 200;
+                              FPRINTF_LOG(DEBUG_PATH,"write %d bytes succeed.\r\n",ret);
+                            }
 
-                            printf("<html><head><title></title></head><body><script language=\"javascript\">alert(\"这是弹出框提示文本\");console.log(123)</script></body></html>");
-                           
-                            FPRINTF_LOG(DEBUG_PATH,"%d\r\n",ret);
                             /* 设置Cookie时，需在 printf("Content-type:text/html\n\n"); 前设置： */
                             printf("Set-Cookie: username=%s;\nSet-Cookie: password=%s;\n","username","password");
                             //printf("<div><input type=\"hidden\" id=\"rid\" value=\"%s\"></input></div>","1");
@@ -602,21 +605,16 @@ int rtuwg_fcgi_main()
                             /* 跳转html */
                             //printf("Location:/test.html\n\n");
 
-                            FPRINTF_LOG(DEBUG_PATH,"%s---%s---\r\n",getenv("HTTP_COOKIE"),stdout);
-                            int fp ;
-
-                            fp = open("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep",O_RDWR);
-
-                            serve_dynamic(fp,"/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep", "a");
-
+                            FPRINTF_LOG(DEBUG_PATH,"%s---\r\n",getenv("HTTP_COOKIE"));
 
                             cJSON_Delete(json);
-                        }                                                            
+                        } 
+                        free((void*)pstr);                                                          
                         free(pt);
                         display_menu_updatepsd_detail(RIGHT_HTML_BUFFER);
-                        sprintf(RIGHT_HTML_BUFFER,"<script language=\"javascript\">alert(\"这是弹出框提示文本\");console.log(7777)</script>");
-
-
+                        if(status_code == 200){
+                            sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"修改成功!\");clearAllCookie()</script>");
+                        }
                     }
                     break;
                     case MENU_EXIT:
