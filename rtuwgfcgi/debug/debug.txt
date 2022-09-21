@@ -1690,3 +1690,33 @@ LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME
 2022.8.20 17:28:43 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
+2022.8.21 9:28:58 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.21 9:29:12 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.21 9:29:12 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.21 9:29:12 --------log information
+write 44 bytes succeed.
+
+2022.8.21 9:29:12 --------log information
+(null)---
+
+2022.8.21 9:29:36 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.21 9:29:40 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.21 9:29:43 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+
+2022.8.21 9:29:44 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0
+

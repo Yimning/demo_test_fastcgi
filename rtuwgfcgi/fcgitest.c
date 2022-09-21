@@ -523,7 +523,7 @@ int rtuwg_fcgi_main()
                     break;
                     case MENU_DATA:
                     {
-
+                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");
                         display_menu_data_detail(RIGHT_HTML_BUFFER);
                     }
                     break;
@@ -577,10 +577,10 @@ int rtuwg_fcgi_main()
                             //printf("Status:404\n\n");
 
                             /* 跳转html */
-                            //printf("Location:/test.html\n\n");
+                            //printf("Location:/test.html\n\n");   
 
                             FPRINTF_LOG(DEBUG_PATH,"%s---\r\n",getenv("HTTP_COOKIE"));
-
+    
                             cJSON_Delete(json);
                         } 
                         free((void*)pstr);                                                          
@@ -588,7 +588,7 @@ int rtuwg_fcgi_main()
                         display_menu_updatepsd_detail(RIGHT_HTML_BUFFER);
                         if(status_code == 200){
                             sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"修改成功!\");clearAllCookie()</script>");
-                        }
+                        }   
                     }
                     break;
                     case MENU_EXIT:
@@ -635,8 +635,6 @@ int rtuwg_fcgi_main()
                 printf("NO such cmd %s !!!", cgi["CMD"]);
                 goto CGI_FINISH;
             }
-            //web_html_ui_select(top_html_str,left_html_str,right_html_str);
-            // rtuwg_html_ui2("top_html_str", "left_html_str", "right_html_str");
 
         CGI_FINISH:
             //cgi.finish();
