@@ -523,7 +523,6 @@ int rtuwg_fcgi_main()
                     break;
                     case MENU_DATA:
                     {
-                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");
                         display_menu_data_detail(RIGHT_HTML_BUFFER);
                     }
                     break;

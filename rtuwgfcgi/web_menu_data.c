@@ -17,15 +17,6 @@
 int display_menu_data_detail(char *right_html_str)
 {
 	if(!right_html_str) return -1;
-	sprintf(RIGHT_HTML_BUFFER,"\
-	     <div class=\"content\">\
-                <div class=\"item\">\
-                     <img src=\"/demo_test_fastcgi/cgi-bin/images/led_off.png\" alt=\"\">\
-                </div>\
-                <div class=\"item\">\
-                     <img src=\"/demo_test_fastcgi/cgi-bin/images/beep_off.png\" alt=\"\">\
-                </div>\
-          </div>\
-		");
+	sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
 	return 0;
 }

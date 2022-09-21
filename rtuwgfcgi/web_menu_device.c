@@ -30,6 +30,7 @@ int display_menu_device_detail(char *right_html_str)
 	
 	Device led;
 	Device beep;
+	Device temp;
 
 	int led_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led",databuf);
 	if(!strncmp(databuf,"0",1))
@@ -59,6 +60,21 @@ int display_menu_device_detail(char *right_html_str)
 			beep.status="蜂鸣器已开";
 			beep.img="beep_on.png";
 			beep.key="BEEP";
+	};
+
+	int temp_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep",databuf);
+	if(!strncmp(databuf,"0",1))
+	{
+			temp.statusCode = 0;
+			temp.status="温度**";
+			temp.img="temp_grep.png";
+			temp.key="TEMP";
+	}else
+	{
+			temp.statusCode = 1;
+			temp.status="温度##";
+			temp.img="temp_color.png";
+			temp.key="TEMP";
 	};
 
 	sprintf(RIGHT_HTML_BUFFER,"\
@@ -96,5 +112,19 @@ int display_menu_device_detail(char *right_html_str)
 				</form>\      
 			</div>\
 			",led.statusCode,beep.statusCode==0?1:0,beep.img,beep.status);
+		sprintf(RIGHT_HTML_BUFFER,"\
+	        <div class=\"content2\">\
+				<form action=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=0\" method=\"POST\" enctype=\"application/x-www-form-urlencoded;charset=UTF-8\" name=\"form3\" id=\"form3\">\
+					<div class=\"content_item\">\
+						<input type=\"hidden\" name=\"LED\" value=\"%d\">\
+					    <input type=\"hidden\" name=\"BEEP\" value=\"%d\">\
+						<img width=\"200\" height=\"200\" border=\"0\" id=tempimg src=\"/demo_test_fastcgi/cgi-bin/images/%s\" onclick=\"\">\
+						<p class=\"title\" style=\"text-align:center\">\
+								%s\
+						</p>\
+					</div>\
+				</form>\      
+			</div>\
+			",led.statusCode,beep.statusCode==0?1:0,temp.img,temp.status);
 	return 0;
 }
