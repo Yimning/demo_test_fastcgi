@@ -90,5 +90,107 @@ int display_menu_data_detail(char *right_html_str)
 				</form>\      
 			</div>\
 			",temp.statusCode,temp.statusCode==0?1:0,humid.img,humid.status);
+sprintf(RIGHT_HTML_BUFFER,"<script>\
+				$(document).ready(function () {\
+					setInterval(\"flushdata()\",6000);\
+				});\
+				function FormatDate (strTime) {\
+			    	var date = new Date(strTime);\
+			    	return date.getFullYear()+\"-\"+(date.getMonth()+1)+\"-\"+date.getDate()+\" \"+date.getHours()+\":\"+date.getMinutes()+\":\"+date.getSeconds();\
+				}\
+				function flushdata()\
+				{\
+					flush_data_sender(null);\
+				}\
+				function createXHR()  \
+				{  \
+				    var xhr;  \
+				    try  \
+				    {  \
+				        xhr = new ActiveXObject(\"Msxml2.XMLHTTP\");  \
+				    }  \
+				    catch(e)  \
+				    {  \
+				        try  \
+				        {  \
+				            xhr = new ActiveObject(\"Microsoft.XMLHTTP\");  \
+				        }  \
+				        catch(E)  \
+				        {  \
+				            xhr = false;  \
+				        }  \
+				    }  \
+				    if(!xhr && typeof XMLHttpRequest != 'undefined')  \
+				    {  \
+				        xhr = new XMLHttpRequest();  \
+				    }  \
+				    return xhr;  \
+				} \
+				function flush_data_sender(val)  \
+				{  \
+				    xhr = createXHR();  \
+				    if(xhr)  \
+				    {  \
+				        xhr.onreadystatechange = callbackFunction;  \
+				        xhr.open(\"GET\",\"/cgi-bin/usr/rtuwg.fcgi?CMD=FLUSH_DATA\"); \
+				        xhr.send(null);  \
+				    }  \
+				    else  \
+				    {  \
+				        alert(\"sender error\");  \
+				    }  \
+				} \
+				function callbackFunction()  \
+				{  \
+				    if(xhr.readyState == 4)  \
+				    {  \
+				        if(xhr.status == 200)  \
+				        {  \
+							display_rtdata(xhr.responseText);\
+				        }  \
+				        else  \
+				        {  \
+				            alert(xhr.responseText);  \
+				        }  \
+				    }  \
+				} 				\
+				function display_rtdata(responseText)\
+				{\
+				            var returnValue = responseText;\
+				            var polcode_str=\"\";\
+				            var rtable=document.getElementById(\"rtableId\");\
+				            try{\
+				            	var json_obj=JSON.parse(returnValue);\
+				        	}catch(e){\
+				        		$(\"#rtdata\").text(e+responseText);\
+				            }\
+				            if(json_obj!=null)\
+				            {\
+					            for(var i=0;i<json_obj.polcodes.length;i++)\
+								{\
+									polcode_str+=\"<tr>\";\
+									polcode_str+=\"<td width=30>\"+(i+1)+\"</td>\";\
+									polcode_str+=\"<td>\"+json_obj.polcodes[i].polname+\"</td>\";\
+									polcode_str+=\"<td>\"+json_obj.polcodes[i].value+\"</td>\";\
+									polcode_str+=\"<td>\"+json_obj.polcodes[i].unit+\"</td>\";\
+									polcode_str+=\"<td>\"+json_obj.polcodes[i].status+\"</td>\";\
+								    polcode_str+=\"<td>\"+json_obj.polcodes[i].datetime+\"</td>\";\
+								    polcode_str+=\"</tr>\";\
+								}\		
+					            /*$(\"#rtdata\").text(polcode_str);*/\
+					            rtable.innerHTML=polcode_str;\
+				            }\	
+				            else\
+				            {	\
+				            	polcode_str+=\"json_obj==null,\"+responseText+\" !!!\";\
+					            $(\"#rtdata\").text(polcode_str);\
+					        }\
+				}\
+				</script>\
+			");		
+			sprintf(RIGHT_HTML_BUFFER,"<p id=\"rtdata\"></p>");
+			sprintf(RIGHT_HTML_BUFFER,"<style type=\"text/css\">.poltable td{ height:30px; border-right:1px solid #cccccc;border-bottom:1px solid #cccccc;  text-align:center;}</style>");
+			sprintf(RIGHT_HTML_BUFFER,"<table id=\"rtableId\" width=\"90%\" style=\"border-collapse:collapse;border-spacing:0; border-left:1px solid #cccccc;border-top:1px solid #cccccc; margin:30px;\" class=\"poltable\"></table>");
+
 	return 0;
 }

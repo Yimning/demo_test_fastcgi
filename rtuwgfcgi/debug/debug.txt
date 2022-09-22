@@ -1903,3 +1903,54 @@ LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME
 2022.8.22 16:47:41 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
+2022.8.22 16:50:58 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.22 16:51:2 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.8.22 16:51:3 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.8.22 16:51:5 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.8.22 16:51:6 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.8.22 16:51:8 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.8.22 16:51:10 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.8.22 16:54:8 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.8.22 16:54:10 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.8.22 19:45:54 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.22 20:5:45 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.22 20:5:51 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2022.8.22 20:5:51 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2022.8.22 20:5:51 --------log information
+write 44 bytes succeed.
+
+2022.8.22 20:5:51 --------log information
+(null)---
+
+2022.8.22 20:15:11 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+

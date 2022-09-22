@@ -614,7 +614,7 @@ int rtuwg_fcgi_main()
             case WEB_CMD_FLUSH_STATUS:
             {
                 static int count = 0;
-                char *pack_buffer = top_html_str;
+                char *pack_buffer = right_html_str;
                 // printf("%s\n\n","Content-Type:text/html;charset=gb2312");
                 printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
                 // printf("login success %d",count++);
