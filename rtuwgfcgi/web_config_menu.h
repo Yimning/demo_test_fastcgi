@@ -8,8 +8,8 @@
 #define CHILD_NODE_MAXLEN 5
 
 typedef enum menu_select_t{
-		MENU_DEVICE,
 		MENU_DATA,
+		MENU_DEVICE,
 		MENU_LOG,
 		MENU_USER,
 		MENU_UPDATEPSD,

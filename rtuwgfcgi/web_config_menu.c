@@ -13,35 +13,6 @@
 
 #define LEFT_HTML_BUFFER (left_html_str+strlen(left_html_str))
 
-
-// int display_config_menu(char *left_html_str,const char *select)
-// {
-// 	int i=0;
-// 	if(!left_html_str) return -1;	
-
-// 	sprintf(LEFT_HTML_BUFFER,"<table width=\"100%\" border=\"0\" cellspacing=\"0\">");
-
-// 	for(i=0;i<ARRAY_SIZE(menulist);i++)
-// 	{
-// 		sprintf(LEFT_HTML_BUFFER,"<tr  bgcolor=\"%s\">",(i%2==0) ? "#d7e4ed" : "#f6f5ec");
-// 		sprintf(LEFT_HTML_BUFFER,"<style type=\"text/css\">");
-// 		sprintf(LEFT_HTML_BUFFER,".color{color:#000000; text-decoration:none;}");
-// 		sprintf(LEFT_HTML_BUFFER,".color:visited{color:#000000; text-decoration:none;}");
-// 		sprintf(LEFT_HTML_BUFFER,".color:hover{color:#000000; text-decoration:underline;}");
-// 		sprintf(LEFT_HTML_BUFFER,"</style>");
-		
-// 		sprintf(LEFT_HTML_BUFFER,"<td><a href=\"/cgi-bin/usr/rtuwg.fcgi?CMD=MENU&SELECT=%d\" style=\"text-decoration:none;font-size :20px;\" class=\"color\">",menulist[i].select);
-// 		sprintf(LEFT_HTML_BUFFER,"<table><tr>");
-// 		sprintf(LEFT_HTML_BUFFER,"<td><img height=50 width=50/><i class=\"%s\"></i></td>",menulist[i].image_path);
-// 		sprintf(LEFT_HTML_BUFFER,"<td style=\"vertical-align:middle;\">%s</td>",menulist[i].name);
-// 		sprintf(LEFT_HTML_BUFFER,"</tr></table>");
-// 		sprintf(LEFT_HTML_BUFFER,"</a></td>");
-//     	sprintf(LEFT_HTML_BUFFER,"</tr>");
-// 	}
-// 	sprintf(LEFT_HTML_BUFFER,"</table>");
-// 	return 0;
-// }
-
 int display_config_menu(char *left_html_str,const char *select)
 {
 	int i=0,j=0;

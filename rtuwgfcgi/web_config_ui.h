@@ -13,22 +13,22 @@ extern int display_config_header(char *left_html_str,const char *select);
 
 
 
-static struct menu_list menulist[]={
-	{
-		.selstr="DEVICE",
-		.image_path="fas fa-heart",
-		.color="rgb(255, 71, 38)",
-		.name="设备控制",
-		.select=MENU_DEVICE,
-		.status="active",
-		.child_existence=0,
-	},		
+static struct menu_list menulist[]={		
 	{
 		.selstr="DATA",
 		.image_path="fas fa-chart-bar",
-		.color="rgb(0, 128, 0)",
-		.name="数据监控与分析",
+		.color="rgb(255, 71, 38)",
+		.name="数据监控",
 		.select=MENU_DATA,
+		.status="active",
+		.child_existence=0,
+	},
+	{
+		.selstr="DEVICE",
+		.image_path="fas fa-tools",
+		.color="rgb(0, 128, 0)",
+		.name="设备控制",
+		.select=MENU_DEVICE,
 		.status="active",
 		.child_existence=0,
 	},
@@ -46,7 +46,7 @@ static struct menu_list menulist[]={
 		.image_path="fas fa-user",
 		.color="rgb(0, 183, 255)",
 		.name="用户详细信息",
-		.select=MENU_USER,
+		.select=MENU_USER1,
 		.status="active",
 		.child_existence=1,
 		.child={
@@ -54,13 +54,13 @@ static struct menu_list menulist[]={
 				.selstr="USER1",
 				.name="用户信息",
 				.select=MENU_USER1,
-				.status="",
+				.status="active",
 			},
 			{
 				.selstr="USER2",
 				.name="手机号码",
 				.select=MENU_USER2,
-				.status="",
+				.status="active",
 			},
 		}
 	},

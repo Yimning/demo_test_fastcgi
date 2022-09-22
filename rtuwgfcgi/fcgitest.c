@@ -533,10 +533,8 @@ int rtuwg_fcgi_main()
                     break;
                     case MENU_USER:
                     {
-                        //sprintf(RIGHT_HTML_BUFFER,"serial");
-                        //display_menu_serial_detail(RIGHT_HTML_BUFFER);
                     }
-                    break;		
+                    break;	
                     case MENU_UPDATEPSD:
                     {
                         char *pt = tempBuffer; 
@@ -599,16 +597,14 @@ int rtuwg_fcgi_main()
                     break;
                     case MENU_USER1:
                     {
-                        //sprintf(RIGHT_HTML_BUFFER,"network");
-                        //display_menu_netowrk_detail(RIGHT_HTML_BUFFER);
+                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
                     }
-                    break;		
+                    break;	
                     case MENU_USER2:
                     {
-                        //sprintf(RIGHT_HTML_BUFFER,"camera1");
-                        //display_menu_camera_detail(RIGHT_HTML_BUFFER);
+                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
                     }
-                    break;
+                    break;		
                     default:;
                 }
                 

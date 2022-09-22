@@ -13,7 +13,8 @@ fcgitest.o .depend : fcgitest.c \
  web_menu_device.h web_menu_data.h web_menu_log.h web_menu_updatepsw.h
 web_menu_data.o .depend : web_menu_data.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/include/common.h \
- webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_data.h
+ webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_data.h \
+ web_menu_device.h getparameter.h cJSON.h api.h
 web_config_menu_detail.o .depend : web_config_menu_detail.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/include/common.h \
  webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_device.h \
