@@ -1,8 +1,7 @@
 /*
  * @Author: Yimning
- * @Date: 2022-09-16 11:04:57
- * @Time: $CURRENT_YEAR/$CURRENT_MONTH/$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND
- * @LastEditTime: 2022-09-20 16:13:51
+ * @Date: 2022-08-16 11:04:57
+ * @LastEditTime: 2022-09-22 16:25:01
  * @Description: 
  */
 $(document).ready(function(){
@@ -10,6 +9,7 @@ $(document).ready(function(){
         $(".siderbar_menu li").removeClass("active");
         $(this).addClass("active");
     })
+
     $(".hamburger").click(function(){
         $(".wrapper").addClass("active");
     })
