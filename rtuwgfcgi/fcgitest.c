@@ -593,7 +593,7 @@ int rtuwg_fcgi_main()
                         sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">window.location.href = \"index.html\";clearAllCookie()</script>");
                         //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);
                         //<a href="#" target="_top">退出</a>
-                    }
+                    }  
                     break;
                     case MENU_USER1:
                     {
@@ -605,7 +605,7 @@ int rtuwg_fcgi_main()
                         sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
                     }
                     break;		
-                    default:;
+                    default:;  
                 }
                 
                 web_html_ui_select2(top_html_str,left_html_str,right_html_str);
@@ -622,7 +622,7 @@ int rtuwg_fcgi_main()
                 // printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
                 // status_flush_package(pack_buffer);
                 printf("%s", pack_buffer);
-                // NOTE :: continue below
+                // NOTE :: continue below  
                 goto CGI_FINISH;
             }
             default: 
@@ -632,8 +632,8 @@ int rtuwg_fcgi_main()
             }
 
         CGI_FINISH:
-            //cgi.finish();
-            pthread_mutex_unlock(&wsctrl.mutex);
+            //cgi.finish();  
+            pthread_mutex_unlock(&wsctrl.mutex);  
     }
     return 0;
 }
