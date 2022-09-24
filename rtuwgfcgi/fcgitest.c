@@ -617,7 +617,7 @@ int rtuwg_fcgi_main()
                 char *pack_buffer = right_html_str;
                 // printf("%s\n\n","Content-Type:text/html;charset=gb2312");
                 printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-                // printf("login success %d",count++);
+                // printf("login success %d",count++);  
                 // package formate
                 // printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
                 // status_flush_package(pack_buffer);
@@ -625,7 +625,7 @@ int rtuwg_fcgi_main()
                 // NOTE :: continue below
                 goto CGI_FINISH;
             }
-            default:
+            default: 
                 printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
                 printf("NO such cmd %s !!!", cgi["CMD"]);
                 goto CGI_FINISH;
