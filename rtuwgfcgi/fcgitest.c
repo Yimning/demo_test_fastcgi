@@ -587,11 +587,11 @@ int rtuwg_fcgi_main()
                             sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"修改成功!\");clearAllCookie()</script>");
                         }   
                     }
-                    break;
+                    break;  
                     case MENU_EXIT:
                     {
                         sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">window.location.href = \"index.html\";clearAllCookie()</script>");
-                        //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);
+                        //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);   
                         //<a href="#" target="_top">退出</a>
                     }  
                     break;
