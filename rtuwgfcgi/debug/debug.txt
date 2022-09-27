@@ -1954,3 +1954,21 @@ write 44 bytes succeed.
 2022.8.22 20:15:11 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
+2022.8.27 13:28:20 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.27 13:28:44 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.27 14:14:20 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.27 14:16:24 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.27 14:17:27 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.8.27 14:18:47 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+

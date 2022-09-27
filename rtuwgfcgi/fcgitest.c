@@ -25,6 +25,8 @@
 #include "web_menu_data.h"
 #include "web_menu_log.h"
 #include "web_menu_updatepsw.h"
+#include "web_flush_data.h"
+
 
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
@@ -611,6 +613,19 @@ int rtuwg_fcgi_main()
                 web_html_ui_select2(top_html_str,left_html_str,right_html_str);
             }
             break;
+			case WEB_CMD_FLUSH_DATA:
+			{  
+                char *pack_buffer=left_html_str;
+                //printf("%s\n\n","Content-Type:text/html;charset=gb2312");
+                printf("%s\n\n","Content-Type:text/html;charset=utf-8");
+                //printf("login success");  
+                //package formate
+                printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
+                //rtdata_flush_package(pack_buffer);
+                //printf("%s",pack_buffer);
+                goto CGI_FINISH;
+			}
+			break;		
             case WEB_CMD_FLUSH_STATUS:
             {
                 static int count = 0;
@@ -620,7 +635,7 @@ int rtuwg_fcgi_main()
                 // printf("login success %d",count++);  
                 // package formate
                 // printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
-                // status_flush_package(pack_buffer);
+                status_flush_package(pack_buffer);
                 printf("%s", pack_buffer);
                 // NOTE :: continue below  
                 goto CGI_FINISH;

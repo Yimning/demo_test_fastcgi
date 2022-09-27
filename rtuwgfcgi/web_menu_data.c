@@ -132,7 +132,7 @@ sprintf(RIGHT_HTML_BUFFER,"<script>\
 				    if(xhr)  \
 				    {  \
 				        xhr.onreadystatechange = callbackFunction;  \
-				        xhr.open(\"GET\",\"/cgi-bin/usr/rtuwg.fcgi?CMD=FLUSH_DATA\"); \
+				        xhr.open(\"GET\",\"/demo_test_fastcgi/fcgitest.fcgi?CMD=FLUSH_DATA\"); \
 				        xhr.send(null);  \
 				    }  \
 				    else  \
