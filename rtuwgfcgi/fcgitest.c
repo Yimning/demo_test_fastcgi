@@ -604,7 +604,7 @@ int rtuwg_fcgi_main()
                     {
                         sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
                     }
-                    break;		
+                    break;		 
                     default:;  
                 }
                 
