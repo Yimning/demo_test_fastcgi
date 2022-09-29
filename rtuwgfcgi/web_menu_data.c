@@ -151,7 +151,7 @@ sprintf(RIGHT_HTML_BUFFER,"<script>\
 				        else  \
 				        {  \
 				            alert(xhr.responseText);  \
-				        }  \
+				        }  \  
 				    }  \
 				} 				\
 				function display_rtdata(responseText)\
