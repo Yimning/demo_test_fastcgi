@@ -176,7 +176,7 @@ sprintf(RIGHT_HTML_BUFFER,"<script>\
 									polcode_str+=\"<td>\"+json_obj.polcodes[i].status+\"</td>\";\
 								    polcode_str+=\"<td>\"+json_obj.polcodes[i].datetime+\"</td>\";\
 								    polcode_str+=\"</tr>\";\
-								}\		
+								}\		 
 					            /*$(\"#rtdata\").text(polcode_str);*/\
 					            rtable.innerHTML=polcode_str;\
 				            }\	
