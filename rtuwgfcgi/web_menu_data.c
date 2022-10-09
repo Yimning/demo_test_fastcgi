@@ -184,7 +184,7 @@ sprintf(RIGHT_HTML_BUFFER,"<script>\
 				            {	\
 				            	polcode_str+=\"json_obj==null,\"+responseText+\" !!!\";\
 					            $(\"#rtdata\").text(polcode_str);\
-					        }\
+					        }\   
 				}\
 				</script>\
 			");		
