@@ -179,13 +179,13 @@ sprintf(RIGHT_HTML_BUFFER,"<script>\
 								}\		 
 					            /*$(\"#rtdata\").text(polcode_str);*/\
 					            rtable.innerHTML=polcode_str;\
-				            }\	 
+				            }\	    
 				            else\
 				            {	\
 				            	polcode_str+=\"json_obj==null,\"+responseText+\" !!!\";\
 					            $(\"#rtdata\").text(polcode_str);\
 					        }\   
-				}\
+				}\   
 				</script>\
 			");		
 			sprintf(RIGHT_HTML_BUFFER,"<p id=\"rtdata\"></p>");
