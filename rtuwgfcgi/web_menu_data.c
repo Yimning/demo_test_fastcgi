@@ -191,6 +191,6 @@ sprintf(RIGHT_HTML_BUFFER,"<script>\
 			sprintf(RIGHT_HTML_BUFFER,"<p id=\"rtdata\"></p>");
 			sprintf(RIGHT_HTML_BUFFER,"<style type=\"text/css\">.poltable td{ height:30px; border-right:1px solid #cccccc;border-bottom:1px solid #cccccc;  text-align:center;}</style>");
 			sprintf(RIGHT_HTML_BUFFER,"<table id=\"rtableId\" width=\"90%\" style=\"border-collapse:collapse;border-spacing:0; border-left:1px solid #cccccc;border-top:1px solid #cccccc; margin:30px;\" class=\"poltable\"></table>");
-    
+      
 	return 0;
 }
