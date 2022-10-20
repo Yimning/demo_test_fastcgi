@@ -36,7 +36,7 @@ int display_menu_data_detail(char *right_html_str)
 	if(!strncmp(databuf,"0",1))
 	{
 			temp.statusCode = 0;
-			temp.status="温度**";
+			temp.status="温度**";  
 			temp.img="temp_grep.png";
 			temp.key="TEMP";
 	}else
