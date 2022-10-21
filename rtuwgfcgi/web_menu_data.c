@@ -43,7 +43,7 @@ int display_menu_data_detail(char *right_html_str)
 	{
 			temp.statusCode = 1;
 			temp.status="温度##";
-			temp.img="temp_color.png";
+			temp.img="temp_color.png";  
 			temp.key="TEMP";
 	};
 
