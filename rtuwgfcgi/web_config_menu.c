@@ -52,7 +52,7 @@ int display_config_menu(char *left_html_str,const char *select)
   
 		sprintf(LEFT_HTML_BUFFER,"</li>");
 
-	}
+	}  
 	sprintf(LEFT_HTML_BUFFER,"</ul>");
 	return 0;
 }
