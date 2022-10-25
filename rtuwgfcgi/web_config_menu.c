@@ -38,7 +38,7 @@ int display_config_menu(char *left_html_str,const char *select)
                                		<i class=\"fas fa-chevron-down\"></i>\
 								</span>\
                             </div>");
-		}
+		}  
 		sprintf(LEFT_HTML_BUFFER,"</a>");
 
 		if(menulist[i].child_existence == 1){
@@ -50,7 +50,7 @@ int display_config_menu(char *left_html_str,const char *select)
 			sprintf(LEFT_HTML_BUFFER,"</ul>");
 		}
   
-		sprintf(LEFT_HTML_BUFFER,"</li>");
+		sprintf(LEFT_HTML_BUFFER,"</li>");   
 
 	}  
 	sprintf(LEFT_HTML_BUFFER,"</ul>");
