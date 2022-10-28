@@ -48,7 +48,7 @@ int display_config_menu(char *left_html_str,const char *select)
 				sprintf(LEFT_HTML_BUFFER,"<li><a href=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=%d\" class=\"%s\">%s</a>",menulist[i].child[j].select,menulist[i].child[j].status,menulist[i].child[j].name);
 			} 
 			sprintf(LEFT_HTML_BUFFER,"</ul>");
-		}   
+		}       
   
 		sprintf(LEFT_HTML_BUFFER,"</li>");   
 
