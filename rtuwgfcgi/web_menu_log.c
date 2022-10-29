@@ -21,7 +21,8 @@ int display_menu_log_detail(char *right_html_str)
 	char tempBuffer[MAX_BUFFER_SIZE] = {0};
 	char *pstr = tempBuffer;
 	fread_file(DEBUG_PATH,&pstr);
-
+	//X-LIGHTTPD-send-file
+	//printf("X-Sendfile: %s 0-\r\n\r\n", DEBUG_PATH);
 	if(!right_html_str) return -1;
 	sprintf(RIGHT_HTML_BUFFER,"\
 	     <div class=\"content\">\
