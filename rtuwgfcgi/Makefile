@@ -1,5 +1,5 @@
 #ENCRYPT_DISABLE=1
-INCLUDES=. ${TOPDIR}/rtuwgfcgi/include ${TOPDIR}/ ${TOPDIR}/xlslib/ ${TOPDIR}/rtuwgfcgi/upgrade/ ${TOPDIR}/rtuwgfcgi/camera/ ${TOPDIR}/rtuwgfcgi/devmcu/ ${TOPDIR}/rtuwgfcgi/debug/
+INCLUDES=. ${TOPDIR}/rtuwgfcgi/include ${TOPDIR}/ ${TOPDIR}/xlslib/ ${TOPDIR}/rtuwgfcgi/upgrade/ ${TOPDIR}/rtuwgfcgi/camera/ ${TOPDIR}/rtuwgfcgi/devmcu/ ${TOPDIR}/rtuwgfcgi/debug/  ${TOPDIR}/rtuwgfcgi/qdecoder/
 
 
 lib=rtuwgfcgi

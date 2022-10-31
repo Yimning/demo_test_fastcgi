@@ -2020,3 +2020,18 @@ LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME
 2022.9.29 17:20:30 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
+2022.9.31 11:0:20 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.9.31 11:0:38 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.9.31 11:0:43 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.9.31 14:23:44 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.9.31 14:23:55 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
