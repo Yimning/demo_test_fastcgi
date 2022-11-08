@@ -1,9 +1,10 @@
 #!/bin/sh
 export TOPDIR=$(shell pwd)
 include ${TOPDIR}/make/Make.local
-CCP=g++
+CPP=g++
 TARGET=fcgitest.fcgi
-STATIC_LIBS =${TOPDIR}/rtuwgfcgi/librtuwgfcgi.a 
+STATIC_LIBS =${TOPDIR}/rtuwgfcgi/librtuwgfcgi.a \
+
 #STATIC_LIBS=${TOPDIR}/rtuwgfcgi/librtuwgfcgi.a \
 	    ${TOPDIR}/rtuwgfcgi/upgrade/libupgrade.a\
 	    ${TOPDIR}/rtuwgfcgi/camera/libcamera.a\
@@ -51,7 +52,7 @@ STATIC_LIBS =${TOPDIR}/rtuwgfcgi/librtuwgfcgi.a
 ####No ppclient now
 #subdirs=cli usermanage SerialDataMng ppclient watchdog misc modules udhcp encrypt switch
 #subdirs=SerialDataMng ppclient watchdog misc modules udhcp encrypt switch 
-subdirs = rtuwgfcgi\
+subdirs = rtuwgfcgi rtuwgfcgi/qdecoder/
 
 #          rtuwgfcgi/upgrade\
 #          rtuwgfcgi/camera\
@@ -83,7 +84,8 @@ ${TARGET}_nostrip:main.o ${STATIC_LIBS}
 	cp ${TOPDIR}/rtuwgfcgi/upgrade/libupgrade.a.tengent ${TOPDIR}/rtuwgfcgi/upgrade/libupgrade.a
 	cp ${TOPDIR}/rtuwgfcgi/devmcu/libdevmcu.a.tengent ${TOPDIR}/rtuwgfcgi/devmcu/libdevmcu.a
 	cp ${TOPDIR}/rtuwgfcgi/camera/libcamera.a.tengent ${TOPDIR}/rtuwgfcgi/camera/libcamera.a
-	${CCP} main.o ${STATIC_LIBS}  -lcrypt -lpthread -lm -lrt ${LIBS} -o $@
+	cp ${TOPDIR}/rtuwgfcgi/qdecoder/qdecoder.1.0.0.a ${TOPDIR}/rtuwgfcgi/qdecoder/qdecoder.a
+	${CPP} main.o ${STATIC_LIBS} ${TOPDIR}/rtuwgfcgi/qdecoder/qdecoder.a -lcrypt -lpthread -lm -lrt ${LIBS} -o $@
 	
 clean::
 	rm  -rf *.o ${TARGET} ${TARGET}_nostrip

@@ -25,6 +25,14 @@ int display_menu_log_detail(char *right_html_str)
 	//printf("X-Sendfile: %s 0-\r\n\r\n", DEBUG_PATH);
 	if(!right_html_str) return -1;
 	sprintf(RIGHT_HTML_BUFFER,"\
+	    <hr size=\"1\" noshade>\
+		<h3>Example: <a href=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=2\">download.c</a></h3>\
+		<form method=\"get\" action=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=2\">\
+			<input type=\"submit\" value=\"DOWNLOAD download.c\">\
+		</form>\ 
+		");           
+
+	sprintf(RIGHT_HTML_BUFFER,"\
 	     <div class=\"content\">\
 		    <div>\
 				<font size=\"3\" color=\"#cc0000\">\

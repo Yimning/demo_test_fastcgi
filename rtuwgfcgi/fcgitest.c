@@ -26,7 +26,8 @@
 #include "web_menu_log.h"
 #include "web_menu_updatepsw.h"
 #include "web_flush_data.h"
-
+#include "qdecoder/qdecoder.h"
+#include "qdecoder/internal.h"
 
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
@@ -531,6 +532,9 @@ int rtuwg_fcgi_main()
                     case MENU_LOG:
                     {
                         display_menu_log_detail(RIGHT_HTML_BUFFER);
+                        qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);
+                        qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/debug.txt", "text/plain");
+                    
                     }
                     break;
                     case MENU_USER:
@@ -606,7 +610,8 @@ int rtuwg_fcgi_main()
                     {
                         sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
                     }
-                    break;		 
+                    break;	
+                    	 
                     default:;  
                 }
                 

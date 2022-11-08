@@ -16,6 +16,7 @@ typedef enum menu_select_t{
 		MENU_EXIT,
 		MENU_USER1,  //6
 		MENU_USER2,  //7
+		MENU_DOWNLOAD_LOG,  //8
 }menu_select;
 
 struct S
