@@ -92,7 +92,7 @@ int display_menu_data_detail(char *right_html_str)
 			",temp.statusCode,temp.statusCode==0?1:0,humid.img,humid.status);
 sprintf(RIGHT_HTML_BUFFER,"<script>\
 				$(document).ready(function () {\
-					setInterval(\"flushdata()\",6000);\  
+					setInterval(\"flushdata()\",6000);\    
 				});\
 				function FormatDate (strTime) {\
 			    	var date = new Date(strTime);\
