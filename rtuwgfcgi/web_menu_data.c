@@ -71,7 +71,7 @@ int display_menu_data_detail(char *right_html_str)
 						<img width=\"200\" height=\"200\" border=\"0\" id=tempimg src=\"/demo_test_fastcgi/cgi-bin/images/%s\" onclick=\"\">\
 						<p class=\"title\" style=\"text-align:center\">\
 								%s\
-						</p>\
+						</p>\  
 					</div>\
 				</form>\      
 			</div>\
