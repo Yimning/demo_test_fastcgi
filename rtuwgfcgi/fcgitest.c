@@ -537,7 +537,7 @@ int rtuwg_fcgi_main()
                     
                     }
                     break;
-                    case MENU_USER:
+                    case MENU_USER:   
                     {
                     }
                     break;	
