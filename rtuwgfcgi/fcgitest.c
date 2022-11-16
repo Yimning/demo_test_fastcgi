@@ -530,7 +530,7 @@ int rtuwg_fcgi_main()
                     }
                     break;
                     case MENU_LOG:
-                    {
+                    {   
                         display_menu_log_detail(RIGHT_HTML_BUFFER);
                         qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
                         qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/debug.txt", "text/plain");
