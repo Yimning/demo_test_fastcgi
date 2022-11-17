@@ -562,7 +562,7 @@ int rtuwg_fcgi_main()
                             // cJSON_GetObjectItem(json,"float")->valuedouble = 2.0;
                             strcpy(cJSON_GetObjectItem(json,"password")->valuestring,cjson_cgi_POST_getStrValue(pt,"NPSD1"));
 
-                            //修改对象的值
+                            //修改对象的值  
                             //cJSON_ReplaceItemInObject(json,"word",cJSON_CreateString("password"));
                             FPRINTF_LOG(DEBUG_PATH,"%s\r\n",cJSON_Print(json));
 
