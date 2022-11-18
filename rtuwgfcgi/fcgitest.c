@@ -10,7 +10,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <sys/stat.h>
-#include <sys/wait.h>
+#include <sys/wait.h>   
 
 #include "getparameter.h"
 #include "common.h"
@@ -530,7 +530,7 @@ int rtuwg_fcgi_main()
                     }
                     break;
                     case MENU_LOG:
-                    {   
+                    {
                         display_menu_log_detail(RIGHT_HTML_BUFFER);
                         qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
                         qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/debug.txt", "text/plain");
@@ -562,7 +562,7 @@ int rtuwg_fcgi_main()
                             // cJSON_GetObjectItem(json,"float")->valuedouble = 2.0;
                             strcpy(cJSON_GetObjectItem(json,"password")->valuestring,cjson_cgi_POST_getStrValue(pt,"NPSD1"));
 
-                            //修改对象的值  
+                            //修改对象的值
                             //cJSON_ReplaceItemInObject(json,"word",cJSON_CreateString("password"));
                             FPRINTF_LOG(DEBUG_PATH,"%s\r\n",cJSON_Print(json));
 
