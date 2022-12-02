@@ -39,8 +39,8 @@ int display_config_menu(char *left_html_str,const char *select)
 								</span>\
                             </div>");
 		}  
-		sprintf(LEFT_HTML_BUFFER,"</a>");
-
+		sprintf(LEFT_HTML_BUFFER,"</a>");   
+ 
 		if(menulist[i].child_existence == 1){
 			menulist[i].status="active";
 		    sprintf(LEFT_HTML_BUFFER,"<ul class=\"accordion\">");
