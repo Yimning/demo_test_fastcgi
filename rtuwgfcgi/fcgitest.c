@@ -33,9 +33,9 @@
 
 using namespace rude;
 
-struct webserver_ctrl
+struct webserver_ctrl  
 {
-    pthread_mutex_t mutex;
+    pthread_mutex_t mutex;  
 };
 
 static struct webserver_ctrl wsctrl;
