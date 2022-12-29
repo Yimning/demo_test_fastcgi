@@ -2149,3 +2149,36 @@ MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
 2022.10.17 17:38:31 --------log information
 MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
 
+2022.11.29 13:32:55 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.11.29 13:33:5 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.11.29 13:33:7 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.11.29 13:33:8 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.11.29 13:33:10 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.11.29 13:33:12 --------log information
+MENU---设备控制---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=1
+
+2022.11.29 13:33:32 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.11.29 13:33:46 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.11.29 13:34:5 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.11.29 13:34:29 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2022.11.29 13:34:48 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+

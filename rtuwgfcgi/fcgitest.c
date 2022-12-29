@@ -35,12 +35,12 @@ using namespace rude;
 
 struct webserver_ctrl  
 {
-    pthread_mutex_t mutex;  
+    pthread_mutex_t mutex;     
 };
 
 static struct webserver_ctrl wsctrl;
 
-
+   
 
 
 int init_dashboard_page(char *top_html_str, char *left_html_str, char *right_html_str)
@@ -614,7 +614,7 @@ int rtuwg_fcgi_main()
                     	 
                     default:;  
                 }
-                
+                  
                 web_html_ui_select2(top_html_str,left_html_str,right_html_str);
             }
             break;
