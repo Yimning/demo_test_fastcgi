@@ -643,7 +643,7 @@ int rtuwg_fcgi_main()
                 status_flush_package(pack_buffer);
                 printf("%s", pack_buffer);
                 // NOTE :: continue below   
-                goto CGI_FINISH;
+                goto CGI_FINISH;   
             }
             default: 
                 printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
