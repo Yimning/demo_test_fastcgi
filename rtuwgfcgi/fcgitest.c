@@ -634,7 +634,7 @@ int rtuwg_fcgi_main()
             case WEB_CMD_FLUSH_STATUS:
             {
                 static int count = 0;
-                char *pack_buffer = right_html_str;
+                char *pack_buffer = right_html_str;  
                 // printf("%s\n\n","Content-Type:text/html;charset=gb2312");
                 printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
                 // printf("login success %d",count++);  
@@ -648,7 +648,7 @@ int rtuwg_fcgi_main()
             default: 
                 printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
                 printf("NO such cmd %s !!!", cgi["CMD"]);
-                goto CGI_FINISH;
+                goto CGI_FINISH;  
             }
 
         CGI_FINISH:
