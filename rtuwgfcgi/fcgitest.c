@@ -532,9 +532,10 @@ int rtuwg_fcgi_main()
                     case MENU_LOG:
                     {
                         display_menu_log_detail(RIGHT_HTML_BUFFER);
-                        qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
-                        qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/debug.txt", "text/plain");
-                    
+
+                        qentry_t *req1 =  qcgireq_parse(NULL, (Q_CGI_T)4);  
+                        qcgires_download(req1, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/debug.txt", "text/plain");
+                        req1->free(req1);
                     }
                     break;
                     case MENU_USER:   
@@ -585,7 +586,8 @@ int rtuwg_fcgi_main()
                             FPRINTF_LOG(DEBUG_PATH,"%s---\r\n",getenv("HTTP_COOKIE"));
     
                             cJSON_Delete(json);
-                        } 
+                        }
+
                         free((void*)pstr);                                                          
                         free(pt);
                         display_menu_updatepsd_detail(RIGHT_HTML_BUFFER);

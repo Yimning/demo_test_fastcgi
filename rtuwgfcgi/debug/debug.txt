@@ -2182,3 +2182,180 @@ LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME
 2022.11.29 13:34:48 --------log information
 LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
 
+2023.0.30 16:7:36 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:7:12 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:7:21 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2023.0.30 17:7:21 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2023.0.30 17:7:21 --------log information
+write 44 bytes succeed.
+
+2023.0.30 17:7:21 --------log information
+(null)---
+
+2023.0.30 17:8:2 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2023.0.30 17:8:2 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2023.0.30 17:8:2 --------log information
+write 44 bytes succeed.
+
+2023.0.30 17:8:2 --------log information
+username=username; password=password---
+
+2023.0.30 17:15:28 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:15:56 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2023.0.30 17:15:56 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2023.0.30 17:15:56 --------log information
+write 44 bytes succeed.
+
+2023.0.30 17:15:56 --------log information
+username=username; password=password---
+
+2023.0.30 17:17:1 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:18:52 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:19:31 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:22:55 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:23:44 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:26:6 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:27:6 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:29:39 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:31:43 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:33:4 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:34:30 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:36:3 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:36:6 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:36:9 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:36:11 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:36:14 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:36:16 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:36:18 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:38:28 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:39:30 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:40:23 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:42:27 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:43:39 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:44:50 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:45:25 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:46:14 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:49:23 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:51:35 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:51:39 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:54:16 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:54:38 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2023.0.30 17:54:38 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2023.0.30 17:54:38 --------log information
+write 44 bytes succeed.
+
+2023.0.30 17:54:38 --------log information
+username=username; password=password---
+
+2023.0.30 17:57:44 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 17:57:52 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2023.0.30 17:57:52 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2023.0.30 17:57:52 --------log information
+write 44 bytes succeed.
+
+2023.0.30 17:57:52 --------log information
+username=username; password=password---
+
