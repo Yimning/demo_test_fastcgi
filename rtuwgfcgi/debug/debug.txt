@@ -2359,3 +2359,21 @@ write 44 bytes succeed.
 2023.0.30 17:57:52 --------log information
 username=username; password=password---
 
+2023.0.30 18:1:11 --------log information
+LOGON登录操作---/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGON&SELECT=0&USERNAME=admin&PASSWORD=123
+
+2023.0.30 18:1:20 --------log information
+MENU---修改密码---/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=4
+
+2023.0.30 18:1:20 --------log information
+{
+	"username":	"admin",
+	"password":	"123"
+}
+
+2023.0.30 18:1:20 --------log information
+write 44 bytes succeed.
+
+2023.0.30 18:1:20 --------log information
+username=username; password=password---
+

@@ -642,7 +642,7 @@ int rtuwg_fcgi_main()
                 // printf("login success %d",count++);  
                 // package formate
                 // printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
-                status_flush_package(pack_buffer);
+                status_flush_package(pack_buffer);   
                 printf("%s", pack_buffer);
                 // NOTE :: continue below   
                 goto CGI_FINISH;           
