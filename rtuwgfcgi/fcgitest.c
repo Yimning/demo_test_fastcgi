@@ -633,7 +633,7 @@ int rtuwg_fcgi_main()
                 goto CGI_FINISH;
 			}
 			break;		
-            case WEB_CMD_FLUSH_STATUS:
+            case WEB_CMD_FLUSH_STATUS:  
             {
                 static int count = 0;
                 char *pack_buffer = right_html_str;  
