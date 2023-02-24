@@ -6,7 +6,7 @@ This is a demo for testing fastcgi and cjson project.
 
             
 # Dependent installation 相关依赖安装
-（略）         
+（略）            
            
 # You know   
 fcgi处理步骤<br>
