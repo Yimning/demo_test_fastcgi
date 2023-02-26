@@ -13,7 +13,6 @@
 
 #include "api.h"
 
-
 struct tm* systemTimeNow()
 {
     time_t t;
@@ -218,4 +217,18 @@ int fread_file(const char *filename, char** fileBuff)
 	}
 	fclose(fp);
 	return ret;
+}
+
+
+ssize_t savefile(const char *filepath, const void *buf, size_t size)
+{
+
+    int fd = open(filepath,
+                  O_CREAT|O_WRONLY|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+    if (fd < 0) return -1;
+
+    ssize_t count = write(fd, buf, size);
+    close(fd);
+
+    return count;
 }

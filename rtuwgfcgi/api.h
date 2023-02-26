@@ -27,6 +27,13 @@
 #include "errno.h"
 
 
+#ifndef	__ssize_t_defined
+typedef __ssize_t ssize_t;
+# define __ssize_t_defined
+#endif
+
+#define BASEPATH    "upload"
+
 #define MAX_BUFFER_SIZE 1024*1024
 
 int CONSOLELOG(const char *filename,char *signstr,char *data);
@@ -49,4 +56,6 @@ int fread_file(const char *filename, char** fileBuff);
 /* zero file */
 int empty_file(const char *file_name); 
 
+/* save file */
+ssize_t savefile(const char *filepath, const void *buf, size_t size);
 #endif
