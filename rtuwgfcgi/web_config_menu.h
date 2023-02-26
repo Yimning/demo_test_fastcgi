@@ -17,6 +17,7 @@ typedef enum menu_select_t{
 		MENU_USER1,  //6
 		MENU_USER2,  //7
 		MENU_DOWNLOAD_LOG,  //8
+		MENU_UPLOAD_FILE
 }menu_select;
 
 struct S
