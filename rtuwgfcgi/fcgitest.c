@@ -532,10 +532,6 @@ int rtuwg_fcgi_main()
                     case MENU_LOG:
                     {
                         display_menu_log_detail(RIGHT_HTML_BUFFER);
-
-                        qentry_t *req1 =  qcgireq_parse(NULL, (Q_CGI_T)4);  
-                        qcgires_download(req1, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/debug.txt", "text/plain");
-                        req1->free(req1);
                     }
                     break;
                     case MENU_USER:   
@@ -611,6 +607,59 @@ int rtuwg_fcgi_main()
                     case MENU_USER2:
                     {
                         sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
+                    }
+                    break;	
+                    case MENU_DOWNLOAD_LOG:
+                    {    
+                        //printf("%s\n\n", "application/octet-stream;charset=utf-8");                  
+                        qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
+                        qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/debug.txt", "application/octet-stream;charset=utf-8");
+                        req->free(req);
+                        display_menu_log_detail(RIGHT_HTML_BUFFER);
+                        
+                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"=====\");</script></script>");    
+                    }
+                    break;	
+                    case MENU_UPLOAD_FILE:
+                    {    
+                        // Parse queries.
+                        qentry_t *req = qcgireq_parse(NULL, (Q_CGI_T)0);
+
+                        // get queries
+                        const char *text = req->getstr(req, "text", false);
+                        const char *filedata   = req->getstr(req, "binary", false);
+                        int filelength = req->getint(req, "binary.length");
+                        const char *filename   = req->getstr(req, "binary.filename", false);
+                        const char *contenttype = req->getstr(req, "binary.contenttype", false);
+
+                        // check queries
+                        if (text == NULL) qcgires_error(req, "Invalid usages.");
+                        if (filename == NULL || filelength == 0) {
+                            qcgires_error(req, "Select file, please.");
+                        }
+
+                        char  filepath[1024];
+                        sprintf(filepath, "%s/%s", BASEPATH, filename);
+
+                        if (savefile(filepath, filedata, filelength) < 0) {
+                            qcgires_error(req, "File(%s) open fail. Please make sure CGI or directory has right permission.",
+                                        filepath);
+                        }
+
+                        // result out
+                        qcgires_setcontenttype(req, "text/html");
+                        printf("You entered: <b>%s</b>\n", text);
+                        printf("<br><a href=\"%s\">%s</a> (%d bytes, %s) saved.",
+                            filepath, filename, filelength, contenttype);
+
+                        // dump
+                        printf("\n<p><hr>--[ DUMP INTERNAL DATA STRUCTURE ]--\n<pre>");
+                        req->print(req, stdout, false);
+                        printf("\n</pre>\n");
+
+                        // de-allocate
+                        req->free(req);
+
                     }
                     break;	
                     	 

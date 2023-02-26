@@ -26,12 +26,20 @@ int display_menu_log_detail(char *right_html_str)
 	if(!right_html_str) return -1;   
 	sprintf(RIGHT_HTML_BUFFER,"\
 	    <hr size=\"1\" noshade>\
-		<h3>Example: <a href=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=2\">download.c</a></h3>\
-		<form method=\"get\" action=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=2\">\
-			<input type=\"submit\" value=\"DOWNLOAD download.c\">\
-		</form>\ 
-		");           
-
+		<form method=\"get\" action=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=8\">\
+			<input type=\"submit\" value=\"DOWNLOAD log.c\">\
+		</form>\
+		\
+		<hr size=\"1\" noshade>\
+		<h4>file mode example</h4>\
+		<form method=\"post\" action=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=9\" enctype=\"multipart/form-data\">\
+		Input text: <input type=\"text\" name=\"text\">\
+		<br>Select file: <input type=\"file\" name=\"binary1\">\
+		<br>Select file: <input type=\"file\" name=\"binary2\">\
+		<br>Select file: <input type=\"file\" name=\"binary3\">\
+		<br><input type=\"submit\" value=\"UPLOAD FILE\">\
+		</form>\
+		");
 	sprintf(RIGHT_HTML_BUFFER,"\
 	     <div class=\"content\">\
 		    <div>\
