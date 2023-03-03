@@ -35,7 +35,7 @@ int display_menu_log_detail(char *right_html_str)
 		<form method=\"post\" action=\"/demo_test_fastcgi/fcgitest.fcgi?CMD=MENU&SELECT=9\" enctype=\"multipart/form-data\">\
 		Input text: <input type=\"text\" name=\"text\">\
 		<br>Select file: <input type=\"file\" name=\"binary1\">\
-		<br>Select file: <input type=\"file\" name=\"binary2\">\
+		<br>Select file: <input type=\"file\" name=\"binary2\">\  
 		<br>Select file: <input type=\"file\" name=\"binary3\">\
 		<br><input type=\"submit\" value=\"UPLOAD FILE\">\
 		</form>\
