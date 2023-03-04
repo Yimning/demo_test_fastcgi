@@ -1,0 +1,91 @@
+一、项目入门
+    进入 src 文件夹，这是实际都工程文件夹，其他文件夹以及文件以后在了解。
+
+   1、3个文件夹    
+    assets - 各类静态资源文件夹 - 比如 图片, css 文件等。    
+    components - 组件文件夹, 组件是 vue 等 MVC 框架等核心概念，自行了解含义。 
+    view - 视图文件夹。
+
+   2、5个文件   
+        app.vue、main.js - 主视图、配合 
+        main.js 成为 vue 程序的主入口。
+        router.js - 路由程序主入口。
+        store.js - 路由状态管理系统。
+
+   3、registerServiceWorker.js 暂不进行了解。
+
+   4、介绍完工程文件夹，进入本文主要关注点 - 组件。
+
+      *.js 和 *.vue文件都可以单独成为 组件 。我不会使用单独的 *.js 文件作为组件 ( 用 *.vue 文件作为组件方便理解和管理 )。组件可以单独用 *.vue 写出来，也可以分开同时用 *.vue 和 *.js 来完成一个或者多个组件。
+
+      当前工程文件夹中存在 4 个组件：app.vue + main.js、helloworld.vue、views/home.vue、views/about.vue。
+
+      template 标签：4 个组件都有，这是渲染模版，也是组件的核心，细心的读者可以发现这4个 template 中都包含有一个顶层都 div 元素。script 标签：helloworld.vue 和 views/home.vue 中有，也可以用单独的 js 文件描述，比如 main.js。style 标签：app.vue 和 helloworld.vue 中有，提供【组件作用域】的 css 样式，防止团队协同开发导致的 css 样式名冲突。
+
+二、编程笔记：
+
+  1、== 用于比较、判断两者相等，比较时可自动换数据类型
+
+   === 用于（严格）比较、判断两者（严格）相等，不会进行自动转换，要求进行比较的操作数必须类型一致，不一致时返回flase
+  2、注意：
+     let common_table_info = [];
+     /**
+          * 这里需要将拿到的对象转为数组，进行赋值，这样才不会宝类型错误
+          */
+     for (let i in res.data.data) {
+          common_table_info.push(res.data.data[i]);
+     }
+     that.common_table_info = common_table_info;
+     
+     监听键盘按键事件
+     <input v-on:keyup.enter="submit">
+          即<input @keyup.enter="submit">
+          注意：但是若在组件框架中写需要加.native
+          <el-input v-model="password" placeholder="请输入密码" @keyup.enter.native="search()"></el-input>
+
+          全部的键盘别名： .enter .tab  .delete  “退格”和“删除”  .esc  .space  .up  .down  .left  .right
+
+三:数据处理
+          对象转成数组
+                for (const i in this.usualCourses) {
+                    this.$set(this.list[0], i, this.usualCourses[i]);
+                }
+                console.log(this.list);
+                
+          1、将对象转换为JSON格式字符串
+          JSON.stringify(object)
+
+          2、将JSON字符串转换为对象  
+          JSON.parse(jsonString);
+
+          3、vue把对象转为数组
+          registerServiceWorkerlet data = {'A':'A-VALUE', 'B': 'B-Value'};
+          let result = Object.keys(data).map(item => ({key:item, value:data[item]}));
+
+          4、对象转为数组对象
+          for (const i in res.data[res.data.length - 1].course) {
+          this.$set(this.list[0], i, res.data[res.data.length - 1].course[i]);
+          }
+
+               /**
+               *
+               * @param arr  一维数组
+               * @param n  设置几个为一行
+               */
+               arraytoDim(arr, n = 3) {
+               // 定义数组
+               let newArray = [];
+               // Math.ceil(arr.length / n) 是计算按照n列可以划分为几行，不满n则另其一行
+               for (let i = 0; i < Math.ceil(arr.length / n); i++) {
+                    // 使用slice（start，end]进行截取,这个截取公式，可以自行研究
+                    newArray[i] = arr.slice(i * n, (i + 1) * n);
+               } 
+               console.log(newArray);
+               },
+
+          5、将数组转成对象
+           //将数组转成对象
+            var obj = {};
+            for (var i in row) {
+                obj[i] = row[i];
+            }
