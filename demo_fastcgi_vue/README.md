@@ -95,35 +95,64 @@ Finally, you Will be able to access the web page through the local website or ne
 
 
 ### demo structure
-├── README.md            项目介绍
-├── index.html           入口页面
-├── public              构建项目的公共部分
-├── screenshots                效果截图
-├── src                源码目录 
-│  ├── main.js          入口js文件
-│  ├── permission.js      路由权限设置
-│  ├── axios.js         路由全局配置与拦截
-│  ├── App.vue          根组件
-│  ├── api                   项目接口
-│  ├── components        公共组件目录
-│  ├── assets           资源目录，这里的资源会被wabpack构建
-│  ├── routes           前端路由
-│  │  └── index.js
-│  ├── store           应用级数据（state）状态管理
-│  │  └── index.js
-│  └── views           页面目录 
-│    ├── AccountSettings        账户信息维护
-│    ├── ClassTable             课程信息管理
-│    ├── FaceManager            人脸库管理
-│    └── SignIn                 考勤信息管理
-│    ├── UsersManager           账户信息管理
-│    └── WebSocket              WebSocket连接 
-│    ├── 403.vue                无权限页面
-│    └── 404.vue                页面不存在
-│    └── Dashboard.vue          主页面
-│    └── Login.vue              登录页面
-│    └── Photograph.vue         即时拍照页面
-│    └── Tabs.vue               消息中心
-├── vue.config.js         项目配置、开发环境变量、生产环境变量
-├── package.json    npm包配置文件，定义了项目的npm脚本，依赖包等
+```
+由于node_modules文件夹所含的依赖包太大，一般不予提供。
+在终端输入命令：
+	安装依赖：cnpm i 和 cnpm install安装依赖即可以。
+	项目运行：cnpm run serve 
+	项目打包：cnpm run build
+``` 
 
+
+- [ ] ```  
+  ├── README.md            项目介绍
+  ├── index.html           入口页面
+  ├── public              构建项目的公共部分
+  ├── screenshots                效果截图
+  ├── src                源码目录 
+  │  ├── main.js          入口js文件
+  │  ├── permission.js      路由权限设置
+  │  ├── axios.js         路由全局配置与拦截
+  │  ├── App.vue          根组件
+  │  ├── api                   项目接口
+  │  ├── components        公共组件目录
+  │  ├── assets           资源目录，这里的资源会被wabpack构建
+  │  ├── routes           前端路由
+  │  │  └── index.js
+  │  ├── store           应用级数据（state）状态管理
+  │  │  └── index.js
+  │  └── views           页面目录 
+  │    ├── AccountSettings        账户信息维护
+  │    ├── ClassTable             课程信息管理
+  │    ├── FaceManager            人脸库管理
+  │    └── SignIn                 考勤信息管理
+  │    ├── UsersManager           账户信息管理
+  │    └── WebSocket              WebSocket连接 
+  │    ├── 403.vue                无权限页面
+  │    └── 404.vue                页面不存在
+  │    └── Dashboard.vue          主页面
+  │    └── Login.vue              登录页面
+  │    └── Photograph.vue         即时拍照页面
+  │    └── Tabs.vue               消息中心
+  ├── vue.config.js         项目配置、开发环境变量、生产环境变量
+  ├── package.json    npm包配置文件，定义了项目的npm脚本，依赖包等
+  ```
+
+
+### Environment support
+```
+yimning@Ubuntu:~/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_vue$ npm  -v
+8.19.3
+yimning@Ubuntu:~/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_vue$ node -v
+v16.19.1
+yimning@Ubuntu:~/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_vue$ nodejs -v
+v10.24.1
+yimning@Ubuntu:~/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_vue$ cnpm -v
+cnpm@7.1.0 (/usr/lib/node_modules/cnpm/lib/parse_argv.js)
+npm@6.14.18 (/usr/lib/node_modules/cnpm/node_modules/npm/lib/npm.js)
+node@16.19.1 (/home/yimning/.nvm/versions/node/v16.19.1/bin/node)
+npminstall@5.8.1 (/usr/lib/node_modules/cnpm/node_modules/npminstall/lib/index.js)
+prefix=/home/yimning/.nvm/versions/node/v16.19.1
+linux x64 5.4.0-144-generic
+registry=https://registry.npmmirror.com
+```
