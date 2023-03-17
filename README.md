@@ -19,7 +19,7 @@ eg.<br>
 得到参数 char *query_string = "CMD=LOGON&SELECT=0&USERNAME=user&PASSWORD=123";<br>
 对其解析成字符串：
 ```json
-0---CMD=LOGON
+0---CMD=LOGON 
 1---SELECT=0
 2---USERNAME=user
 3---PASSWORD=123
@@ -34,4 +34,5 @@ eg.<br>
         "PASSWORD":     "123"
 }   
 ```
+
 
