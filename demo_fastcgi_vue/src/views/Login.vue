@@ -175,14 +175,14 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-        <el-dialog
+        <el-dialog   
             title="提示"
             :visible.sync="Successdialog"
             :show-close="false"
             :close-on-click-modal="true"
             :close-on-press-escape="false"
             width="30%"
-            center
+            center 
         >
             <span style="font-size: 18px; text-align: center; line-height: 18px">修改成功!{{ Sencond }}秒后返回登录界面</span>
             <span slot="footer" class="dialog-footer">
