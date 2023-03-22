@@ -2,7 +2,7 @@
 
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">人脸考勤管理系统</div>
+            <div class="ms-title">IOT设备控制管理系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="userID">
                     <el-input v-model="param.userID" placeholder="账号">
@@ -15,13 +15,13 @@
                     </el-input>
                 </el-form-item>
 
-                <el-form-item prop="userFlag">
+                <!-- <el-form-item prop="userFlag">
                     <div class="userFlag">
                         <el-radio v-model="param.userFlag" label="0">学生</el-radio>
                         <el-radio v-model="param.userFlag" label="1">教师</el-radio>
                         <el-radio v-model="param.userFlag" label="2">管理员</el-radio>
                     </div>
-                </el-form-item>
+                </el-form-item> -->
 
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('param')">登录</el-button>
@@ -32,90 +32,24 @@
 
                 <div class="btn-txt">
                     <el-button type="text" @click="forgetPwd">忘记密码</el-button>
-                    <el-button class="btn-right" type="text" @click="faceLogin">刷脸登录</el-button>
+                    <el-button class="btn-right" type="text" @click="faceLogin">注册账号</el-button>
                 </div>
-                <div class="login-tips">
-                    <p class="text">Tips : 若无账号则联系官方管理员</p>
-                </div>
+                <!-- <div class="login-tips">
+                    <p class="text">Tips : 若无账号则联系管理员</p>
+                </div> -->
             </el-form>
         </div>
-        <el-dialog title="刷脸登录" :visible.sync="FaceLoginVisible" width="45%" @close="closeDialog">
-            <!-- <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-redpacket_fill"></i> js调用摄像头拍照上传图片
-                </el-breadcrumb-item>
-            </el-breadcrumb>
-            </div>-->
-            <!--提示-->
-            <div align="center">
-                <p id="flag" ref="flag" class="tishi">{{ this.tips }}</p>
-            </div>
-            <div class="container">
-                <div align="center">
-                    <!--开启摄像头-->
-                    <video id="video" ref="video" width="480px" height="400px" autoplay="autoplay"></video>
-                    <!--canvas截取流-->
-                    <canvas ref="canvas" id="canvas" width="480px" height="400px" style="display: none"></canvas>
-                </div>
-            </div>
-        </el-dialog>
+
 
         <el-dialog title="找回密码" :visible.sync="SelectVisible" width="45%" @close="closeDialog1">
             <el-form>
                 <el-form-item class="select-item">
-                    <el-button class="select-item button" type="primary" @click="onPwd()">通过密保问题找回密码</el-button>
+                    <!-- <el-button class="select-item button" type="primary" @click="onPwd()">通过密保问题找回密码</el-button> -->
                     <el-button class="select-item button" type="danger" plain @click="onInfo()">通过个人信息找回密码</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
 
-        <el-dialog title="找回密码" :visible.sync="ForgetPwdVisible" width="45%" @close="closeDialog2">
-            <el-form ref="form" :rules="rules" label-width="100px" class="box-content">
-                <el-form-item label="账号:" prop="">
-                    <!-- v-on:input="inputFunc"   //用于监听输入框的变化-->
-                    <!--  @keyup.enter.native="handleSearch"   //用于监听回车键-->
-                    <!-- v-on:input="inputFunc"   //用于监听光标的焦点-->
-                    <!-- v-bind:disabled="dataForm.id!=0"  //动态绑定控件-->
-                    <el-input
-                        v-model="id"
-                        placeholder="请输入账号"
-                        class="handle-input mr10"
-                        @keyup.enter.native="handleSearch"
-                        id="idInput"
-                        v-on:input="inputFunc"
-                        @blur.native.capture="handleSearch"
-                        clearable
-                    ></el-input>
-                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="idIsCheck"></el-button>
-                    <!-- <el-button type="danger" icon="el-icon-close" circle class="item-check" v-else></el-button> -->
-                </el-form-item>
-                <el-form-item label="密码问题:">
-                    <el-input placeholder="" v-model="form.question" :disabled="true"> </el-input>
-                </el-form-item>
-
-                <el-form-item label="密保答案:" prop="pwdAnswer">
-                    <el-input
-                        v-model="form.pwdAnswer"
-                        placeholder="请输入密保答案"
-                        class="handle-input mr10"
-                        id="idInput1"
-                        v-on:input="inputFunc1"
-                        clearable
-                    ></el-input>
-
-                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="pwdIsCheck"></el-button>
-                    <el-button type="danger" icon="el-icon-close" circle class="item-check" v-if="pwdNotCheck"></el-button>
-                </el-form-item>
-                <el-form-item label="重置密码:" prop="pwd">
-                    <el-input placeholder="请输入重置密码" v-model="form.pwd" v-bind:disabled="!pwdIsCheck" show-password></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit()" v-if="pwdIsCheck">确认修改</el-button>
-                    <el-button type="danger" plain @click="onCancel()">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
         <el-dialog title="找回密码" :visible.sync="ForgetPwd1Visible" width="45%" @close="closeDialog3">
             <el-form ref="form" :rules="rules" label-width="100px" class="box-content">
                 <el-form-item label="账号:" prop="">
@@ -208,7 +142,7 @@ export default {
             param: {
                 userID: '',
                 passWord: '',
-                userFlag: '0'
+                //userFlag: '0'
             },
             form: {
                 question: '',
@@ -232,7 +166,7 @@ export default {
             rules: {
                 userID: [{ required: true, message: '请输入账号', trigger: 'blur' }],
                 passWord: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-                userFlag: [{ required: true, message: '请选择用户类型', trigger: 'blur' }]
+                //userFlag: [{ required: true, message: '请选择用户类型', trigger: 'blur' }]
                 // id: [{ required: true, message: '请输入账号', trigger: 'blur' }],
                 // pwdAnswer: [{ required: true, message: '请输入密保答案', trigger: 'blur' }],
                 //pwd: [{ required: true, message: '请输入密码', trigger: 'blur' }]
@@ -268,7 +202,7 @@ export default {
                 if (valid) {
                     const that = this;
                     console.log("Login:");
-                    this.$axios.post('/api/login', this.param).then((res) => {
+                    this.$axios.post('/api/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGIN', this.param).then((res) => {
                         /*   本身的路由  http://localhost:8088/ 但是为了后续方便修改，一般放置于 axios.js中 */
                         console.log(res);
                         const jwt = res.headers['authorization'];
@@ -311,10 +245,7 @@ export default {
             //this.$router.push('/resetPwd');
             this.SelectVisible = true;
         },
-        onPwd() {
-            this.ForgetPwdVisible = true;
-            //this.idIsShow=true;
-        },
+
         onInfo() {
             this.ForgetPwd1Visible = true;
         },
@@ -366,7 +297,7 @@ export default {
             const that = this;
             if (this.id == '' || this.id == null) {
                 this.$message.error('请输入必填项');
-                this.onCancel1();
+                this.onCancel1(); 
             } else {
                 this.onSubmit();
             }
@@ -401,12 +332,7 @@ export default {
         closeDialog3() {
             this.onCancel1();
         },
-        created() {
-            setTimeout(() => {
-                this.openCamera(); // 此为绘画canvas的方法调用
-                this.tips = '初始化摄像头';
-            }, 500);
-        },
+
         // 触发搜索按钮
         handleSearch() {
             const that = this;
@@ -497,123 +423,7 @@ export default {
             }
         },
         mounted() {},
-        openCamera() {
-            var video = document.getElementById('video');
-            var canvas = document.getElementById('canvas');
-            var context = this.$refs['canvas'].getContext('2d');
-            var tracker = new tracking.ObjectTracker('face'); // 引入第三方库  cnpm install tracking --save
-            tracker.setInitialScale(1);
-            tracker.setStepSize(2);
-            tracker.setEdgesDensity(0.1);
 
-            this.trackerTask = tracking.track('#video', tracker, { camera: true });
-            //-------  指定 canvas 的宽高 ，auto 自动播放
-            let constraints = {
-                video: { width: 500, height: 500 },
-                audio: true
-            };
-
-            let promise = navigator.mediaDevices.getUserMedia(constraints); // h5 新的API
-
-            promise
-                .then(function (MediaStream) {
-                    video.srcObject = MediaStream;
-                    video.play();
-                })
-                .catch(function (PermissionDeniedError) {
-                    console.log(PermissionDeniedError);
-                });
-            //--------------
-            let that = this;
-            that.tracker_fun(tracker, video, context, canvas); //open 摄像头，执行tracker_fun( 传入参数 )
-        },
-        tracker_fun(tracker, video, context, canvas) {
-            let that = this;
-            let set_clear;
-            let flag = true;
-            set_clear = setTimeout(function () {
-                // 每秒 检测人脸 结果
-                tracker.on('track', function (event) {
-                    that.tips = '正在刷脸中';
-                    // 视频流
-                    context.clearRect(0, 0, canvas.width, canvas.height);
-                    event.data.forEach(function (rect) {
-                        context.strokeStyle = '#ff0000';
-                        context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-                    });
-                    if (event.data.length) {
-                        // 会不停的去检测人脸，所以这里需要做个锁
-                        if (flag) {
-                            // 裁剪出人脸并绘制下来
-                            const canvasUpload = document.getElementById('canvas');
-                            const contextUpload = canvasUpload.getContext('2d');
-                            contextUpload.drawImage(video, 0, 0, 480, 400);
-                            flag = false;
-                            // 人脸的basa64
-                            that.face.imgpath = canvasUpload.toDataURL('image/jpeg');
-                            // console.log(that.face);
-
-                            // ajax请求
-                            that.$axios
-                                .post('/api/faceLogin', JSON.stringify(that.face), {
-                                    headers: {
-                                        'Content-Type': 'application/json; charset=UTF-8'
-                                    }
-                                })
-                                .then((res) => {
-                                    //console.log(res);
-                                    const jwt = res.headers['authorization'];
-                                    const userInfo = res.data;
-
-                                    // 把数据共享出去，存于this.store下
-                                    that.$store.commit('SET_TOKEN', jwt);
-                                    that.$store.commit('SET_USERINFO', userInfo);
-                                    //console.log(userInfo)
-                                    if (res.data.error_code === 0 && res.data.face_liveness > 0.8) {
-                                        that.closeCamera();
-                                        // 登录成功跳转到首页
-                                        that.$router.push('/dashboard');
-                                        that.$message.success('登录成功');
-                                        that.FaceLoginVisible = false;
-                                    } else {
-                                        // 登录失败重新进行人脸检测
-                                        // continue;
-                                        //that.$message.fail('记录风险');
-                                    }
-                                })
-                                .catch((err) => {
-                                    console.log(err);
-                                });
-                            setTimeout(() => { 
-                                //设置延迟执行
-                                video.load();
-                                that.first = null;
-                                that.tracker_fun(tracker, video, context, canvas);
-                            }, 2000);
-                        }
-                    } else {
-                        that.tips = '没有检测到人脸';
-                    }
-                });
-                clearTimeout(set_clear);
-                this.tips = '重新加载摄像头';
-            }, 3000);
-        },
-        // 关闭摄像头
-        closeCamera() {
-            if (!this.$refs['video'].srcObject) return;
-            let stream = this.$refs['video'].srcObject;
-            let tracks = stream.getTracks();
-            tracks.forEach((track) => {
-                track.stop();
-            });
-            this.$refs['video'].srcObject = null;
-        },
-        TimeAndPlace() {
-            const that = this;
-            this.$store.getters.getUser.loginTime=''; 
-            this.$axios.post('/api/accountrecords/timeAndPlace', this.$store.getters.getUser).then((res) => {});
-        },
         getSencond() {
             const that = this;
             that.Successdialog = true;
@@ -630,7 +440,7 @@ export default {
         sendMsg() {
             //window.close();
             //删除session缓存信息
-            this.ForgetPwdVisible = false;
+            //this.ForgetPwdVisible = false;
             this.SelectVisible = false;  
             this.ForgetPwd1Visible = false;
             this.$store.commit('REMOVE_INFO');

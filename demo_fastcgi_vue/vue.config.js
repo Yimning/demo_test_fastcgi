@@ -27,8 +27,8 @@ module.exports = {
             // 代理所有的以'/api'开头的浏览器请求
             '/api': {
                 // 服务端域名和端口
-                //target: 'http://localhost:8082/', 
-                target: 'https://www.yimning.cn:8082/', //未上线可用
+                target: 'http://localhost:8080/', 
+                //target: 'https://www.yimning.cn:8082/', //未上线可用
                 // 如果设置成true：请求头中host会设置成target
                 changeOrigin: true,   //开启代理，需要跨域
                 // 用'/'替换浏览器请求url中的'/api'，例如浏览器请求为http://localhost:8082/api/xxx,
@@ -36,7 +36,8 @@ module.exports = {
                 secure: true,  // 安全证书校验
                 ws:true,
                 headers: {
-                    Referer: 'https://www.yimning.cn:8082' //表示请求的来源（必填）
+                    Referer: 'http://localhost:8080/' //表示请求的来源（必填）
+                    //Referer: 'https://www.yimning.cn:8082' //表示请求的来源（必填）
                 },
                 pathRewrite: {//
                     '^/api': '/'  //如果需要，可以用'^/api': '/'来代替，但是后台的接口需要注意改变 

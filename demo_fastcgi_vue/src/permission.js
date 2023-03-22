@@ -30,7 +30,7 @@ import router from "./router";
 // next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} | vue-manage-system`;
+  document.title = `${to.meta.title} | iot-device-manage-system`;
 
   if (to.matched.some(record => record.meta.requireAuth)) { // 判断该路由是否需要登录权限
      const token = localStorage.getItem("token")
