@@ -3,15 +3,15 @@ This is a demo for testing fastcgi and cjson project.
  
 # Destination
 处理客户端发起fcgi请求时，然后去解析参数并返回结果。可构造成cjson并返回json字符串。
-   
+     
               
-# Dependent installation 相关依赖安装      
-（略）               
-              
+# Dependent installation 相关依赖安装       
+（略）                 
+                     
 # You know   
 fcgi处理步骤<br>  
 通过Internet 把用户请求送到Web 服务器<br>
-Web 服务器接收到用户请求并交给CGI 程序<br>
+Web 服务器接收到用户请求并交给CGI 程序<br>   
 CGI 程序把处理结果传送给Web 服务器<br>
 Web 服务器把结果送回到用户<br>
 # Demo
