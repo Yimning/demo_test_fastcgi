@@ -27,7 +27,7 @@ module.exports = {
             // 代理所有的以'/api'开头的浏览器请求
             '/api': {
                 // 服务端域名和端口
-                target: 'http://localhost/', 
+                target: 'http://localhost/demo_test_fastcgi/fcgitest/', 
                 //target: 'https://www.yimning.cn:8082/', //未上线可用
                 // 如果设置成true：请求头中host会设置成target
                 changeOrigin: true,   //开启代理，需要跨域
@@ -36,7 +36,7 @@ module.exports = {
                 secure: true,  // 安全证书校验
                 ws:true,
                 headers: {
-                    Referer: 'http://localhost/' //表示请求的来源（必填）
+                    Referer: 'http://localhost/demo_test_fastcgi/fcgitest/' //表示请求的来源（必填）
                     //Referer: 'https://www.yimning.cn:8082' //表示请求的来源（必填）
                 },
                 pathRewrite: {//

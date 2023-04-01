@@ -13,7 +13,7 @@ import store from './store'
 
 /* 当发起axios请求时 会自动作为前置 */
 //axios.defaults.baseURL = "http://localhost:8082"
-axios.defaults.baseURL = 'http://localhost'
+axios.defaults.baseURL = 'http://localhost/'
 // 前置拦截
 axios.interceptors.request.use(config => {
   return config

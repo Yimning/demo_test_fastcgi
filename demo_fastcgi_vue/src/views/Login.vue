@@ -202,7 +202,7 @@ export default {
                 if (valid) {
                     const that = this;
                     console.log("Login:");
-                    this.$axios.post('/api/demo_test_fastcgi/fcgitest.fcgi?CMD=LOGIN', this.param).then((res) => {
+                    this.$axios.post('/api/login', this.param).then((res) => {
                         /*   本身的路由  http://localhost:8088/ 但是为了后续方便修改，一般放置于 axios.js中 */
                         console.log(res);
                         const jwt = res.headers['authorization'];
