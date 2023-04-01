@@ -1,0 +1,61 @@
+ifneq "$(LOCALDIR)" ""
+BLDDIR = ${BLDROOT}/${LOCALDIR}
+else
+BLDDIR = 
+endif
+CCP = g++
+#
+# In each directory, build a list of local sources, objects, and headers
+#
+LSRCS	=	$(wildcard *.s *.S *.c *.cpp *.cc *.C)
+LOBJS	=	$(addsuffix .o, $(basename ${LSRCS}))
+ifneq "$(BLDDIR)" ""
+BOBJS	= 	$(addprefix ${BLDDIR}/,${LOBJS})
+else
+BOBJS   = $(LOBJS)
+endif
+LHDRS	=	$(wildcard *.h *.H)
+LDOTIS	=	$(wildcard *.i)
+ALL_INCLUDES =
+ifneq "$(LHDRS)" ""
+ALL_INCLUDES += $(addprefix -I,${LHDES})
+endif
+#ifneq "$(INCLUDES)" ""
+ALL_INCLUDES += $(addprefix -I,${INCLUDES})
+#endif
+CFLAGS += $(ALL_INCLUDES)
+
+LDEPS	=	$(addsuffix .d, $(basename ${LSRCS}))
+BDEPS	= 	$(addprefix ${BLDDIR}/,${LDEPS})
+DEPS 	= 	$(LOCALDIR).depend
+
+
+include $(TOPDIR)/make/Make.local   #local define CFLAGS
+
+.PHONY: all  clean 
+all:$(DEPS) $(BOBJS)
+
+%.o : %.S
+	echo "building $@"
+	$(Q)$(CCP) -c $(CFLAGS)  $< -o $@
+%.o : %.c
+	echo "building $@"
+	$(Q)$(CCP) -c $(CFLAGS) ${EXT_CFLAGS}  $< -o $@ 
+
+
+$(DEPS):	$(LSRCS)
+	echo "generating dependence file"
+	@rm -f $@
+	@for f in $(LSRCS); do \
+	$(CCP) $(CFLAGS) ${EXT_CFLAGS} $(ALL_INCLUDES) -MM  $$f > $$f.tmp ; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $$f.tmp >> $@; \
+	rm $$f.tmp; \
+	done
+
+-include $(DEPS)
+
+clean::
+	rm -rf $(DEPS);
+	rm -rf *.o
+	
+	

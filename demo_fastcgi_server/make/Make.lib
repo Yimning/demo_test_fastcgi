@@ -1,0 +1,32 @@
+# Make rules/targets for handling libraries
+
+.SECONDARY: ${BOBJS}
+BOBJS_FAST = ${BOBJS}   #(BOBJS) in Make.build
+SUBDIRSRCS = $(foreach dir, ${subdirs},$(wildcard ${dir}/*.s ${dir}/*.S ${dir}/*.c ${dir}/*.cpp ${dir}/*.cc ${dir}/*.C))
+SUBDIROBJS = $(addsuffix .o, $(basename ${SUBDIRSRCS}))
+BOBJS_MAKE_CMD =
+
+LIBSUFFIX=a
+LIBPREFIX=lib
+
+targetlib = ${LIBDIR}/${LIBPREFIX}${lib}.${LIBSUFFIX}
+
+all: ${targetlib}
+
+$(targetlib): ${BOBJS_FAST} ${SUBDIROBJS} 
+
+ifdef QUIET
+	@$(ECHO) Building library $(notdir $@)
+endif
+	$Q$(RM) -rf $@
+	$Q$(AR) ${ARFLAGS} $@ ${BOBJS} ${SUBDIROBJS} 
+
+clean::
+ifdef QUIET
+	@$(ECHO) Cleaning objects for ${LOCALDIR} and ${lib}
+endif
+	$Q$(RM) -rf ${targetlib}
+
+
+distclean:: clean
+
