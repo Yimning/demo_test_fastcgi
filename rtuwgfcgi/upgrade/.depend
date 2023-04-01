@@ -1,3 +1,0 @@
-rtuwg_upload_file.o .depend : rtuwg_upload_file.c rtuwg_upload_file.h \
- /opt/software/fcgi-2.4.0/_install/include/fcgi_stdio.h \
- /opt/software/fcgi-2.4.0/_install/include/fcgiapp.h
