@@ -15,19 +15,19 @@ then
    sudo  kill -9 $(pgrep rtuwg.fcgi)
    echo "执行以下语句..."
    echo $TOPDIR
-   echo "sudo cp rtuwg.fcgi /usr/local/nginx/html/tengent/cgi-bin/usr/ -rf"
-   sudo cp rtuwg.fcgi /usr/local/nginx/html/tengent/cgi-bin/usr/ -rf
-   echo "spawn-fcgi -a 127.0.0.1 -p 8080 -f /usr/local/nginx/html/tengent/cgi-bin/usr/rtuwg.fcgi"
-   spawn-fcgi -a 127.0.0.1 -p 8080 -f /usr/local/nginx/html/tengent/cgi-bin/usr/rtuwg.fcgi
+   echo "sudo cp rtuwg.fcgi /usr/local/nginx/html/demo_test_fastcgi/cgi-bin/usr/ -rf"
+   sudo cp rtuwg.fcgi /usr/local/nginx/html/demo_test_fastcgi/cgi-bin/usr/ -rf
+   echo "spawn-fcgi -a 127.0.0.1 -p 8080 -f /usr/local/nginx/html/demo_test_fastcgi/cgi-bin/usr/rtuwg.fcgi"
+   spawn-fcgi -a 127.0.0.1 -p 8080 -f /usr/local/nginx/html/demo_test_fastcgi/cgi-bin/usr/rtuwg.fcgi
    lsof -i:8080
 
 else
    echo "执行以下语句..."
    echo $TOPDIR
-   echo "sudo cp rtuwg.fcgi /usr/local/nginx/html/tengent/cgi-bin/usr/ -rf"
-   sudo cp rtuwg.fcgi /usr/local/nginx/html/tengent/cgi-bin/usr/ -rf
-   echo "spawn-fcgi -a 127.0.0.1 -p 8080 -f /usr/local/nginx/html/tengent/cgi-bin/usr/rtuwg.fcgi"
-   spawn-fcgi -a 127.0.0.1 -p 8080 -f /usr/local/nginx/html/tengent/cgi-bin/usr/rtuwg.fcgi
+   echo "sudo cp rtuwg.fcgi /usr/local/nginx/html/demo_test_fastcgi/cgi-bin/usr/ -rf"
+   sudo cp rtuwg.fcgi /usr/local/nginx/html/demo_test_fastcgi/cgi-bin/usr/ -rf
+   echo "spawn-fcgi -a 127.0.0.1 -p 8080 -f /usr/local/nginx/html/demo_test_fastcgi/cgi-bin/usr/rtuwg.fcgi"
+   spawn-fcgi -a 127.0.0.1 -p 8080 -f /usr/local/nginx/html/demo_test_fastcgi/cgi-bin/usr/rtuwg.fcgi
    lsof -i:8080
 fi
   

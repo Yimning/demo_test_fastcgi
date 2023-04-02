@@ -1,0 +1,46 @@
+web_menu_device.o .depend : web_menu_device.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_device.h \
+ getparameter.h cJSON.h api.h
+fcgitest.o .depend : fcgitest.c \
+ /home/yimning/FastCGI/rudecgi-5.0.0/_install/include/rude/cgi.h \
+ /home/yimning/FastCGI/fcgi2-2.4.2/_install/include/fcgi_stdio.h \
+ /home/yimning/FastCGI/fcgi2-2.4.2/_install/include/fcgiapp.h \
+ /home/yimning/FastCGI/fcgi2-2.4.2/_install/include/fcgi_config.h \
+ getparameter.h cJSON.h api.h \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h web_config_ui.h web_config_menu.h web_config_menu_detail.h \
+ web_menu_device.h web_menu_data.h web_menu_log.h web_menu_updatepsw.h \
+ web_flush_data.h qdecoder/qdecoder.h qdecoder/internal.h
+web_flush_data.o .depend : web_flush_data.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ web_flush_data.h
+web_menu_data.o .depend : web_menu_data.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_data.h \
+ web_menu_device.h getparameter.h cJSON.h api.h
+web_config_menu_detail.o .depend : web_config_menu_detail.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_device.h \
+ web_menu_data.h api.h getparameter.h cJSON.h
+getparameter.o .depend : getparameter.c getparameter.h cJSON.h api.h \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h
+web_menu_updatepsw.o .depend : web_menu_updatepsw.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_updatepsw.h \
+ api.h
+webcmd.o .depend : webcmd.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h
+web_config_menu.o .depend : web_config_menu.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h web_config_menu.h web_config_ui.h
+web_menu_log.o .depend : web_menu_log.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_log.h api.h
+cJSON.o .depend : cJSON.c cJSON.h
+web_config_ui.o .depend : web_config_ui.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h \
+ webcmd.h web_config_menu.h web_config_ui.h
+api.o .depend : api.c api.h \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/include/common.h
