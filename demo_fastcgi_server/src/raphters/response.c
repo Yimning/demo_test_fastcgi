@@ -23,7 +23,6 @@
 #include "stdlib.h"
 #include "stdbool.h"
 #include "string.h"
-//#include "dbgout.h"
 
 struct header {
     char *name;
@@ -47,11 +46,6 @@ struct response {
 
 response *response_empty() {
     response *result = malloc(sizeof(response));
-    if(result == NULL)
-    {
-    	printf("Error in allocating memory \n");  //TCRIT
-    	return result;
-    }
     result->header_head = NULL;
     result->header_tail = NULL;
     result->segment_head = NULL;
@@ -61,11 +55,6 @@ response *response_empty() {
 
 void response_write(response *res, const char *text) {
     text_segment *segment = malloc(sizeof(text_segment));
-    if(segment == NULL)
-    {
-    	printf("Error in allocating memory \n");
-    	return;
-    }
     segment->text = strdup(text);
     segment->next = NULL;
     if (res->segment_head == NULL) {
@@ -78,11 +67,6 @@ void response_write(response *res, const char *text) {
 
 void response_add_header(response *res, const char *name, const char *val) {
     header *h = malloc(sizeof(header));
-    if(h == NULL)
-    {
-    	printf("Error in allocating memory \n");
-    	return;
-    }
     h->name = strdup(name);
     h->value = strdup(val);
     h->next = NULL;
@@ -97,7 +81,7 @@ void response_add_header(response *res, const char *name, const char *val) {
 void response_send(response *res) {
     header *cur_h;
     for (cur_h = res->header_head; cur_h != NULL;) {
-        printf("%s: %s\r\n", cur_h->name, cur_h->value);
+        printf("%s: %s\n", cur_h->name, cur_h->value);
         free(cur_h->name);
         free(cur_h->value);
         
@@ -105,7 +89,7 @@ void response_send(response *res) {
         free(cur_h);
         cur_h = next;
     }
-    printf("\r\n");
+    printf("\n");
     text_segment *cur_s;
     for (cur_s = res->segment_head; cur_s != NULL;) {
         printf("%s", cur_s->text);

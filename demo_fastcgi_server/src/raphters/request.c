@@ -42,9 +42,6 @@ char *get_remote_addr() {
 }
 
 char *get_method() {
-	if(getenv("HTTP_X_HTTP_METHOD_OVERRIDE")){
-		return getenv("HTTP_X_HTTP_METHOD_OVERRIDE");
-	} 
     return getenv("REQUEST_METHOD");
 }
 

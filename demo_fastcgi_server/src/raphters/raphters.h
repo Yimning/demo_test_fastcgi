@@ -20,7 +20,6 @@
 #ifndef RAPHTERS_H
 #define RAPHTERS_H
 
-#include "fcgi_stdio.h"
 #include "dispatcher.h"
 #include "response.h"
 #include "request.h"
