@@ -26,6 +26,7 @@
 #include "qdecoder/qdecoder.h"  
 #include "qdecoder/internal.h"
 
+#include "dbgout.h"
 #include "rest_types.h"
 #include "raphters.h"
 #include "json.h"
@@ -433,14 +434,14 @@ static int get_request_method_type(char* request_method)
 }
 
 struct response *res;
-START_HANDLER (simple, POST, "/login", 2, matches, true) {
+START_HANDLER (simple, POST, "/login", res,0, matches) {
     FPRINTF_LOG(DEBUG_PATH,"00000%s----","0");
     response_add_header(res, "content-type", "text/html");
     response_write(res, "hello world");
     
 } END_HANDLER
 
-START_HANDLER (default_handler, GET, "/demo_test_fastcgi/fcgitest/login", 1, matches, true) {
+START_HANDLER (default_handler, GET, "/login",res,0, matches) {
     response_add_header(res, "content-type", "text/html");
     response_write(res, "default page");
 } END_HANDLER
@@ -487,9 +488,10 @@ int server_fcgi_main()
         FPRINTF_LOG(DEBUG_PATH,"%s----%s-----%s----%s--%d\r\n",req_method, query, getenv("REQUEST_URI"), getenv("PATH_INFO"),get_request_method_type(req_method));
 
         qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
+        //DEBUG_LOG(DEBUG_PATH,DEBUG,"Error in allocating memory \n");
         printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
         printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
-        //add_handler(default_handler);
+        add_handler(default_handler);
         add_handler(simple);
         //add_handler(getNetworkSideBand);
          serve_forever();

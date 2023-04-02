@@ -7,7 +7,7 @@
 
 #define TIME_LEN (7*sizeof(int))
 #define TIME_ARRAY  (TIME_LEN/sizeof(int))
-#define DEBUG_PATH ("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.txt")
+#define DEBUG_PATH ("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log")
 #define LOGIN_PATH ("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/login")
 
 
