@@ -1,4 +1,4 @@
-INCLUDES=. ${TOPDIR}/rtuwgfcgi/include ${TOPDIR}/rtuwgfcgi
+INCLUDES=. ${TOPDIR}/src/include ${TOPDIR}/src
 lib=upgrade
 
 include ${TOPDIR}/make/Make.build

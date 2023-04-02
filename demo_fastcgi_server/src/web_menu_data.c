@@ -32,7 +32,7 @@ int display_menu_data_detail(char *right_html_str)
 	Device temp;
 	Device humid;
 
-	int temp_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep",databuf);
+	int temp_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/debug/beep",databuf);
 	if(!strncmp(databuf,"0",1))
 	{
 			temp.statusCode = 0;
@@ -47,7 +47,7 @@ int display_menu_data_detail(char *right_html_str)
 			temp.key="TEMP";
 	};
 
-	int humid_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep",databuf);
+	int humid_status = display_menu_device_readStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/debug/beep",databuf);
 	if(!strncmp(databuf,"0",1))
 	{
 			humid.statusCode = 0;

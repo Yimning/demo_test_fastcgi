@@ -407,5 +407,33 @@ static char *_genuniqid(void)
 
     return uniqid;
 }
+/**
+ * clear specific user session
+ *
+ * @param session   a pointer of session structure
+ *
+ * @return  true if successful, otherwise returns false
+ */
+bool qcgisess_clear(qentry_t *session)
+{
+    const char *sessionkey = session->getstr(session, INTER_SESSIONID, false);
+    const char *session_repository_path = session->getstr(session, INTER_SESSION_REPO, false);
+    if (sessionkey == NULL || session_repository_path == NULL) return false;
+
+    char session_storage_path[PATH_MAX];
+    snprintf(session_storage_path, sizeof(session_storage_path),
+            "%s/%s%s%s",
+            session_repository_path,
+            SESSION_PREFIX, sessionkey, SESSION_STORAGE_EXTENSION);
+
+   //avoid to save for  invalid sessions
+    /*if (session->save(session, session_storage_path) == false) {
+        DEBUG_CODER("Can't save session file %s", session_storage_path);
+        return false;
+    }*/   
+
+    //clear_session(session_repository_path, sessionkey);
+    return true;
+}
 
 #endif /* _DOXYGEN_SKIP */

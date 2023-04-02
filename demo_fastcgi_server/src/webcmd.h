@@ -3,8 +3,8 @@
  * @Date: 2022-08-16 11:04:57
  */
 
-#ifndef WEBCMD
-#define WEBCMD
+#ifndef WEBCMD_H
+#define WEBCMD_H
 
 typedef enum web_cmd_t{
 	WEB_CMD_HEARTBEAT,

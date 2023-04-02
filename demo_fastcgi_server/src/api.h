@@ -35,6 +35,7 @@ typedef __ssize_t ssize_t;
 #define BASEPATH    "upload"
 
 #define MAX_BUFFER_SIZE 1024*1024
+#define MAXFILESIZE	65536
 
 int CONSOLELOG(const char *filename,char *signstr,char *data);
 int FPRINTF_LOG(const char *filename, char *fmt, ...);

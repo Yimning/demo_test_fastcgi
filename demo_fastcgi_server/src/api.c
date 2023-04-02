@@ -26,6 +26,13 @@ struct tm* systemTimeNow()
     return tm; 
 }
 
+char* getDirCWD()
+{
+	char buf[256];   
+    getcwd(buf,sizeof(buf));   
+	return buf;
+}
+
 int CONSOLELOG(const char *filename,char *signstr,char *data)
 {
     FILE* fp;
@@ -36,6 +43,47 @@ int CONSOLELOG(const char *filename,char *signstr,char *data)
     return 0;
 }
 
+
+
+char * fileread(char *filename)
+{
+	FILE *fp;
+	long filesize = 0;
+
+	char *buf = NULL;
+	fp = fopen(filename, "rb");
+
+	if (fp)
+	{
+		fseek(fp, 0L, SEEK_END);
+		filesize = ftell(fp);
+		if (filesize > MAXFILESIZE)
+		{
+			fseek(fp, (filesize-MAXFILESIZE), SEEK_SET);
+			filesize = MAXFILESIZE;
+		}
+		else
+		{
+			rewind(fp);
+		}
+
+		buf = (char *)malloc(filesize + 1);
+		if (NULL == buf)
+		{
+			printf("Unable to allocate space for char buffer field\n");
+			goto error_out;
+		}
+		memset(buf, 0, filesize + 1);
+
+		fread(buf, filesize, 1, fp);
+	}
+error_out:
+	if(fp != NULL)
+	{
+		fclose(fp);
+	}
+	return (buf);
+}
 
 /*
 ================================================================

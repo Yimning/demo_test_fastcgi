@@ -3,7 +3,7 @@ BLDDIR = ${BLDROOT}/${LOCALDIR}
 else
 BLDDIR = 
 endif
-CCP = g++
+CCP = gcc
 #
 # In each directory, build a list of local sources, objects, and headers
 #

@@ -1,16 +1,13 @@
-#include <rude/cgi.h>
 #include <fcgi_stdio.h>
 #include <fcgi_config.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-//#include <rude/cgiparser.h> //Version 5.0.0 Renamed Component from CGIParser to CGI
-#include <iostream>
 #include <sys/time.h>   
 #include <time.h>         
 #include <sys/stat.h>
-#include <sys/wait.h>   
+#include <sys/wait.h> 
 
 #include "getparameter.h"
 #include "common.h"
@@ -29,9 +26,13 @@
 #include "qdecoder/qdecoder.h"  
 #include "qdecoder/internal.h"
 
-#define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
+#include "rest_types.h"
+#include "raphters.h"
+#include "json.h"
 
-using namespace rude;
+
+
+#define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
 struct webserver_ctrl  
 {
@@ -388,7 +389,7 @@ static int login_ok_already(int webcmd, char* username, char* password)
             // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
             // printf("<script>alert(\"login ok%d--%d\")</script>",t_start.tv_sec,t_end.tv_sec);
 
-            FPRINTF_LOG(DEBUG_PATH,"%s登录操作---%s\r\n", web_cmd2str((web_cmd_t)webcmd), getenv("REQUEST_URI"));         
+            FPRINTF_LOG(DEBUG_PATH,"%s登录操作---%s\r\n", web_cmd2str(webcmd), getenv("REQUEST_URI"));         
 		}
         else
         {
@@ -410,6 +411,49 @@ static int login_ok_already(int webcmd, char* username, char* password)
 	return login_ok;
 }
 
+static int get_request_method_type(char* request_method)
+{
+    if (request_method != NULL)
+    {
+        if(!strcmp(request_method, "GET"))
+        {
+            return 4;
+        }else if(!strcmp(request_method, "POST"))
+        {
+            return 2;
+        }else if(!strcmp(request_method, "COOKIE"))
+        {
+            return 1;
+        }else{
+            return 0;
+        }
+           
+    }else
+        return -1;
+}
+
+struct response *res;
+START_HANDLER (simple, POST, "/login", 2, matches, true) {
+    FPRINTF_LOG(DEBUG_PATH,"00000%s----","0");
+    response_add_header(res, "content-type", "text/html");
+    response_write(res, "hello world");
+    
+} END_HANDLER
+
+START_HANDLER (default_handler, GET, "/demo_test_fastcgi/fcgitest/login", 1, matches, true) {
+    response_add_header(res, "content-type", "text/html");
+    response_write(res, "default page");
+} END_HANDLER
+
+// START_AUTHORIZED_MODEL(getNetworkSideBand, POST, "/api/login", 2, matches, true) 
+// {
+//     // if(0){
+//     //     matches = matches;
+//     // }
+//     // MODEL_ADD_INTEGER("sideband_devices_id", 0);
+//     // MODEL_OUTPUT();
+
+// }END_AUTHORIZED_MODEL
 
 int server_fcgi_main()
 {
@@ -426,7 +470,7 @@ int server_fcgi_main()
 
     while (FCGI_Accept() >= 0)
     {
-        rude::CGI cgi; //必须放在这里定义，否则只执行一次
+        //rude::CGI cgi; //必须放在这里定义，否则只执行一次
         int webcmd = 0;
         
         pthread_mutex_lock(&wsctrl.mutex);
@@ -438,269 +482,314 @@ int server_fcgi_main()
         char *cmd = tempBuffer; 
         char *req_method = getenv("REQUEST_METHOD");
 
-        pstr = cjson_cgi_GET_getStrValue("CMD");
-
-
-        webcmd = (int)web_str2cmd(pstr);
+        char *query = qcgireq_getquery(Q_CGI_POST);
         
-        //GET request method
-        if((req_method != NULL)&&(!strcmp("GET",req_method)))
+        FPRINTF_LOG(DEBUG_PATH,"%s----%s-----%s----%s--%d\r\n",req_method, query, getenv("REQUEST_URI"), getenv("PATH_INFO"),get_request_method_type(req_method));
+
+        qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
+        printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+        printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
+        //add_handler(default_handler);
+        add_handler(simple);
+        //add_handler(getNetworkSideBand);
+         serve_forever();
+        //int getNetworkSideBand();
+        
+        //handle_restservice();
+
+        printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+        printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
+        switch (get_request_method_type(query))
         {
-            username = cjson_cgi_GET_getStrValue("USERNAME");
-            password = cjson_cgi_GET_getStrValue("PASSWORD");
+            case 0:
+                //handle_post_task();
+                break;
+            case 1:
+                //handle_post_task();
+                break;
+            case 2:
+                //handle_post_task();
+                break;
+            case 4:
+                //handle_post_task();
+                break;
+            default:
+                break;
         }
 
-        //POS request method
-        // cjson_cgi_getPostStr(&cmd);
-        // if((req_method != NULL)&&(!strcmp("POST",req_method))&&(cmd!=NULL))
+
+        // // qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/debug/debug.txt", "application/octet-stream;charset=utf-8");
+        // // req->free(req);
+        // // display_menu_log_detail(RIGHT_HTML_BUFFER);
+
+
+
+
+
+
+        // pstr = cjson_cgi_GET_getStrValue("CMD");
+
+
+        // webcmd = (int)web_str2cmd(pstr);
+        
+        // //GET request method
+        // if((req_method != NULL)&&(!strcmp("GET",req_method)))
         // {
-        //     webcmd = (int)web_str2cmd(cjson_cgi_POST_getStrValue(cmd,"CMD"));
-        //     username = cjson_cgi_POST_getStrValue(cmd,"USERNAME");
-        //     password = cjson_cgi_POST_getStrValue(cmd,"PASSWORD");
+        //     username = cjson_cgi_GET_getStrValue("USERNAME");
+        //     password = cjson_cgi_GET_getStrValue("PASSWORD");
         // }
 
+        // //POS request method
+        // // cjson_cgi_getPostStr(&cmd);
+        // // if((req_method != NULL)&&(!strcmp("POST",req_method))&&(cmd!=NULL))
+        // // {
+        // //     webcmd = (int)web_str2cmd(cjson_cgi_POST_getStrValue(cmd,"CMD"));
+        // //     username = cjson_cgi_POST_getStrValue(cmd,"USERNAME");
+        // //     password = cjson_cgi_POST_getStrValue(cmd,"PASSWORD");
+        // // }
 
-        if ((webcmd != WEB_CMD_HEARTBEAT) &&
-            ((ret = login_ok_already(webcmd, username, password)) != 1))
-        { // not login ok
-            if (ret == 0)
-            {
-                printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-                printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
-            }
-            if (ret == -1)
-            {
-                printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-                printf("<p style=\"text-align:center; font-size:18px\">登录用户名密码错误!!!</p>");
-            }
 
-            goto CGI_FINISH;
-        }
+        // if ((webcmd != WEB_CMD_HEARTBEAT) &&
+        //     ((ret = login_ok_already(webcmd, username, password)) != 1))
+        // { // not login ok
+        //     if (ret == 0)
+        //     {
+        //         printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+        //         printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
+        //     }
+        //     if (ret == -1)
+        //     {
+        //         printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+        //         printf("<p style=\"text-align:center; font-size:18px\">登录用户名密码错误!!!</p>");
+        //     }
 
-        switch (webcmd)
-        {
-            case WEB_CMD_HEARTBEAT:
-            {
-                printf("%s\n\n","Content-Type:text/html;charset=utf-8");
-                printf("heartbeat %s",cjson_cgi_GET_getStrValue("SELECT"));
-                goto CGI_FINISH;
-            }
+        //     goto CGI_FINISH;
+        // }
 
-            case WEB_CMD_HOME_PAGE:
-            case WEB_CMD_LOGIN:
-            {
-                display_config_ui(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
-                web_html_ui_select(top_html_str,left_html_str,right_html_str);
-                goto CGI_FINISH;
-            }
-            break;
-            case WEB_CMD_MENU:
-            {
-                display_config_menu(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
+        // switch (webcmd)
+        // {
+        //     case WEB_CMD_HEARTBEAT:
+        //     {
+        //         printf("%s\n\n","Content-Type:text/html;charset=utf-8");
+        //         printf("heartbeat %s",cjson_cgi_GET_getStrValue("SELECT"));
+        //         goto CGI_FINISH;
+        //     }
+
+        //     case WEB_CMD_HOME_PAGE:
+        //     case WEB_CMD_LOGIN:
+        //     {
+        //         display_config_ui(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
+        //         web_html_ui_select(top_html_str,left_html_str,right_html_str);
+        //         goto CGI_FINISH;
+        //     }
+        //     break;
+        //     case WEB_CMD_MENU:
+        //     {
+        //         display_config_menu(left_html_str, cjson_cgi_GET_getStrValue("SELECT"));
                 
-                menu_select select;
+        //         menu_select select;
 
-                if(!right_html_str) return -1;
+        //         if(!right_html_str) return -1;
 
-                if(!cjson_cgi_GET_getStrValue("SELECT")) select=MENU_DEVICE;
-                else select=(menu_select)atoi(cjson_cgi_GET_getStrValue("SELECT"));
+        //         if(!cjson_cgi_GET_getStrValue("SELECT")) select=MENU_DEVICE;
+        //         else select=(menu_select)atoi(cjson_cgi_GET_getStrValue("SELECT"));
 
-                switch(select)
-                {
-                    case MENU_DEVICE:
-                    {
-                        char *pt = tempBuffer; 
+        //         switch(select)
+        //         {
+        //             case MENU_DEVICE:
+        //             {
+        //                 char *pt = tempBuffer; 
                         
-                        cjson_cgi_getPostStr(&pt);
-                        if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
-                        {
-                            /* 请求的目的地址 */
-                            FPRINTF_LOG(DEBUG_PATH,"%s---%s---%s\r\n", web_cmd2str((web_cmd_t)WEB_CMD_MENU), menulist[MENU_DEVICE].name, getenv("REQUEST_URI"));
+        //                 cjson_cgi_getPostStr(&pt);
+        //                 if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
+        //                 {
+        //                     /* 请求的目的地址 */
+        //                     FPRINTF_LOG(DEBUG_PATH,"%s---%s---%s\r\n", web_cmd2str((web_cmd_t)WEB_CMD_MENU), menulist[MENU_DEVICE].name, getenv("REQUEST_URI"));
                             
-                            display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
+        //                     display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/debug/led", cjson_cgi_POST_getStrValue(pt,"LED"));
 
-                            display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/beep", cjson_cgi_POST_getStrValue(pt,"BEEP"));
-                        }
-                        display_menu_device_detail(RIGHT_HTML_BUFFER);
-                    }
-                    break;
-                    case MENU_DATA:
-                    {
-                        display_menu_data_detail(RIGHT_HTML_BUFFER);
-                    }
-                    break;
-                    case MENU_LOG:
-                    {
-                        display_menu_log_detail(RIGHT_HTML_BUFFER);
-                    }
-                    break;
-                    case MENU_USER:   
-                    {
-                    }
-                    break;	
-                    case MENU_UPDATEPSD:
-                    {
-                        char *pt = tempBuffer; 
-                        int status_code = 404;
+        //                     display_menu_device_writeStatus("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/debug/beep", cjson_cgi_POST_getStrValue(pt,"BEEP"));
+        //                 }
+        //                 display_menu_device_detail(RIGHT_HTML_BUFFER);
+        //             }
+        //             break;
+        //             case MENU_DATA:
+        //             {
+        //                 display_menu_data_detail(RIGHT_HTML_BUFFER);
+        //             }
+        //             break;
+        //             case MENU_LOG:
+        //             {
+        //                 display_menu_log_detail(RIGHT_HTML_BUFFER);
+        //             }
+        //             break;
+        //             case MENU_USER:   
+        //             {
+        //             }
+        //             break;	
+        //             case MENU_UPDATEPSD:
+        //             {
+        //                 char *pt = tempBuffer; 
+        //                 int status_code = 404;
 
-                        cjson_cgi_getPostStr(&pt);
-                        if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
-                        {
-                            char buffer[MAX_BUFFER_SIZE]={0};
-                            char *pstr = NULL;
-                            pstr = buffer;
-                            fread_file(LOGIN_PATH,&pstr);
+        //                 cjson_cgi_getPostStr(&pt);
+        //                 if((!strcmp("POST", getenv("REQUEST_METHOD"))&&(pt!=NULL)))
+        //                 {
+        //                     char buffer[MAX_BUFFER_SIZE]={0};
+        //                     char *pstr = NULL;
+        //                     pstr = buffer;
+        //                     fread_file(LOGIN_PATH,&pstr);
 
-                            FPRINTF_LOG(DEBUG_PATH,"%s---%s---%s\r\n", web_cmd2str((web_cmd_t)WEB_CMD_MENU), menulist[MENU_UPDATEPSD].name, getenv("REQUEST_URI"));
+        //                     FPRINTF_LOG(DEBUG_PATH,"%s---%s---%s\r\n", web_cmd2str((web_cmd_t)WEB_CMD_MENU), menulist[MENU_UPDATEPSD].name, getenv("REQUEST_URI"));
                             
-                            cJSON *json = cJSON_Parse(pstr);
+        //                     cJSON *json = cJSON_Parse(pstr);
                             
-                            // cJSON_GetObjectItem(json,"int")->valueint = 2;
-                            // cJSON_GetObjectItem(json,"float")->valuedouble = 2.0;
-                            strcpy(cJSON_GetObjectItem(json,"password")->valuestring,cjson_cgi_POST_getStrValue(pt,"NPSD1"));
+        //                     // cJSON_GetObjectItem(json,"int")->valueint = 2;
+        //                     // cJSON_GetObjectItem(json,"float")->valuedouble = 2.0;
+        //                     strcpy(cJSON_GetObjectItem(json,"password")->valuestring,cjson_cgi_POST_getStrValue(pt,"NPSD1"));
 
-                            //修改对象的值
-                            //cJSON_ReplaceItemInObject(json,"word",cJSON_CreateString("password"));
-                            FPRINTF_LOG(DEBUG_PATH,"%s\r\n",cJSON_Print(json));
+        //                     //修改对象的值
+        //                     //cJSON_ReplaceItemInObject(json,"word",cJSON_CreateString("password"));
+        //                     FPRINTF_LOG(DEBUG_PATH,"%s\r\n",cJSON_Print(json));
 
-                            int ret = write_file(LOGIN_PATH,"w+",cJSON_Print(json));
+        //                     int ret = write_file(LOGIN_PATH,"w+",cJSON_Print(json));
 
-                            if(ret > 0){
-                              status_code = 200;
-                              FPRINTF_LOG(DEBUG_PATH,"write %d bytes succeed.\r\n",ret);
-                            }
+        //                     if(ret > 0){
+        //                       status_code = 200;
+        //                       FPRINTF_LOG(DEBUG_PATH,"write %d bytes succeed.\r\n",ret);
+        //                     }
 
-                            /* 设置Cookie时，需在 printf("Content-type:text/html\n\n"); 前设置： */
-                            printf("Set-Cookie: username=%s;\nSet-Cookie: password=%s;\n","username","password");
-                            //printf("<div><input type=\"hidden\" id=\"rid\" value=\"%s\"></input></div>","1");
-                            /* 设置状态码 */
-                            //printf("Status:404\n\n");
+        //                     /* 设置Cookie时，需在 printf("Content-type:text/html\n\n"); 前设置： */
+        //                     printf("Set-Cookie: username=%s;\nSet-Cookie: password=%s;\n","username","password");
+        //                     //printf("<div><input type=\"hidden\" id=\"rid\" value=\"%s\"></input></div>","1");
+        //                     /* 设置状态码 */
+        //                     //printf("Status:404\n\n");
 
-                            /* 跳转html */
-                            //printf("Location:/test.html\n\n");   
+        //                     /* 跳转html */
+        //                     //printf("Location:/test.html\n\n");   
 
-                            FPRINTF_LOG(DEBUG_PATH,"%s---\r\n",getenv("HTTP_COOKIE"));
+        //                     FPRINTF_LOG(DEBUG_PATH,"%s---\r\n",getenv("HTTP_COOKIE"));
     
-                            cJSON_Delete(json);
-                        }
+        //                     cJSON_Delete(json);
+        //                 }
 
-                        free((void*)pstr);                                                          
-                        free(pt);
-                        display_menu_updatepsd_detail(RIGHT_HTML_BUFFER);
-                        if(status_code == 200){
-                            sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"修改成功!\");clearAllCookie()</script>");
-                        }   
-                    }
-                    break;  
-                    case MENU_EXIT:
-                    {
-                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">window.location.href = \"index.html\";clearAllCookie()</script>");
-                        //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);   
-                        //<a href="#" target="_top">退出</a>
-                    }     
-                    break;
-                    case MENU_USER1:
-                    {
-                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
-                    }
-                    break;	
-                    case MENU_USER2:
-                    {
-                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
-                    }
-                    break;	
-                    case MENU_DOWNLOAD_LOG:
-                    {    
-                        //printf("%s\n\n", "application/octet-stream;charset=utf-8");                  
-                        qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
-                        qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/rtuwgfcgi/debug/debug.txt", "application/octet-stream;charset=utf-8");
-                        req->free(req);
-                        display_menu_log_detail(RIGHT_HTML_BUFFER);
+        //                 free((void*)pstr);                                                          
+        //                 free(pt);
+        //                 display_menu_updatepsd_detail(RIGHT_HTML_BUFFER);
+        //                 if(status_code == 200){
+        //                     sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"修改成功!\");clearAllCookie()</script>");
+        //                 }   
+        //             }
+        //             break;  
+        //             case MENU_EXIT:
+        //             {
+        //                 sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">window.location.href = \"index.html\";clearAllCookie()</script>");
+        //                 //display_menu_acqclient_detail(RIGHT_HTML_BUFFER);   
+        //                 //<a href="#" target="_top">退出</a>
+        //             }     
+        //             break;
+        //             case MENU_USER1:
+        //             {
+        //                 sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
+        //             }
+        //             break;	
+        //             case MENU_USER2:
+        //             {
+        //                 sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"还没完成噢!\");</script></script>");    
+        //             }
+        //             break;	
+        //             case MENU_DOWNLOAD_LOG:
+        //             {    
+        //                 //printf("%s\n\n", "application/octet-stream;charset=utf-8");                  
+        //                 qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
+        //                 qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/debug/debug.txt", "application/octet-stream;charset=utf-8");
+        //                 req->free(req);
+        //                 display_menu_log_detail(RIGHT_HTML_BUFFER);
                         
-                        sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"=====\");</script></script>");    
-                    }
-                    break;	
-                    case MENU_UPLOAD_FILE:
-                    {    
-                        // Parse queries.
-                        qentry_t *req = qcgireq_parse(NULL, (Q_CGI_T)0);
+        //                 sprintf(RIGHT_HTML_BUFFER,"<script src=\"/demo_test_fastcgi/cgi-bin/js/dashboard.js\"></script><script language=\"javascript\">alert(\"=====\");</script></script>");    
+        //             }
+        //             break;	
+        //             case MENU_UPLOAD_FILE:
+        //             {    
+        //                 // Parse queries.
+        //                 qentry_t *req = qcgireq_parse(NULL, (Q_CGI_T)0);
 
-                        // get queries
-                        const char *text = req->getstr(req, "text", false);
-                        const char *filedata   = req->getstr(req, "binary", false);
-                        int filelength = req->getint(req, "binary.length");
-                        const char *filename   = req->getstr(req, "binary.filename", false);
-                        const char *contenttype = req->getstr(req, "binary.contenttype", false);
+        //                 // get queries
+        //                 const char *text = req->getstr(req, "text", false);
+        //                 const char *filedata   = req->getstr(req, "binary", false);
+        //                 int filelength = req->getint(req, "binary.length");
+        //                 const char *filename   = req->getstr(req, "binary.filename", false);
+        //                 const char *contenttype = req->getstr(req, "binary.contenttype", false);
 
-                        // check queries
-                        if (text == NULL) qcgires_error(req, "Invalid usages.");
-                        if (filename == NULL || filelength == 0) {
-                            qcgires_error(req, "Select file, please.");
-                        }
+        //                 // check queries
+        //                 if (text == NULL) qcgires_error(req, "Invalid usages.");
+        //                 if (filename == NULL || filelength == 0) {
+        //                     qcgires_error(req, "Select file, please.");
+        //                 }
 
-                        char  filepath[1024];
-                        sprintf(filepath, "%s/%s", BASEPATH, filename);
+        //                 char  filepath[1024];
+        //                 sprintf(filepath, "%s/%s", BASEPATH, filename);
 
-                        if (savefile(filepath, filedata, filelength) < 0) {
-                            qcgires_error(req, "File(%s) open fail. Please make sure CGI or directory has right permission.",
-                                        filepath);
-                        }
+        //                 if (savefile(filepath, filedata, filelength) < 0) {
+        //                     qcgires_error(req, "File(%s) open fail. Please make sure CGI or directory has right permission.",
+        //                                 filepath);
+        //                 }
 
-                        // result out
-                        qcgires_setcontenttype(req, "text/html");
-                        printf("You entered: <b>%s</b>\n", text);
-                        printf("<br><a href=\"%s\">%s</a> (%d bytes, %s) saved.",
-                            filepath, filename, filelength, contenttype);
+        //                 // result out
+        //                 qcgires_setcontenttype(req, "text/html");
+        //                 printf("You entered: <b>%s</b>\n", text);
+        //                 printf("<br><a href=\"%s\">%s</a> (%d bytes, %s) saved.",
+        //                     filepath, filename, filelength, contenttype);
 
-                        // dump
-                        printf("\n<p><hr>--[ DUMP INTERNAL DATA STRUCTURE ]--\n<pre>");
-                        req->print(req, stdout, false);
-                        printf("\n</pre>\n");
+        //                 // dump
+        //                 printf("\n<p><hr>--[ DUMP INTERNAL DATA STRUCTURE ]--\n<pre>");
+        //                 req->print(req, stdout, false);
+        //                 printf("\n</pre>\n");
 
-                        // de-allocate
-                        req->free(req);
+        //                 // de-allocate
+        //                 req->free(req);
 
-                    }
-                    break;	
+        //             }
+        //             break;	
                     	 
-                    default:;  
-                }
+        //             default:;  
+        //         }
                   
-                web_html_ui_select2(top_html_str,left_html_str,right_html_str);
-            }
-            break;
-			case WEB_CMD_FLUSH_DATA:
-			{  
-                char *pack_buffer=left_html_str;
-                //printf("%s\n\n","Content-Type:text/html;charset=gb2312");
-                printf("%s\n\n","Content-Type:text/html;charset=utf-8");
-                //printf("login success");  
-                //package formate
-                printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
-                //rtdata_flush_package(pack_buffer);
-                //printf("%s",pack_buffer);  
-                goto CGI_FINISH;
-			}
-			break;		
-            case WEB_CMD_FLUSH_STATUS:  
-            {
-                static int count = 0;  
-                char *pack_buffer = right_html_str;  
-                // printf("%s\n\n","Content-Type:text/html;charset=gb2312");
-                printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-                // printf("login success %d",count++);  
-                // package formate
-                // printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
-                status_flush_package(pack_buffer);   
-                printf("%s", pack_buffer);        
-                // NOTE :: continue below    
-                goto CGI_FINISH;           
-            }
-            default: 
-                printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-                printf("NO such cmd %s !!!", cgi["CMD"]);
-                goto CGI_FINISH;  
-            }
+        //         web_html_ui_select2(top_html_str,left_html_str,right_html_str);
+        //     }
+        //     break;
+		// 	case WEB_CMD_FLUSH_DATA:
+		// 	{  
+        //         char *pack_buffer=left_html_str;
+        //         //printf("%s\n\n","Content-Type:text/html;charset=gb2312");
+        //         printf("%s\n\n","Content-Type:text/html;charset=utf-8");
+        //         //printf("login success");  
+        //         //package formate
+        //         printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
+        //         //rtdata_flush_package(pack_buffer);
+        //         //printf("%s",pack_buffer);  
+        //         goto CGI_FINISH;
+		// 	}
+		// 	break;		
+        //     case WEB_CMD_FLUSH_STATUS:  
+        //     {
+        //         static int count = 0;  
+        //         char *pack_buffer = right_html_str;  
+        //         // printf("%s\n\n","Content-Type:text/html;charset=gb2312");
+        //         printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+        //         // printf("login success %d",count++);  
+        //         // package formate
+        //         // printf("{\"polcodes\":[{\"UserName\":\"123\",\"Sex\":\"456\"},{\"UserName\":\"789\",\"Sex\":\"0\"}]}");
+        //         status_flush_package(pack_buffer);   
+        //         printf("%s", pack_buffer);        
+        //         // NOTE :: continue below    
+        //         goto CGI_FINISH;           
+        //     }
+        //     default: 
+        //         printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+        //         printf("NO such cmd %s !!!", cgi["CMD"]);
+        //         goto CGI_FINISH;  
+        //     }
 
         CGI_FINISH:
             //cgi.finish();  

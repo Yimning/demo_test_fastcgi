@@ -6,6 +6,9 @@ CFLAGS += -O1
 else
 CFLAGS += -O$(OPT)
 endif
+
+
+
 ###add for broadcom sdk, bcm53107####
 CFLAGS += -DLINUX_SAL_DMA_ALLOC_OVERRIDE -DLINUX_SAL_USLEEP_OVERRIDE \
 	-DLINUX_SAL_SEM_OVERRIDE -DLINUX_SAL_UDELAY_OVERRIDE	\
@@ -24,11 +27,12 @@ CFLAGS += -DLINUX_SAL_DMA_ALLOC_OVERRIDE -DLINUX_SAL_USLEEP_OVERRIDE \
 	-DINCLUDE_LONGREACH -DNO_BCM_88732_A0 -DLE_HOST=1 -D__BSD_SOURCE -DUNIX	\
 	-DBROADCOM_DEBUG -g    
 #for cli
+
+CFLAGSPATHDIR = /home/yimning/FastCGI
+
 CFLAGS += -D_MN_HAVE_USERMANAGE_  
 CFLAGS += -DENCRYPT_DISABLE  
 
-
-#CFLAGS += -Wall -Wcast-align -Wimplicit 
 CFLAGS += -Wall -Wimplicit
 CFLAGS += -Wpointer-arith -Wswitch
 CFLAGS += -Wredundant-decls -Wreturn-type  -Wunused #-Wshadow
@@ -37,15 +41,11 @@ CFLAGS += -Wmissing-declarations
 CFLAGS += -fno-optimize-sibling-calls  -Wdeclaration-after-statement 
 
 
-CFLAGS += -I/home/yimning/FastCGI/fcgi2-2.4.2/_install/include
-CFLAGS += -I/home/yimning/FastCGI/rudecgi-5.0.0/_install/include
+CFLAGS += -I$(CFLAGSPATHDIR)/fcgi2-2.4.2/_install/include
+CFLAGS += -I$(CFLAGSPATHDIR)/rudecgi-5.0.0/_install/include  # 后续删除
+CFLAGS += -I$(CFLAGSPATHDIR)/json-c
+CFLAGS += -I/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters
 
-#LIBS += -L/opt/software/fcgi-2.4.0/_install/lib
-#LIBS += -L/opt/software/rudecgi-5.0.0/_install/lib
-#LIBS += -lfcgi++ -lfcgi
-#LIBS += -lrudecgi
-
-#LIBDIR=$(TOPDIR)/src/build
 LIBDIR=.
 #BLDDIR=$(TOPDIR)/src/build
 
@@ -63,6 +63,5 @@ export OBJCOPY
 export OBJDUMP
 export OBJNM
 export STRIP
-#ARFLAGS += rcs
 
 RM = rm

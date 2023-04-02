@@ -1,0 +1,45 @@
+setenv ipaddr 192.168.1.188
+setenv ethaddr b8:ae:1d:01:00:00
+setenv gatewayip 192.168.1.1
+setenv netmask 255.255.255.0
+setenv serverip 192.168.1.166
+saveenv
+
+
+
+tftp 80800000 zImage
+tftp 83000000 imx6ull-14x14-evk.dtb 
+bootz 80800000 - 83000000
+
+已下载uboot,手动设置通过tftp挂载rootfs,dtb
+setenv bootargs 'console=ttymxc0,115200 root=/dev/mmcblk1p2 rootwait rw'
+setenv bootcmd 'tftp 80800000 zImage;tftp 83000000 imx6ull-14x14-evk.dtb;bootz 80800000 - 83000000;'
+saveenv
+
+setenv bootargs 'console=ttymxc0,115200 root=/dev/mmcblk1p2 rootwait rw'
+setenv bootcmd 'tftp 80800000 zImage;tftp 83000000 imx6ull-14x14-emmc.dtb;bootz 80800000 - 83000000;'
+saveenv
+
+
+已下载uboot,手动设置通过tftp挂载rootfs
+setenv bootcmd 'tftp 80800000 zImage;tftp 83000000 imx6ull-14x14-emmc.dtb;bootz 80800000 - 83000000;'
+saveenv
+setenv bootargs 'console=ttymxc0,115200 root=/dev/nfs  rw nfsroot=192.168.1.166:/home/yimning/linux/nfs/rootfs,proto=tcp rw ip=192.168.1.188:192.168.1.166:192.168.1.1:255.255.255.0::eth0:off'
+saveenv
+reset
+
+
+
+手动设置kernel的启动环境和变量：
+setenv bootcmd 'mmc dev 1;fatload mmc 1:1 80800000 zImage;fatload mmc 1:1 83000000 imx6ull-14x14-emmc.dtb;bootz 80800000 - 83000000' 
+setenv bootargs 'console=ttymxc0,115200 root=/dev/mmcblk1p2 rootwait rw' 
+saveenv
+
+
+setenv panel TFT4384
+saveenv
+
+
+setenv bootargs 'console=tty1 console=ttymxc0,115200 root=/dev/nfs rw nfsroot=192.168.1.250: /home/zuozhongkai/linux/nfs/rootfs ip=192.168.1.251:192.168.1.250:192.168.1.1:255.255.255.0::eth0: off'
+setenv bootargs 'console=tty1 console=ttymxc0,115200 root=/dev/nfs  rw nfsroot=192.168.1.166:/home/yimning/linux/nfs/rootfs,proto=tcp rw ip=192.168.1.188:192.168.1.166:192.168.1.1:255.255.255.0::eth0:off'
+saveenv

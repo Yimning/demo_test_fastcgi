@@ -1,7 +1,9 @@
 #ENCRYPT_DISABLE=1
 INCLUDES +=. ${TOPDIR}/src/include ${TOPDIR}/ ${TOPDIR}/xlslib/ ${TOPDIR}/src/upgrade/ ${TOPDIR}/src/camera/ ${TOPDIR}/src/devmcu/ ${TOPDIR}/src/debug/  ${TOPDIR}/src/qdecoder/
-INCLUDES +=  ${TOPDIR}/src/cJson/
+INCLUDES +=  ${TOPDIR}/src/cJSON/
 INCLUDES +=  ${TOPDIR}/src/api/
+INCLUDES +=  ${TOPDIR}/src/restservice/
+
 
 lib=src
 EXT_CFLAGS=-D_GNU_SOURCE -D_src_CLI_

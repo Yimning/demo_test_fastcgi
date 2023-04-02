@@ -1,7 +1,7 @@
-LIB_NAME = cJson
+LIB_NAME = restservice
 
 PROJECT_ROOT_PATH = .
-VERSION     = 1.0.0
+VERSION     = 13.0.0
 
 CCSRCS	= $(wildcard *.c)
 CCOBJS = $(patsubst %.c,%.o, $(CCSRCS))
@@ -12,10 +12,12 @@ CFLAGS  =-Wall
 AR = ar
 ARFLAGS = -rv
 SOFLAGS = -shared  -fPIC
-INCPATH = -I$(PROJECT_ROOT_PATH)
-LDFLAGS = -L.
+INCPATH += -I$(PROJECT_ROOT_PATH) -I/home/yimning/FastCGI/fcgi2-2.4.2/_install/include -I/home/yimning/FastCGI/json-c
+INCPATH += -lfcgi   -ljson-c            #-lfcgi++ 
+LDFLAGS += -L/home/yimning/FastCGI/fcgi2-2.4.2/_install/lib -L/home/yimning/FastCGI/json-c/_install
 LIB_NAMES =  
 TARGET_AR = 1
+
 #links
 ifdef TARGET_SO
 	TARGET = $(LIB_NAME).$(VERSION).so
