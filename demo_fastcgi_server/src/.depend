@@ -15,6 +15,7 @@ server_fcgi_main.o .depend : server_fcgi_main.c \
  webcmd.h web_config_ui.h web_config_menu.h web_config_menu_detail.h \
  web_menu_device.h web_menu_data.h web_menu_log.h web_menu_updatepsw.h \
  web_flush_data.h qdecoder/qdecoder.h qdecoder/internal.h \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/dbgout.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/restservice/rest_types.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/restservice/rest_common.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/restservice/rest_types.h \
@@ -32,9 +33,9 @@ server_fcgi_main.o .depend : server_fcgi_main.c \
  /home/yimning/FastCGI/json-c/json_tokener.h \
  /home/yimning/FastCGI/json-c/json_util.h \
  /home/yimning/FastCGI/json-c/linkhash.h \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/qdecoder/qdecoder.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters/raphters.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters/dispatcher.h \
- /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/qdecoder/qdecoder.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters/response.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters/request.h
 web_menu_data.o .depend : web_menu_data.c \

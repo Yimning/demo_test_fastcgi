@@ -8,6 +8,8 @@
 #define VARIABLE_UNUSED                         __attribute__ ((unused))
 #define COULD_NOT_ESTABLISH_NULL_SESSION   401
 
+json_object *j_resp,*j_arr_resp;
+
 #define COLLECTION_INIT(METHOD) json_object *j_arr_resp = json_object_new_array(); \
     json_object *j_resp; \
     int cltn_len=0; \
@@ -164,11 +166,11 @@ end_handler: \
     MODEL_FREE(); \
     END_AUTHORIZED_MODEL \
 
-#define START_AUTHORIZED_NOIPMI_MODEL(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS) \
+#define START_AUTHORIZED_NO_MODEL(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS) \
     START_HANDLER_AUTHORIZED(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS); \
     MODEL_INIT(METHOD); \
 
-#define END_AUTHORIZED_NOIPMI_MODEL \
+#define END_AUTHORIZED_NO_MODEL \
     MODEL_FREE(); \
 goto end_handler; \
 end_handler: \
@@ -205,11 +207,11 @@ goto end_handler; \
 end_handler: \
     END_HANDLER
 
-#define START_AUTHORIZED_NOIPMI_COLLECTION(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS) \
+#define START_AUTHORIZED_NO_COLLECTION(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS) \
     START_HANDLER_AUTHORIZED(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS) \
     COLLECTION_INIT(METHOD); \
 
-#define END_AUTHORIZED_NOIPMI_COLLECTION \
+#define END_AUTHORIZED_NO_COLLECTION \
     COLLECTION_FREE(); \
 goto end_handler; \
 end_handler: \
@@ -252,54 +254,25 @@ end_handler: \
     END_HANDLER_AUTHORIZED_POLL
 
 
-#define START_AUTHORIZED_POLL_NOIPMI_MODEL(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS) \
+#define START_AUTHORIZED_POLL_NO_MODEL(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS) \
     START_HANDLER_AUTHORIZED_POLL(NAME, METHOD, REGEX, NUM, MATCHES, HEADERS) \
     MODEL_INIT(METHOD); \
     
-#define END_AUTHORIZED_POLL_NOIPMI_MODEL \
+#define END_AUTHORIZED_POLL_NO_MODEL \
     MODEL_FREE(); \
 goto end_handler; \
 end_handler: \
     END_HANDLER_AUTHORIZED_POLL
 
-
-//TODO: change the null session establishment based on the "role" stored in qsession
-//The following is executed only after checking authorized flag is set. Which is inturn set only during successful authentication.
-
-// #define AUTHORIZATION_MODEL_INIT() \
-//     IPMI20_SESSION_T IPMISession; \
-//     int session_result; \
-//     extern int NOT_IN_FWUPDATE ;\
-//     if(NOT_IN_FWUPDATE){ \
-//     session_result = IPMI_lo_Login("", "", &IPMISession, sess->getint(sess, "role"), 1, NULL, NULL, NULL); \
-//     if(session_result != RPC_HAPI_SUCCESS) { \
-//         THROW_MODEL_ERROR(STATUS_401, "Session could not be established", COULD_NOT_ESTABLISH_NULL_SESSION); \
-//     }\
-//    }
 #define AUTHORIZATION_MODEL_INIT()\
     int session_result = 1;\
     if(session_result != RPC_HAPI_SUCCESS){ \
         THROW_MODEL_ERROR(STATUS_401, "Session could not be established", COULD_NOT_ESTABLISH_NULL_SESSION); \
     }\
 
-
-// #define AUTHORIZATION_COLLECTION_INIT() \
-//     IPMI20_SESSION_T IPMISession; \
-//     int session_result; \
-//     extern int NOT_IN_FWUPDATE ;\
-//     if(NOT_IN_FWUPDATE){\
-//     session_result = IPMI_lo_Login("", "", &IPMISession, sess->getint(sess, "role"), 1, NULL, NULL, NULL); \
-//     if(session_result != RPC_HAPI_SUCCESS) { \
-//       THROW_COLLECTION_ERROR(STATUS_401, "Session could not be established", COULD_NOT_ESTABLISH_NULL_SESSION); \
-// }\
-// }
-
-//Every ipmi session is closed after usage. This should work even in the case of fastcgi process crash.
-// #define AUTHORIZATION_FIN() \
-//     IPMI_lo_Logout(&IPMISession);
-
 #define AUTHORIZATION_FIN() \
-     //IPMI_lo_Logout(&IPMISession);
+     //Logout(&Session);
+
 
 
 #define AUTHORIZATION_MODEL_FIN() \
@@ -466,8 +439,6 @@ end_handler: \
 #define REQUEST_REQUIRED_VAR_INTEGER(VARIABLE, KEY, VARIABLE_TYPE) \
     REQUEST_REQUIRED_VAR(VARIABLE, KEY, json_type_int, json_object_get_int, VARIABLE_TYPE)
 
-// #define REQUEST_VAR_STRLEN(VARIABLE)
-// json_object_get_string_len(json_object_object_get_rest(req_json, VARIABLE))
 
 #define REQUEST_REQUIRED_VAR_NUMBER(V) REQUEST_REQUIRED_VAR_INTEGER(V)
 

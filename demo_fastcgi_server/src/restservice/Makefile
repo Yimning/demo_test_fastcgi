@@ -17,6 +17,7 @@ INCPATH += -lfcgi   -ljson-c            #-lfcgi++
 LDFLAGS += -L/home/yimning/FastCGI/fcgi2-2.4.2/_install/lib -L/home/yimning/FastCGI/json-c/_install
 LIB_NAMES =  
 TARGET_AR = 1
+TARGET_SO = 1
 
 #links
 ifdef TARGET_SO

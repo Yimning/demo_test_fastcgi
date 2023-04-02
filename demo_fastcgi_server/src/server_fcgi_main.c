@@ -436,9 +436,9 @@ static int get_request_method_type(char* request_method)
 struct response *res;
 START_HANDLER (simple, POST, "/login", res,0, matches) {
     FPRINTF_LOG(DEBUG_PATH,"00000%s----","0");
-    response_add_header(res, "content-type", "text/html");
-    response_write(res, "hello world");
-    
+    response_add_header(res, "content-type", "application/json");
+    response_write(res, "{\"add\":\"0\"}");
+
 } END_HANDLER
 
 START_HANDLER (default_handler, GET, "/login",res,0, matches) {

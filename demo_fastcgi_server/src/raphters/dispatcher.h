@@ -53,6 +53,21 @@ void NAME##_func(regmatch_t MATCHES[]) { \
     response_send(int_response); \
 }
 
+#define SUCCESS_OUTPUT(JSON_STRING) \
+		if(1) { \
+        qentry_t *req = qcgireq_parse(NULL, 0); \
+				qcgires_setcontenttype(req, "application/json"); \
+		} \
+		printf("%s", JSON_STRING);
+
+#define ERROR_OUTPUT(HTTP_STATUS, JSON_ERROR_STRING) \
+		printf("Status: %s \n", HTTP_STATUS); \
+		if(1) { \
+        qentry_t *req = qcgireq_parse(NULL, 0); \
+				qcgires_setcontenttype(req, "application/json"); \
+		} \
+		printf("%s", JSON_ERROR_STRING);
+
 void init_handlers();
 void cleanup_handlers();
 

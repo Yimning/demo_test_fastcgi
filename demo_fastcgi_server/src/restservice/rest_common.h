@@ -18,6 +18,7 @@
 #include <sys/ioctl.h>
 #include <sys/file.h>
 #include "json.h"
+#include "qdecoder.h"
 
 //AUTOMATION ENGINE SCRIPTS/TASKS
 #define HTTPHEADER	"POST /api HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: keep-alive\r\nContent-Type: application/json\r\n"
@@ -25,7 +26,7 @@
 #define RESLEN			2048
 
 #define RPC_HAPI_SUCCESS    0
-#define DEFAULT_IPMITIMEOUT 30
+#define DEFAULT_TIMEOUT 30
 #define WEBPAGE_HANDLE      wp
 
 #define LIGHTTPD_CONF_PATH "/conf/lighttpd.conf"
@@ -81,12 +82,7 @@
 #define STATUS_1232  "1232 Data File Not Available"
 #define STATUS_1233  "1233 Data File Reset issue"
 
-/*#define CARD_YEAR "1970"
-#define EMPTY_STRING " "
-#define SYSTEMlOG "Jan  1 00:00:01 localhost kernel: Helper Module Driver Version 1.2"*/
-
 typedef enum CGI_CONST_MAP {
-
     CGI_1 = 0x04, //GET
     CGI_2 = 0x02, //POST
     CGI_3 = 0x03, //PUT
