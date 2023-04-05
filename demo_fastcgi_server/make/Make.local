@@ -44,7 +44,7 @@ CFLAGS += -fno-optimize-sibling-calls  -Wdeclaration-after-statement
 CFLAGS += -I$(CFLAGSPATHDIR)/fcgi2-2.4.2/_install/include
 CFLAGS += -I$(CFLAGSPATHDIR)/rudecgi-5.0.0/_install/include  # 后续删除
 CFLAGS += -I$(CFLAGSPATHDIR)/json-c
-CFLAGS += -I/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters
+CFLAGS += -I$(TOPDIR)/src/raphters
 
 LIBDIR=.
 #BLDDIR=$(TOPDIR)/src/build
