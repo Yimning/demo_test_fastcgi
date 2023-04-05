@@ -298,8 +298,48 @@ qentry_t *qcgireq_parse(qentry_t *request, Q_CGI_T method)
  *   }
  * @endcode
  */
+#include <stdarg.h>
+static int FPRINTF_LOG(const char *filename, char *fmt, ...)
+{
+#define MAX_BUFFER_SIZE 256
+    FILE* fp; 
+    fp = fopen(filename, "a+");
+    char buff[MAX_BUFFER_SIZE] = {0};
+
+	struct tm *time = systemTimeNow();
+
+    //可变参数第一步,定义va_list变量
+	va_list va_ptr;
+
+	//可变参数第二步，初始化va_ptr,将va_ptr指向第一个可选参数
+	va_start(va_ptr,fmt);
+    
+    vsnprintf(buff,MAX_BUFFER_SIZE,fmt,va_ptr);
+
+    //把buff数据写入文件
+    fprintf(fp,"log information\r\n%s\r\n",buff);   
+
+	//可变参数最后一步
+	va_end(va_ptr);
+
+    fclose(fp);
+	
+	return 0;
+}
+
 char *qcgireq_getquery(Q_CGI_T method)
 {
+    
+        char*  tempBuffer1 = NULL;
+        tempBuffer1 = (char *)malloc(29);
+        memset(tempBuffer1, 0, 29);
+        if (NULL == tempBuffer1) {
+            return -1;
+        }
+        fread(tempBuffer1, 29, 1, stdin);
+FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log","tempBuffer=%s----strlen(tempBuffer1)=%d\n",tempBuffer1,strlen(tempBuffer1));
+
+FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log","\r\nqcgireq---%s---%s---%s-----%s\n",getenv("QUERY_STRING"),getenv("CONTENT_TYPE"),getenv("REQUEST_METHOD"),getenv("CONTENT_LENGTH"));
     if (method == Q_CGI_GET) {
         char *query_string = getenv("QUERY_STRING");
         if (query_string == NULL) return NULL;
@@ -333,8 +373,22 @@ char *qcgireq_getquery(Q_CGI_T method)
 
         int i, cl = atoi(content_length);
         char *query = (char *)malloc(sizeof(char) * (cl + 1));
+        memset(query, 0, cl + 1);
         for (i = 0; i < cl; i++)query[i] = fgetc(stdin);
+        FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log",
+"\r\nqcgireq---request_method=%s\n",query);
         query[i] = '\0';
+
+        char*  tempBuffer = NULL;
+        tempBuffer = (char *)malloc(cl);
+        memset(tempBuffer, 0, cl);
+        if (NULL == tempBuffer) {
+            return -1;
+        }
+        cl = fread(query, 29, 1, stdin);
+
+FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log",
+"\r\nqcgireq---request_method=%s---%s---tempBuffer=%s---%s----%d----%s\n",request_method,content_length,tempBuffer,getenv("CONTENT_LENGTH"),cl,fgets(tempBuffer,29,stdin));
         return query;
     } else if (method == Q_CGI_COOKIE) {
         char *http_cookie = getenv("HTTP_COOKIE");

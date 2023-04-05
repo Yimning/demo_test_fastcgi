@@ -16,9 +16,9 @@ server_fcgi_main.o .depend : server_fcgi_main.c \
  web_menu_device.h web_menu_data.h web_menu_log.h web_menu_updatepsw.h \
  web_flush_data.h qdecoder/qdecoder.h qdecoder/internal.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/dbgout.h \
- /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/restservice/rest_types.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/restservice/rest_common.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/restservice/rest_types.h \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/restservice/rest_common.h \
  /home/yimning/FastCGI/json-c/json.h \
  /home/yimning/FastCGI/json-c/arraylist.h \
  /home/yimning/FastCGI/json-c/debug.h \
@@ -38,6 +38,9 @@ server_fcgi_main.o .depend : server_fcgi_main.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters/dispatcher.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters/response.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/raphters/request.h
+web_flush_data.o .depend : web_flush_data.c \
+ /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/include/common.h \
+ web_flush_data.h
 web_menu_data.o .depend : web_menu_data.c \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/include/common.h \
  webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_data.h \
@@ -53,9 +56,6 @@ web_config_menu_detail.o .depend : web_config_menu_detail.c \
  webcmd.h web_config_menu.h web_config_menu_detail.h web_menu_device.h \
  web_menu_data.h api.h getparameter.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/cJSON/cJSON.h
-web_flush_data.o .depend : web_flush_data.c \
- /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/include/common.h \
- web_flush_data.h
 getparameter.o .depend : getparameter.c getparameter.h \
  /home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/cJSON/cJSON.h \
  api.h \

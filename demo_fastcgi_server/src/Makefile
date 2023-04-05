@@ -1,5 +1,7 @@
 #ENCRYPT_DISABLE=1
-INCLUDES +=. ${TOPDIR}/src/include ${TOPDIR}/ ${TOPDIR}/xlslib/ ${TOPDIR}/src/upgrade/ ${TOPDIR}/src/camera/ ${TOPDIR}/src/devmcu/ ${TOPDIR}/src/debug/  ${TOPDIR}/src/qdecoder/
+INCLUDES +=. ${TOPDIR}/ ${TOPDIR}/src/include 
+INCLUDES +=  ${TOPDIR}/xlslib/ ${TOPDIR}/src/upgrade/ ${TOPDIR}/src/camera/ ${TOPDIR}/src/devmcu/ 
+INCLUDES +=  ${TOPDIR}/src/qdecoder/
 INCLUDES +=  ${TOPDIR}/src/debug/
 INCLUDES +=  ${TOPDIR}/src/cJSON/
 INCLUDES +=  ${TOPDIR}/src/api/

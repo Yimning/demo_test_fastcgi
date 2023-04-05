@@ -3,6 +3,7 @@
 #define _REST_TYPES_H
 
 #include "rest_common.h"
+#include "json.h"
 
 #define GET_TEMP_MODEL_OBJECT() j_tmpres
 #define VARIABLE_UNUSED                         __attribute__ ((unused))
@@ -380,6 +381,9 @@ end_handler: \
     }
 
 #define REQUEST_PARSER_FREE()                                                  \
+    char *methodEnvptr = getenv("REQUEST_METHOD");                             \
+    char *contentEnvptr = getenv("CONTENT_TYPE");                              \
+    char *query = qcgireq_getquery(0);                                          \
     if (query != NULL) {                                                       \
         free(query);                                                           \
         query = NULL;                                                          \
@@ -400,6 +404,9 @@ end_handler: \
 
 // Do not free the request variables manually. Freeing is taken care by json_object_put.
 #define REQUEST_REQUIRED_VAR(VARIABLE, KEY, JSON_TYPE, JSON_FUNCTION, VARIABLE_TYPE)   \
+    json_object *req_json_var = NULL;                                                  \
+    json_object *req_json = json_object_new_object();                                  \
+    qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);                                  \
     if (json_object_object_get_ex(req_json, KEY, &req_json_var)) {                     \
         if (json_object_get_type(req_json_var) == JSON_TYPE) {                         \
             VARIABLE = VARIABLE_TYPE JSON_FUNCTION(req_json_var);                      \
@@ -430,7 +437,9 @@ end_handler: \
         json_object_put(jresp_var_not_found);                                          \
         MODEL_FREE();                                                                  \
         goto end_handler;                                                              \
-    }
+    }                                                                                  \
+    end_handler:NULL                                                                           
+  
 
 // [TODO] As json_object_get_string return (const char *) type, we should have a same type variable to be assigned instead of doing type conversion to (char *)
 #define REQUEST_REQUIRED_VAR_STRING(VARIABLE, KEY) \

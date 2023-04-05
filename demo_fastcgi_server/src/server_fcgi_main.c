@@ -27,7 +27,7 @@
 #include "qdecoder/internal.h"
 
 #include "dbgout.h"
-#include "rest_types.h"
+#include "rest_common.h"
 #include "raphters.h"
 #include "json.h"
 
@@ -435,13 +435,73 @@ static int get_request_method_type(char* request_method)
 
 struct response *res;
 START_HANDLER (simple, POST, "/login", res,0, matches) {
-    FPRINTF_LOG(DEBUG_PATH,"00000%s----","0");
+    FPRINTF_LOG(DEBUG_PATH,"%s----%s",getenv("QUERY_STRING"),"123456");
+    char *host_name = NULL;
+    //REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
+    qentry_t *req = qcgireq_parse(NULL, 2);
+
+    char tempBuffer[256] = {0}; 
+    char *pt = tempBuffer; 
+                        
+    req->print(req, stdout, true);
+
+    // Get values
+    char *value = (char *)req->getstr(req, "userID", false);
+
+    if (value == NULL) value = "(nothing)";
+
+    char *query_string = get_query_string();
+
+    char *get_query_string = qcgireq_getquery(Q_CGI_POST);
+    if(get_query_string != NULL) {
+        free(get_query_string);
+    }
+    
+
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"%s---%s---%s---%s---%s\n",value,getenv("CONTENT_TYPE"),getenv("CONTENT_LENGTH"),get_query_string,query_string);
+
+    cjson_cgi_getPostStr(&pt);
+
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"Total %d entries.    pt=%s----strlen(pt)=%d\n", req->size(req),pt,strlen(pt));
+
+    // Print out
+    // qcgires_setcontenttype(req, "application/json");
+
+
+    //REQUEST_PARSER_INIT(POST);
     response_add_header(res, "content-type", "application/json");
     response_write(res, "{\"add\":\"0\"}");
+    // response_write(res, host_name);
+}
+END_HANDLER
 
-} END_HANDLER
+START_HANDLER(default_handler, GET, "/login", res, 0, matches)
+{
+    char tempBuffer[256] = {0}; 
+    char *pt = tempBuffer; 
+                        
+    cjson_cgi_getPostStr(&pt);
 
-START_HANDLER (default_handler, GET, "/login",res,0, matches) {
+    qentry_t *req = qcgireq_parse(NULL, 0);
+
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"Total %d entries.    pt=%s\n", req->size(req),pt);
+    //req->print(req, stdout, true);
+
+
+    // Get values
+    char *value = (char *)req->getstr(req, "userID", false);
+
+    if (value == NULL) value = "(nothing)";
+
+    char *query_string = get_query_string();
+
+    char *get_query_string = qcgireq_getquery(Q_CGI_POST);
+    if(get_query_string != NULL) {
+        free(get_query_string);
+    }
+    
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"%s---%s---%s-----%s\n",value,getenv("CONTENT_TYPE"),get_query_string,query_string);
+
     response_add_header(res, "content-type", "text/html");
     response_write(res, "default page");
 } END_HANDLER
@@ -469,8 +529,8 @@ int server_fcgi_main()
     char *password; 
     const char *pstr =  NULL;
 
-    while (FCGI_Accept() >= 0)
-    {
+    // while (FCGI_Accept() >= 0)
+    // {
         //rude::CGI cgi; //必须放在这里定义，否则只执行一次
         int webcmd = 0;
         
@@ -483,24 +543,27 @@ int server_fcgi_main()
         char *cmd = tempBuffer; 
         char *req_method = getenv("REQUEST_METHOD");
 
+        char *pt = tempBuffer; 
+                        
+        cjson_cgi_getPostStr(&pt);
+
         char *query = qcgireq_getquery(Q_CGI_POST);
         
-        FPRINTF_LOG(DEBUG_PATH,"%s----%s-----%s----%s--%d\r\n",req_method, query, getenv("REQUEST_URI"), getenv("PATH_INFO"),get_request_method_type(req_method));
+        FPRINTF_LOG(DEBUG_PATH,"req_method = %s----pt = %s-----%s----%s----%s---=%d\r\n",req_method, pt, getenv("REQUEST_URI"), getenv("PATH_INFO"),getenv("QUERY_STRING"),get_request_method_type(req_method));
 
         qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
         //DEBUG_LOG(DEBUG_PATH,DEBUG,"Error in allocating memory \n");
-        printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-        printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
+        // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+        // printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
         add_handler(default_handler);
         add_handler(simple);
         //add_handler(getNetworkSideBand);
-         serve_forever();
         //int getNetworkSideBand();
         
         //handle_restservice();
 
-        printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-        printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
+        // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+        // printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
         switch (get_request_method_type(query))
         {
             case 0:
@@ -792,10 +855,10 @@ int server_fcgi_main()
         //         printf("NO such cmd %s !!!", cgi["CMD"]);
         //         goto CGI_FINISH;  
         //     }
-
+                 serve_forever();
         CGI_FINISH:
             //cgi.finish();  
             pthread_mutex_unlock(&wsctrl.mutex);  
-    }
+    // }
     return 0;
 }
