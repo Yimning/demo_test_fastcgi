@@ -35,12 +35,14 @@ ${TARGET}:${TARGET}_nostrip
 LIBS += -L/home/yimning/FastCGI/fcgi2-2.4.2/_install/lib
 LIBS += -L/home/yimning/FastCGI/rudecgi-5.0.0/_install/lib   #后续删除
 LIBS += -L/home/yimning/FastCGI/json-c/_install
+LIBS += -L/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/lib
 
 
 LIBS += -lfcgi  # -lfcgi++
 LIBS += -lrudecgi  #后续删除
 LIBS += -ljson-c
 #LIBS += -lraphters
+#LIBS += -lqdecoder
 
 ${TARGET}_nostrip:main.o ${STATIC_LIBS}
 	cp -rf ${TOPDIR}/src/debug/dbgout.1.0.0.a ${TOPDIR}/src/lib/dbgout.a
