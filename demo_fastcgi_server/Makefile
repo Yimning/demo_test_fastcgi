@@ -15,7 +15,7 @@ SRC_FILES = $(foreach dir,$(DIRS),$(wildcard $(dir)))
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 
 mkfile_dir := $(dir $(mkfile_path))
- 
+
 subdirs += src 
 subdirs += src/debug 
 subdirs += src/qdecoder 
@@ -35,7 +35,7 @@ ${TARGET}:${TARGET}_nostrip
 LIBS += -L/home/yimning/FastCGI/fcgi2-2.4.2/_install/lib
 LIBS += -L/home/yimning/FastCGI/rudecgi-5.0.0/_install/lib   #后续删除
 LIBS += -L/home/yimning/FastCGI/json-c/_install
-LIBS += -L/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/lib
+#LIBS += -L./src/lib
 
 
 LIBS += -lfcgi  # -lfcgi++
