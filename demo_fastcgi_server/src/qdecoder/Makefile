@@ -16,7 +16,7 @@ INCPATH = -I$(PROJECT_ROOT_PATH) -I../debug/dbgout.h
 LDFLAGS = -L.
 LIB_NAMES =  
 TARGET_SO = 1
-#TARGET_AR = 1
+TARGET_AR = 1
 #links
 ifdef TARGET_SO
 	TARGET = $(LIB_NAME).$(VERSION).so

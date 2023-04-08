@@ -52,7 +52,7 @@ bool cjson_cgi_GET_getBoolValue(const char *const key);
 
 
 //POST method
-char* cjson_cgi_POST_getStrValue(char *parm_string,const char *const key);
+int cjson_cgi_getPostStr(char **postDataBuffer);
 char* cjson_cgi_POST_getStrValue(char *parm_string,const char *const key);
 int cjson_cgi_POST_getIntValue(char *parm_string,const char *const key);
 double cjson_POST_GET_getDoubleValue(char *parm_string,const char *const key);

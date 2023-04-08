@@ -407,7 +407,6 @@ bool cjson_cgi_GET_getBoolValue(const char *const key)
 ================================================================
 */
 
-
 int cjson_cgi_getPostStr(char **postDataBuffer)
 {
     char *content_len = NULL;

@@ -326,29 +326,65 @@ static int FPRINTF_LOG(const char *filename, char *fmt, ...)
 	
 	return 0;
 }
+#define DEBUG_PATH  "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log"
+void* read_stdin(void* arg) {
+    char buffer[1024];
+    while (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+        //printf("Input: %s", buffer);
+      FPRINTF_LOG(DEBUG_PATH,"Input = %s\r\n",buffer);  
+    }
+    return NULL;
+}
 
 char *qcgireq_getquery(Q_CGI_T method)
 {
-    
-        char*  tempBuffer1 = NULL;
-        tempBuffer1 = (char *)malloc(29);
-        memset(tempBuffer1, 0, 29);
-        if (NULL == tempBuffer1) {
+    char *content_len = NULL;
+    char *tempBuffer = NULL;
+    int  data_len, read_len;
+ 	/* 说明返回内容类型为html文本 */
+	//printf("Content-Type:text/html\n\n");
+
+	/* 请求方式 */
+	char *req_method = getenv("REQUEST_METHOD");
+
+    /* 获取数据类型  */
+    char *content_type = getenv("CONTENT_TYPE");//application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
+
+    /* 处理POST请求 */
+	if((req_method!=NULL)&&(!strcmp("POST", req_method)))    
+    { 
+        content_len = getenv("CONTENT_LENGTH");//获取数据长度
+
+        if (NULL == content_len) {
+            content_len = "";
+        }
+
+        data_len = atoi(content_len);
+        if (data_len < 0) {
             return -1;
         }
-        fread(tempBuffer1, 29, 1, stdin);
-FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log","tempBuffer=%s----strlen(tempBuffer1)=%d\n",tempBuffer1,strlen(tempBuffer1));
+        tempBuffer = (char *)malloc(data_len);
+        memset(tempBuffer, 0, data_len);
+        if (NULL == tempBuffer) {
+            return -1;
+        }
 
-FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log","\r\nqcgireq---%s---%s---%s-----%s\n",getenv("QUERY_STRING"),getenv("CONTENT_TYPE"),getenv("REQUEST_METHOD"),getenv("CONTENT_LENGTH"));
-    if (method == Q_CGI_GET) {
-        char *query_string = getenv("QUERY_STRING");
-        if (query_string == NULL) return NULL;
-        char *req_uri = getenv("REQUEST_URI");
+        read_len = fread(tempBuffer, 1, data_len, stdin);
+        FPRINTF_LOG(DEBUG_PATH,"tempBuffer-----= %s----%s\r\n",tempBuffer,content_type);  
+    }
 
-        char *query = NULL;
+    if (method == Q_CGI_GET)
+    {
+            char *query_string = getenv("QUERY_STRING");
+            if (query_string == NULL)
+            return NULL;
+            char *req_uri = getenv("REQUEST_URI");
 
-        // SSI query handling
-        if (strlen(query_string) == 0 && req_uri != NULL) {
+            char *query = NULL;
+
+            // SSI query handling
+            if (strlen(query_string) == 0 && req_uri != NULL)
+            {
             char *cp;
             for (cp = req_uri; *cp != '\0'; cp++) {
                 if (*cp == '?') {
@@ -375,20 +411,7 @@ FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_s
         char *query = (char *)malloc(sizeof(char) * (cl + 1));
         memset(query, 0, cl + 1);
         for (i = 0; i < cl; i++)query[i] = fgetc(stdin);
-        FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log",
-"\r\nqcgireq---request_method=%s\n",query);
         query[i] = '\0';
-
-        char*  tempBuffer = NULL;
-        tempBuffer = (char *)malloc(cl);
-        memset(tempBuffer, 0, cl);
-        if (NULL == tempBuffer) {
-            return -1;
-        }
-        cl = fread(query, 29, 1, stdin);
-
-FPRINTF_LOG("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log",
-"\r\nqcgireq---request_method=%s---%s---tempBuffer=%s---%s----%d----%s\n",request_method,content_length,tempBuffer,getenv("CONTENT_LENGTH"),cl,fgets(tempBuffer,29,stdin));
         return query;
     } else if (method == Q_CGI_COOKIE) {
         char *http_cookie = getenv("HTTP_COOKIE");
