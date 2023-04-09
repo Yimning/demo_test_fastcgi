@@ -299,6 +299,34 @@ qentry_t *qcgireq_parse(qentry_t *request, Q_CGI_T method)
  * @endcode
  */
 
+#include <stdarg.h>
+#define DEBUG_PATH ("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log")
+static int FPRINTF_LOG(const char *filename, char *fmt, ...)
+{
+#define MAX_BUFFER_SIZE 1024*1024
+    FILE* fp; 
+    fp = fopen(filename, "a+");
+    char buff[MAX_BUFFER_SIZE] = {0};
+
+    //可变参数第一步,定义va_list变量
+	va_list va_ptr;
+
+	//可变参数第二步，初始化va_ptr,将va_ptr指向第一个可选参数
+	va_start(va_ptr,fmt);
+    
+    vsnprintf(buff,MAX_BUFFER_SIZE,fmt,va_ptr);
+
+    //把buff数据写入文件
+    fprintf(fp,"%s\r\n",buff);   
+
+	//可变参数最后一步
+	va_end(va_ptr);
+
+    fclose(fp);
+	
+	return 0;
+}
+
 char *qcgireq_getquery(Q_CGI_T method)
 {
     if (method == Q_CGI_GET)

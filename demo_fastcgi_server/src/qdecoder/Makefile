@@ -9,7 +9,7 @@ CCOBJS = $(patsubst %.c,%.o, $(CCSRCS))
 CC = gcc
 DEBUG   = -DUSE_DEBUG
 CFLAGS  += -Wall
-#CFLAGS  += -DENABLE_FASTCGI
+CFLAGS  += -DENABLE_FASTCGI
 
 AR = ar
 ARFLAGS = -rv
