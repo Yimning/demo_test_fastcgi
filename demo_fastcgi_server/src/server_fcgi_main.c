@@ -35,12 +35,12 @@
 
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
-struct webserver_ctrl  
+struct WebServerCtrl_T  
 {
     pthread_mutex_t mutex;     
 };
 
-static struct webserver_ctrl wsctrl;
+static struct WebServerCtrl_T webServerCtrl;
 
    
 
@@ -286,89 +286,6 @@ printf("\
     return 0;
 }
 
-#if 0
-int cjson_cgi_getPostStr(char **postDataBuffer)
-{
-    char *content_len = NULL;
-    char *tempBuffer = NULL;
-    int  data_len, read_len;
- 	/* 说明返回内容类型为html文本 */
-	//printf("Content-Type:text/html\n\n");
-
-	/* 请求方式 */
-	char *req_method = getenv("REQUEST_METHOD");
-
-    /* 获取数据类型  */
-    char *content_type = getenv("CONTENT_TYPE");//application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
-
-    /* 处理POST请求 */
-	if((req_method!=NULL)&&(!strcmp("POST", req_method)))    
-    { 
-        content_len = getenv("CONTENT_LENGTH");//获取数据长度
-
-        if (NULL == content_len) {
-            content_len = "";
-        }
-
-        data_len = atoi(content_len);
-        if (data_len < 0) {
-            return -1;
-        }
-        tempBuffer = (char *)malloc(data_len);
-        memset(tempBuffer, 0, data_len);
-        if (NULL == tempBuffer) {
-            return -1;
-        }
-
-        read_len = fread(tempBuffer, 1, data_len, stdin);
-
-        if (read_len != data_len) {
-            return -1;
-        }
-        *postDataBuffer = tempBuffer;
-    }
-    else{
-        *postDataBuffer = NULL;
-    }
-    
-    return read_len;
-
-#if 0
- 	/* 说明返回内容类型为html文本 */
-	// printf("Content-Type:text/html\n\n");
- 
-	/* 请求方式 */
-	char *req_method = getenv("REQUEST_METHOD");
- 
-	if (0 == strcmp("POST", req_method)) { /* 处理POST请求 */
-		char *content_len = getenv("CONTENT_LENGTH");//获取数据长度
-		char *content_type = getenv("CONTENT_TYPE");//获取数据类型 application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
- 
-		int len = 0;
-		if (NULL != content_len) {
-			len = atoi(content_len);
-		}		
- 
-		if (len > 0) { //获取post数据	
-			//if (NULL != content_type && NULL == strstr(content_type, "multipart/form-data")) {//普通文本参数
-				char dat_buf[50] = {0};
-				if (len > 50) {
-					len = 50;
-				}
-				len = fread(dat_buf, 1, len, stdin);
-				printf("post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
-                FPRINTF_LOG(DEBUG_PATH,".......post type:%s. len:%d, data:%s.", content_type, len, dat_buf);
-                
-				//使用字符串分割函数获取各个参数：strtok_r
-			
-        }
-    }
-    return 0;
-#endif
-}
-#endif
-
-
 static int login_ok_already(int webcmd, char* username, char* password)
 {
     static int login_ok = 1;
@@ -433,15 +350,6 @@ static int get_request_method_type(char* request_method)
         return -1;
 }
 
-// void* read_stdin(void* arg) {
-//     char buffer[1024];
-//     while (fgets(buffer, sizeof(buffer), stdin) != NULL) {
-//         //printf("Input: %s", buffer);
-//       FPRINTF_LOG(DEBUG_PATH,"Input = %s\r\n",buffer);  
-//     }
-//     return NULL;
-// }
-
 struct response *res;
 START_HANDLER (simple, POST, "/login", res,0, matches) {
     char tempBuffer[256] = {0}; 
@@ -452,8 +360,8 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
     if(get_query_string != NULL) {
         free(get_query_string);
     }
-    cjson_cgi_getPostStr(&pt);
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string====%s-----%s\n",get_query_string,pt);
+    //cjson_cgi_getPostStr(&pt);
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string====%s\n",get_query_string);
 
     //REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
     //qentry_t *req = qcgireq_parse(NULL, 2);
@@ -554,7 +462,7 @@ int server_fcgi_main()
 
         //     pthread_join(tid, NULL);
 
-        // pthread_mutex_lock(&wsctrl.mutex);
+        // pthread_mutex_lock(&webServerCtrl.mutex);
 
         bzero(top_html_str, sizeof(top_html_str));
         bzero(left_html_str, sizeof(left_html_str));
@@ -879,7 +787,7 @@ int server_fcgi_main()
                  serve_forever();
         CGI_FINISH:
             //cgi.finish();  
-            pthread_mutex_unlock(&wsctrl.mutex);  
+            pthread_mutex_unlock(&webServerCtrl.mutex);  
     // }
     return 0;
 }
