@@ -12,6 +12,7 @@
 #include "string.h"
 #include "cJSON.h"
 #include "stdbool.h"
+#include "fcgi_stdio.h"
 
 #include "api.h"
 #include "common.h"
