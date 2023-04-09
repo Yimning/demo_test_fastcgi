@@ -1,2 +1,0 @@
-main.o .depend : main.c
-getlen.o .depend : getlen.c
