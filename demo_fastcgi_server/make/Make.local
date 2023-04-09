@@ -10,7 +10,7 @@ endif
 
 
 ###add for broadcom sdk, bcm53107####
-CFLAGS += -DLINUX_SAL_DMA_ALLOC_OVERRIDE -DLINUX_SAL_USLEEP_OVERRIDE \
+#CFLAGS += -DLINUX_SAL_DMA_ALLOC_OVERRIDE -DLINUX_SAL_USLEEP_OVERRIDE \
 	-DLINUX_SAL_SEM_OVERRIDE -DLINUX_SAL_UDELAY_OVERRIDE	\
 	-D__LINUX__ \
 	-D_REENTRANT -DLINUX -DSYS_BE_PIO=1 -DSYS_BE_PACKET=0 -DSYS_BE_OTHER=1 \
@@ -30,15 +30,14 @@ CFLAGS += -DLINUX_SAL_DMA_ALLOC_OVERRIDE -DLINUX_SAL_USLEEP_OVERRIDE \
 
 CFLAGSPATHDIR = /home/yimning/FastCGI
 
-CFLAGS += -D_MN_HAVE_USERMANAGE_  
-CFLAGS += -DENCRYPT_DISABLE  
-
-CFLAGS += -Wall -Wimplicit
-CFLAGS += -Wpointer-arith -Wswitch
-CFLAGS += -Wredundant-decls -Wreturn-type  -Wunused #-Wshadow
-CFLAGS += -Wstrict-prototypes
-CFLAGS += -Wmissing-declarations
-CFLAGS += -fno-optimize-sibling-calls  -Wdeclaration-after-statement 
+#CFLAGS += -D_MN_HAVE_USERMANAGE_  
+#CFLAGS += -DENCRYPT_DISABLE  
+#CFLAGS += -Wall -Wimplicit
+#CFLAGS += -Wpointer-arith -Wswitch
+#CFLAGS += -Wredundant-decls -Wreturn-type  -Wunused #-Wshadow
+#CFLAGS += -Wstrict-prototypes
+#CFLAGS += -Wmissing-declarations
+#CFLAGS += -fno-optimize-sibling-calls  -Wdeclaration-after-statement 
 
 
 CFLAGS += -I$(CFLAGSPATHDIR)/fcgi2-2.4.2/_install/include
@@ -48,7 +47,6 @@ CFLAGS += -I$(TOPDIR)/src/raphters
 #CFLAGS += -I$(TOPDIR)/src/qdecoder
 
 LIBDIR=.
-#BLDDIR=$(TOPDIR)/src/build
 
 CC=$(CROSS_COMPILE)gcc
 AR=$(CROSS_COMPILE)ar

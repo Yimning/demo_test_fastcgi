@@ -30,7 +30,7 @@
 #include "rest_common.h"
 #include "raphters.h"
 #include "json.h"
-
+#include <pthread.h>
 
 
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
@@ -286,7 +286,7 @@ printf("\
     return 0;
 }
 
-
+#if 0
 int cjson_cgi_getPostStr(char **postDataBuffer)
 {
     char *content_len = NULL;
@@ -366,7 +366,7 @@ int cjson_cgi_getPostStr(char **postDataBuffer)
     return 0;
 #endif
 }
-
+#endif
 
 
 static int login_ok_already(int webcmd, char* username, char* password)
@@ -433,36 +433,48 @@ static int get_request_method_type(char* request_method)
         return -1;
 }
 
+// void* read_stdin(void* arg) {
+//     char buffer[1024];
+//     while (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+//         //printf("Input: %s", buffer);
+//       FPRINTF_LOG(DEBUG_PATH,"Input = %s\r\n",buffer);  
+//     }
+//     return NULL;
+// }
+
 struct response *res;
 START_HANDLER (simple, POST, "/login", res,0, matches) {
-    FPRINTF_LOG(DEBUG_PATH,"%s----%s",getenv("QUERY_STRING"),"123456");
-    char *host_name = NULL;
-    //REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
-    qentry_t *req = qcgireq_parse(NULL, 2);
-
     char tempBuffer[256] = {0}; 
     char *pt = tempBuffer; 
-                        
-    req->print(req, stdout, true);
-
-    // Get values
-    char *value = (char *)req->getstr(req, "userID", false);
-
-    if (value == NULL) value = "(nothing)";
-
-    char *query_string = get_query_string();
-
+    char *host_name = NULL;
+    
     char *get_query_string = qcgireq_getquery(Q_CGI_POST);
     if(get_query_string != NULL) {
         free(get_query_string);
     }
+    cjson_cgi_getPostStr(&pt);
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string====%s-----%s\n",get_query_string,pt);
+
+    //REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
+    //qentry_t *req = qcgireq_parse(NULL, 2);
+
+
+    //read_stdin(NULL);                 
+    // req->print(req, stdout, true);
+
+    // Get values
+    // char *value = (char *)req->getstr(req, "userID", false);
+
+    // if (value == NULL) value = "(nothing)";
+
+    //char *query_string = NULL;
+
+    //DEBUG_LOG(DEBUG_PATH,DEBUG,"%s---%s---%s---%s---%s\n",tempBuffer,getenv("CONTENT_TYPE"),getenv("CONTENT_LENGTH"),get_query_string,query_string);
+
+    //cjson_cgi_getPostStr(&pt);
     
 
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"%s---%s---%s---%s---%s\n",value,getenv("CONTENT_TYPE"),getenv("CONTENT_LENGTH"),get_query_string,query_string);
-
-    cjson_cgi_getPostStr(&pt);
-
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"Total %d entries.    pt=%s----strlen(pt)=%d\n", req->size(req),pt,strlen(pt));
+    //DEBUG_LOG(DEBUG_PATH,DEBUG,"Total %d entries.    pt=%s----strlen(pt)=%d\n", req->size(req),pt,strlen(pt));
 
     // Print out
     // qcgires_setcontenttype(req, "application/json");
@@ -499,7 +511,7 @@ START_HANDLER(default_handler, GET, "/login", res, 0, matches)
     if(get_query_string != NULL) {
         free(get_query_string);
     }
-    
+
     DEBUG_LOG(DEBUG_PATH,DEBUG,"%s---%s---%s-----%s\n",value,getenv("CONTENT_TYPE"),get_query_string,query_string);
 
     response_add_header(res, "content-type", "text/html");
@@ -533,8 +545,16 @@ int server_fcgi_main()
     // {
         //rude::CGI cgi; //必须放在这里定义，否则只执行一次
         int webcmd = 0;
-        
-        pthread_mutex_lock(&wsctrl.mutex);
+
+        // pthread_t tid;
+        // pthread_create(&tid, NULL, read_stdin, NULL);
+            
+        //     // 主线程继续执行其他业务逻辑
+        //     char *query = qcgireq_getquery(Q_CGI_POST);
+
+        //     pthread_join(tid, NULL);
+
+        // pthread_mutex_lock(&wsctrl.mutex);
 
         bzero(top_html_str, sizeof(top_html_str));
         bzero(left_html_str, sizeof(left_html_str));
@@ -545,13 +565,13 @@ int server_fcgi_main()
 
         char *pt = tempBuffer; 
                         
-        cjson_cgi_getPostStr(&pt);
+        //cjson_cgi_getPostStr(&pt);
 
-        char *query = qcgireq_getquery(Q_CGI_POST);
+        //char *query = qcgireq_getquery(Q_CGI_POST);
         
-        FPRINTF_LOG(DEBUG_PATH,"req_method = %s----pt = %s-----%s----%s----%s---=%d\r\n",req_method, pt, getenv("REQUEST_URI"), getenv("PATH_INFO"),getenv("QUERY_STRING"),get_request_method_type(req_method));
+        FPRINTF_LOG(DEBUG_PATH,"qcgireq_getquery = %s----req_method = %s----pt = %s-----%s----%s----%s---=%d\r\n","query",req_method, pt, getenv("REQUEST_URI"), getenv("PATH_INFO"),getenv("QUERY_STRING"),get_request_method_type(req_method));
 
-        qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
+        //qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);  
         //DEBUG_LOG(DEBUG_PATH,DEBUG,"Error in allocating memory \n");
         // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
         // printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
@@ -564,6 +584,7 @@ int server_fcgi_main()
 
         // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
         // printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
+        /*
         switch (get_request_method_type(query))
         {
             case 0:
@@ -581,7 +602,7 @@ int server_fcgi_main()
             default:
                 break;
         }
-
+        */
 
         // // qcgires_download(req, "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/src/debug/debug.txt", "application/octet-stream;charset=utf-8");
         // // req->free(req);

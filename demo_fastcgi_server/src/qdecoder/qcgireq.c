@@ -327,14 +327,6 @@ static int FPRINTF_LOG(const char *filename, char *fmt, ...)
 	return 0;
 }
 #define DEBUG_PATH  "/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log"
-void* read_stdin(void* arg) {
-    char buffer[1024];
-    while (fgets(buffer, sizeof(buffer), stdin) != NULL) {
-        //printf("Input: %s", buffer);
-      FPRINTF_LOG(DEBUG_PATH,"Input = %s\r\n",buffer);  
-    }
-    return NULL;
-}
 
 char *qcgireq_getquery(Q_CGI_T method)
 {
@@ -370,7 +362,7 @@ char *qcgireq_getquery(Q_CGI_T method)
         }
 
         read_len = fread(tempBuffer, 1, data_len, stdin);
-        FPRINTF_LOG(DEBUG_PATH,"tempBuffer-----= %s----%s\r\n",tempBuffer,content_type);  
+        //FPRINTF_LOG(DEBUG_PATH,"tempBuffer-----= %s----%s\r\n",tempBuffer,content_type);  
     }
 
     if (method == Q_CGI_GET)

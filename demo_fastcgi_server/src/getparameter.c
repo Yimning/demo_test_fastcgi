@@ -440,7 +440,18 @@ int cjson_cgi_getPostStr(char **postDataBuffer)
             return -1;
         }
 
-        read_len = fread(tempBuffer, 1, data_len, stdin);
+        /*
+        在 C 语言中，stdin 流是全局的标准输入流，可以在程序的任何位置使用。因此，将读取 stdin 的代码放在其他函数或文件中也是可以的。
+
+        如果您在另一个 .c 文件中无法读取到从 stdin 流中接收到的 POST 内容，可能是因为数据已经被读取并存储在缓冲区或变量中，导致 stdin 流中没有数据可供读取。
+
+        在这种情况下，您需要确保正确地处理和清空 stdin 流中的数据。例如，在从 stdin 中读取数据后，可以在缓冲区中使用 fflush(stdin) 函数清除剩余数据，或者使用 while (getchar() != '\n') {} 清除输入缓冲区。
+
+        另一个可能的原因是，您在读取 stdin 数据时未等待 POST 请求完成。因此，建议在读取 stdin 数据之前先解析 HTTP 请求头，并从请求头中获取 POST 数据的长度。然后，可以使用 fgets() 函数逐行读取 POST 数据，直到读取完毕。
+
+        综上所述，将读取 stdin 数据的代码放在 main 函数以外的其他函数或文件中是可以的，但需要注意正确处理和清空 stdin 流中的数据，并且应该先解析 HTTP 请求头以获取 POST 数据的长度，然后逐行读取 POST 数据。
+        */
+        read_len = fread(tempBuffer, 1, data_len, stdin);  // 读stdin可能读取不到数据；不知原因。改成 FCGI_stdin可避免此类情况出现。
 
         if (read_len != data_len) {
             return -1;
