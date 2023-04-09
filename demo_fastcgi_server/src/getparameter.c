@@ -451,7 +451,7 @@ int cjson_cgi_getPostStr(char **postDataBuffer)
 
         综上所述，将读取 stdin 数据的代码放在 main 函数以外的其他函数或文件中是可以的，但需要注意正确处理和清空 stdin 流中的数据，并且应该先解析 HTTP 请求头以获取 POST 数据的长度，然后逐行读取 POST 数据。
         */
-        read_len = fread(tempBuffer, 1, data_len, FCGI_stdin);  // 读stdin可能读取不到数据；不知原因。改成 FCGI_stdin 可避免此类情况出现。
+        read_len = fread(tempBuffer, 1, data_len, stdin);  // 若不引用头文件fcgi_stdio.h,读stdin可能读取不到数据。即改成FCGI_stdin可避免此类情况出现。因引用了Fastcgi库，因此该宏ENABLE_FASTCGI很重要，必不可缺。
 
         if (read_len != data_len) {
             return -1;

@@ -7,12 +7,16 @@
 #ifndef GETPARAMETER_H
 #define GETPARAMETER_H
 
-#include "stdio.h"
+#ifdef ENABLE_FASTCGI
+#include "fcgi_stdio.h"
+#else
+#include <stdio.h>
+#endif
+
 #include "stdlib.h"
 #include "string.h"
 #include "cJSON.h"
 #include "stdbool.h"
-#include "fcgi_stdio.h"
 
 #include "api.h"
 #include "common.h"
