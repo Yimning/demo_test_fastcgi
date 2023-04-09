@@ -356,12 +356,15 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
     char *pt = tempBuffer; 
     char *host_name = NULL;
     
-    char *get_query_string = qcgireq_getquery(Q_CGI_POST);
-    if(get_query_string != NULL) {
-        free(get_query_string);
+    char *get_query_string1 = qcgireq_getquery(Q_CGI_POST);
+
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"qcgireq_getquery(Q_CGI_POST)=%s\n",get_query_string1);
+
+    if(get_query_string1 != NULL) {
+        free(get_query_string1);
     }
     //cjson_cgi_getPostStr(&pt);
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string====%s\n",get_query_string);
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string1====%s\n",get_query_string1);
 
     //REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
     //qentry_t *req = qcgireq_parse(NULL, 2);
@@ -415,12 +418,15 @@ START_HANDLER(default_handler, GET, "/login", res, 0, matches)
 
     char *query_string = get_query_string();
 
-    char *get_query_string = qcgireq_getquery(Q_CGI_POST);
-    if(get_query_string != NULL) {
-        free(get_query_string);
+    char *get_query_string1 = qcgireq_getquery(Q_CGI_POST);
+
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"qcgireq_getquery(Q_CGI_POST)=%s\n",get_query_string1);
+
+    if(get_query_string1 != NULL) {
+        free(get_query_string1);
     }
 
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"%s---%s---%s-----%s\n",value,getenv("CONTENT_TYPE"),get_query_string,query_string);
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"%s---%s-----%s\n",value,getenv("CONTENT_TYPE"),query_string);
 
     response_add_header(res, "content-type", "text/html");
     response_write(res, "default page");
