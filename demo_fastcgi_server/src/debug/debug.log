@@ -1,35 +1,6 @@
-2023.3.5 23:7:22 --------log information
-----123456
-log information
-tempBuffer=----strlen(pt)=0
+2023.3.9 16:57:49 --------log information
+qcgireq_getquery = query----req_method = (null)----pt = -----(null)----(null)----(null)---=-1
 
-log information
-
-qcgireq---request_method=ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
-
-log information
-
-qcgireq---request_method=POST---29---tempBuffer=---29----0----(null)
-
-[1;32m[2023-04-05 23:07:22:212] [DEBUG] [server_fcgi_main.c:461] (nothing)---application/json;charset=UTF-8---29------
-
-[0m[1;32m[2023-04-05 23:07:22:212] [DEBUG] [server_fcgi_main.c:465] Total 0 entries.    pt={"userID":"1","passWord":"1"}----strlen(pt)=29
-
-[0m2023.3.5 23:7:48 --------log information
-----123456
-log information
-tempBuffer=----strlen(pt)=0
-
-log information
-
-qcgireq---request_method=ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
-
-log information
-
-qcgireq---request_method=POST---29---tempBuffer=---29----0----(null)
-
-[1;32m[2023-04-05 23:07:48:332] [DEBUG] [server_fcgi_main.c:461] (nothing)---application/json;charset=UTF-8---29------
-
-[0m[1;32m[2023-04-05 23:07:48:332] [DEBUG] [server_fcgi_main.c:465] Total 0 entries.    pt={"userID":"1","passWord":"1"}----strlen(pt)=29
+[1;32m[2023-04-09 16:57:54:011] [DEBUG] [server_fcgi_main.c:456] get_query_string====-----
 
 [0m
