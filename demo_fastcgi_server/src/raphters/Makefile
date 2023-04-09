@@ -12,7 +12,13 @@ CFLAGS  =-Wall
 AR = ar
 ARFLAGS = -rv
 SOFLAGS = -shared  -fPIC
-INCPATH = -I$(PROJECT_ROOT_PATH) -I/home/yimning/FastCGI/fcgi2-2.4.2/_install/include  -I/home/yimning/FastCGI/qdecoder/src  -I/home/yimning/FastCGI/json-c
+
+INCPATH += -I$(PROJECT_ROOT_PATH) 
+INCPATH += -I$(PROJECT_ROOT_PATH) 
+INCPATH += -I/home/yimning/FastCGI/fcgi2-2.4.2/_install/include  
+INCPATH += -I/home/yimning/FastCGI/qdecoder/src  
+INCPATH += -I/home/yimning/FastCGI/json-c
+
 LDFLAGS = -L/home/yimning/FastCGI/fcgi2-2.4.2/_install/lib
 LIB_NAMES =  
 TARGET_SO = 1

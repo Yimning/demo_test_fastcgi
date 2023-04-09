@@ -7,13 +7,19 @@ CCSRCS	= $(wildcard *.c)
 CCOBJS = $(patsubst %.c,%.o, $(CCSRCS))
 
 CC = gcc
-DEBUG   =-DUSE_DEBUG
-CFLAGS  =-Wall
+DEBUG   = -DUSE_DEBUG
+CFLAGS  += -Wall
+#CFLAGS  += -DENABLE_FASTCGI
+
 AR = ar
 ARFLAGS = -rv
 SOFLAGS = -shared  -fPIC
-INCPATH = -I$(PROJECT_ROOT_PATH) -I../debug/dbgout.h
-LDFLAGS = -L.
+
+INCPATH += -I$(PROJECT_ROOT_PATH) 
+INCPATH += -I/home/yimning/FastCGI/fcgi2-2.4.2/_install/include
+
+LDFLAGS += -L.
+LDFLAGS += -L/home/yimning/FastCGI/fcgi2-2.4.2/_install/lib
 LIB_NAMES =  
 TARGET_SO = 1
 TARGET_AR = 1
