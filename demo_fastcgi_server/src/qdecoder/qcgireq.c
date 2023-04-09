@@ -330,41 +330,6 @@ static int FPRINTF_LOG(const char *filename, char *fmt, ...)
 
 char *qcgireq_getquery(Q_CGI_T method)
 {
-    char *content_len = NULL;
-    char *tempBuffer = NULL;
-    int  data_len, read_len;
- 	/* 说明返回内容类型为html文本 */
-	//printf("Content-Type:text/html\n\n");
-
-	/* 请求方式 */
-	char *req_method = getenv("REQUEST_METHOD");
-
-    /* 获取数据类型  */
-    char *content_type = getenv("CONTENT_TYPE");//application/x-www-form-urlencoded、multipart/form-data、text/plain 其中：multipart/form-data是文件传输
-
-    /* 处理POST请求 */
-	if((req_method!=NULL)&&(!strcmp("POST", req_method)))    
-    { 
-        content_len = getenv("CONTENT_LENGTH");//获取数据长度
-
-        if (NULL == content_len) {
-            content_len = "";
-        }
-
-        data_len = atoi(content_len);
-        if (data_len < 0) {
-            return -1;
-        }
-        tempBuffer = (char *)malloc(data_len);
-        memset(tempBuffer, 0, data_len);
-        if (NULL == tempBuffer) {
-            return -1;
-        }
-
-        read_len = fread(tempBuffer, 1, data_len, stdin);
-        //FPRINTF_LOG(DEBUG_PATH,"tempBuffer-----= %s----%s\r\n",tempBuffer,content_type);  
-    }
-
     if (method == Q_CGI_GET)
     {
             char *query_string = getenv("QUERY_STRING");
