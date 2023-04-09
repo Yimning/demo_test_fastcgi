@@ -38,7 +38,7 @@ CFLAGSPATHDIR = /home/yimning/FastCGI
 #CFLAGS += -Wstrict-prototypes
 #CFLAGS += -Wmissing-declarations
 #CFLAGS += -fno-optimize-sibling-calls  -Wdeclaration-after-statement 
-
+CFLAGS += -DENABLE_FASTCGI  #  要打开 #ifdef ENABLE_FASTCGI，需要在编译命令中添加 -DENABLE_FASTCGI 选项
 
 CFLAGS += -I$(CFLAGSPATHDIR)/fcgi2-2.4.2/_install/include
 CFLAGS += -I$(CFLAGSPATHDIR)/rudecgi-5.0.0/_install/include  # 后续删除
