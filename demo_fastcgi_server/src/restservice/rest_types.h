@@ -445,7 +445,7 @@ end_handler: \
     json_object *req_json_var = NULL; \
     qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);\
     json_object *req_json = NULL; \
-    char* json_str = req->getstr(req, "json", "");\
+    char* json_str = req->getstr(req, "userID", "");\
     DEBUG_LOG(DEBUG_PATH,DEBUG,"runign.yan----get_query_string1====%s\n",json_str);\
 
 // [TODO] As json_object_get_string return (const char *) type, we should have a same type variable to be assigned instead of doing type conversion to (char *)
