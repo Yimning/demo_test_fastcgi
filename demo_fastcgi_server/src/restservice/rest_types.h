@@ -5,6 +5,7 @@
 #include "rest_common.h"
 #include "json.h"
 
+
 #define GET_TEMP_MODEL_OBJECT() j_tmpres
 #define VARIABLE_UNUSED                         __attribute__ ((unused))
 #define COULD_NOT_ESTABLISH_NULL_SESSION   401
@@ -403,13 +404,13 @@ end_handler: \
     }
 
 // Do not free the request variables manually. Freeing is taken care by json_object_put.
-#define REQUEST_REQUIRED_VAR(VARIABLE, KEY, JSON_TYPE, JSON_FUNCTION, VARIABLE_TYPE)   \
+//#define REQUEST_REQUIRED_VAR(VARIABLE, KEY, JSON_TYPE, JSON_FUNCTION, VARIABLE_TYPE)   \
     json_object *req_json_var = NULL;                                                  \
     json_object *req_json = json_object_new_object();                                  \
     qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);                                  \
     if (json_object_object_get_ex(req_json, KEY, &req_json_var)) {                     \
         if (json_object_get_type(req_json_var) == JSON_TYPE) {                         \
-            VARIABLE = VARIABLE_TYPE JSON_FUNCTION(req_json_var);                      \
+            VARIABLE = (VARIABLE_TYPE JSON_FUNCTION(req_json_var));                      \
         } else {                                                                       \
             json_object *jresp_invalid_var_type;                                       \
             printf("Status: 400 Bad Request \r\n");                                    \
@@ -439,7 +440,13 @@ end_handler: \
         goto end_handler;                                                              \
     }                                                                                  \
     end_handler:NULL                                                                           
-  
+
+#define REQUEST_REQUIRED_VAR(VARIABLE, KEY, JSON_TYPE, JSON_FUNCTION, VARIABLE_TYPE) \
+    json_object *req_json_var = NULL; \
+    qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);\
+    json_object *req_json = NULL; \
+    char* json_str = req->getstr(req, "json", "");\
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"runign.yan----get_query_string1====%s\n",json_str);\
 
 // [TODO] As json_object_get_string return (const char *) type, we should have a same type variable to be assigned instead of doing type conversion to (char *)
 #define REQUEST_REQUIRED_VAR_STRING(VARIABLE, KEY) \

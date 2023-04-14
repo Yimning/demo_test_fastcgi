@@ -19,6 +19,7 @@
 #include <sys/file.h>
 #include "json.h"
 #include "qdecoder.h"
+#include "dbgout.h"
 
 //AUTOMATION ENGINE SCRIPTS/TASKS
 #define HTTPHEADER	"POST /api HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: keep-alive\r\nContent-Type: application/json\r\n"
