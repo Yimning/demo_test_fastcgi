@@ -366,12 +366,12 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
     //cjson_cgi_getPostStr(&pt);
     DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string1====%s\n",get_query_string1);
 
-    //REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
+    REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
     //qentry_t *req = qcgireq_parse(NULL, 2);
 
 
     //read_stdin(NULL);                 
-    // req->print(req, stdout, true);
+    //req->print(req, stdout, true);
 
     // Get values
     // char *value = (char *)req->getstr(req, "userID", false);
