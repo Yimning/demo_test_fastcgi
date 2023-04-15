@@ -215,15 +215,26 @@ export default {
 
                         // 获取
                         //console.log(that.$store.getters.getUser);
-                        if (res.data.code === 200) {
-                            that.$router.push('/dashboard'); //跳转页
-                            this.$message.success('登录成功');
-                            //console.log(this.$store.getters.getUser)
-                            this.TimeAndPlace();
+                        console.log(res.status);
+                        if (res.status === 200) {
+                            if(userInfo.data === 1){
+                                that.$router.push('/dashboard'); //跳转页
+                                this.$message.success(res.data.msg);
+                            }else{
+                                this.$message.error(res.data.msg);
+                            }
                         }
-
-                        if (res.data.code == 400) {
-                            this.$message.error(res.data.msg);
+                    })
+                    .catch(error => {
+                        // 请求失败后的处理逻辑
+                        if (error.response && error.response.status) {
+                            this.$message.error(error.response.status +" "+ error.response.statusText);
+                            // console.error('500 (Internal Server Error)', error.response.data);
+                            // console.error('message', error.message);
+                            // console.error('headers', error.response.headers);
+                            // console.error('statusText', error.response.statusText);
+                            // console.error('config', error.response.config);
+                            
                         }
                     });
                 } else {
