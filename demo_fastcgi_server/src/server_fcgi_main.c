@@ -1,7 +1,10 @@
+#ifdef ENABLE_FASTCGI
 #include <fcgi_stdio.h>
 #include <fcgi_config.h>
-#include <stdlib.h>
+#else
 #include <stdio.h>
+#endif
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/time.h>   
@@ -288,7 +291,7 @@ printf("\
 
 static int login_ok_already(int webcmd, char* username, char* password)
 {
-    static int login_ok = 1;
+    static int login_ok = -1;
     static struct timeval t_start, t_end;
 
     char tempBuffer[MAX_BUFFER_SIZE]={0};
@@ -304,9 +307,6 @@ static int login_ok_already(int webcmd, char* username, char* password)
             login_ok = 1; //  login ok
 			gettimeofday(&t_start, NULL);
 			gettimeofday(&t_end, NULL);
-            // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
-            // printf("<script>alert(\"login ok%d--%d\")</script>",t_start.tv_sec,t_end.tv_sec);
-
             FPRINTF_LOG(DEBUG_PATH,"%s登录操作---%s\r\n", web_cmd2str(webcmd), getenv("REQUEST_URI"));         
 		}
         else
@@ -354,26 +354,53 @@ struct response *res;
 START_HANDLER (simple, POST, "/login", res,0, matches) {
     char tempBuffer[256] = {0}; 
     char *pt = tempBuffer; 
-    char *host_name = NULL;
+    char *userName = NULL;
+    char *passWord = NULL;
+    char msg[256]={0};
+    int ret = -1;
+    int webcmd = 1;
     
-    char *get_query_string1 = qcgireq_getquery(Q_CGI_POST);
+    // char *get_query_string1 = qcgireq_getquery(Q_CGI_POST);
 
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"qcgireq_getquery(Q_CGI_POST)=%s\n",get_query_string1);
+    // DEBUG_LOG(DEBUG_PATH,DEBUG,"qcgireq_getquery(Q_CGI_POST)=%s\n",get_query_string1);
 
-    if(get_query_string1 != NULL) {
-        free(get_query_string1);
-    }
+    // if(get_query_string1 != NULL) {
+    //     free(get_query_string1);
+    // }
     //cjson_cgi_getPostStr(&pt);
 
     
     // json_object *req_json = json_object_new_object();
+
     qentry_t *req = qcgireq_parse(NULL, 0);
-    char* json_str ="";
     MODEL_INIT(POST);
-    REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string1====%s\n",host_name);
+    REQUEST_REQUIRED_VAR_STRING(userName, "userID");
+    REQUEST_REQUIRED_VAR_STRING(passWord, "passWord");
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string====%s---%s\n",userName,passWord);
     GO_END_HANDLER;
 
+    ret = login_ok_already(webcmd, userName, passWord);
+
+    switch (ret)
+    {
+        case 0:
+            // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+            // printf("<p style=\"text-align:center; font-size:18px\">需要重新登录!!!</p>");
+            strcpy(msg,"Need to log in again!");
+            break;
+        case 1:
+            strcpy(msg,"Login succeeded!");
+            break;
+        case -1:
+            // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
+            // printf("<p style=\"text-align:center; font-size:18px\">登录用户名密码错误!!!</p>");
+            strcpy(msg,"Login username or password error!");
+            break;
+    }
+    MODEL_ADD_STRING("userName", userName);
+    MODEL_ADD_STRING("msg", msg);
+	MODEL_ADD_INTEGER("data", ret);
+    MODEL_OUTPUT();
     //read_stdin(NULL);                 
     //req->print(req, stdout, true);
 

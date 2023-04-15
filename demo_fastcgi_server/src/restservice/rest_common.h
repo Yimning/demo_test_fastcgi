@@ -1,6 +1,10 @@
 #ifndef REST_COMMOM_H
 #define REST_COMMOM_H
+#ifdef ENABLE_FASTCGI
+#include "fcgi_stdio.h"
+#else
 #include <stdio.h>
+#endif
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
