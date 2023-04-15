@@ -205,17 +205,16 @@ export default {
                     //this.$axios.post('/api/login', this.param, {headers: {'Content-Type': 'multipart/form-data'}}).then((res) => {
                     this.$axios.post('/api/login', this.param, {headers: {'Content-Type': 'application/json'}}).then((res) => {
                         /*   本身的路由  http://localhost:8088/ 但是为了后续方便修改，一般放置于 axios.js中 */
-                        console.log(res);
+                        // console.log(res);
                         const jwt = res.headers['authorization'];
                         const userInfo = res.data;
-                        console.log(userInfo);
+                        // console.log(userInfo);
                         // 把数据共享出去，存于this.store下
                         that.$store.commit('SET_TOKEN', jwt);
                         that.$store.commit('SET_USERINFO', userInfo);
 
                         // 获取
                         //console.log(that.$store.getters.getUser);
-                        console.log(res.status);
                         if (res.status === 200) {
                             if(userInfo.data === 1){
                                 that.$router.push('/dashboard'); //跳转页
