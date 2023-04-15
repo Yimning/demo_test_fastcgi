@@ -331,6 +331,7 @@ end_handler: \
 
 #define REQUEST_PARSER_INIT(METHOD)                                                   \
     char *query = qcgireq_getquery(CGI_##METHOD);                                     \
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"query====%s\n",query);                                \  
     json_object *req_json = json_object_new_object();                                 \
     json_object *req_json_var = NULL;                                                 \
     if (0) {                                                                          \
@@ -404,10 +405,7 @@ end_handler: \
     }
 
 // Do not free the request variables manually. Freeing is taken care by json_object_put.
-//#define REQUEST_REQUIRED_VAR(VARIABLE, KEY, JSON_TYPE, JSON_FUNCTION, VARIABLE_TYPE)   \
-    json_object *req_json_var = NULL;                                                  \
-    json_object *req_json = json_object_new_object();                                  \
-    qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);                                  \
+#define REQUEST_REQUIRED_VAR(VARIABLE, KEY, JSON_TYPE, JSON_FUNCTION, VARIABLE_TYPE)   \                                                                          
     if (json_object_object_get_ex(req_json, KEY, &req_json_var)) {                     \
         if (json_object_get_type(req_json_var) == JSON_TYPE) {                         \
             VARIABLE = (VARIABLE_TYPE JSON_FUNCTION(req_json_var));                      \
@@ -438,16 +436,11 @@ end_handler: \
         json_object_put(jresp_var_not_found);                                          \
         MODEL_FREE();                                                                  \
         goto end_handler;                                                              \
-    }                                                                                  \
-    end_handler:NULL                                                                           
-
-#define REQUEST_REQUIRED_VAR(VARIABLE, KEY, JSON_TYPE, JSON_FUNCTION, VARIABLE_TYPE) \
-    json_object *req_json_var = NULL; \
-    qentry_t *req =  qcgireq_parse(NULL, (Q_CGI_T)0);\
-    json_object *req_json = NULL; \
-    char* json_str = req->getstr(req, "userID", "");\
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"runign.yan----get_query_string1====%s\n",json_str);\
-
+    }                                                                                                                                                           
+ 
+#define GO_END_HANDLER\
+    end_handler:NULL
+    
 // [TODO] As json_object_get_string return (const char *) type, we should have a same type variable to be assigned instead of doing type conversion to (char *)
 #define REQUEST_REQUIRED_VAR_STRING(VARIABLE, KEY) \
     REQUEST_REQUIRED_VAR(VARIABLE, KEY, json_type_string, json_object_get_string, (char *))

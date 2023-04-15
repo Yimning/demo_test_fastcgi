@@ -55,7 +55,6 @@ void NAME##_func(regmatch_t MATCHES[]) { \
 
 #define SUCCESS_OUTPUT(JSON_STRING) \
 		if(1) { \
-        qentry_t *req = qcgireq_parse(NULL, 0); \
 				qcgires_setcontenttype(req, "application/json"); \
 		} \
 		printf("%s", JSON_STRING);
@@ -63,7 +62,6 @@ void NAME##_func(regmatch_t MATCHES[]) { \
 #define ERROR_OUTPUT(HTTP_STATUS, JSON_ERROR_STRING) \
 		printf("Status: %s \n", HTTP_STATUS); \
 		if(1) { \
-        qentry_t *req = qcgireq_parse(NULL, 0); \
 				qcgires_setcontenttype(req, "application/json"); \
 		} \
 		printf("%s", JSON_ERROR_STRING);

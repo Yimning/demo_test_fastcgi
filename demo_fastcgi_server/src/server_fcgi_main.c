@@ -364,11 +364,15 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
         free(get_query_string1);
     }
     //cjson_cgi_getPostStr(&pt);
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string1====%s\n",get_query_string1);
 
+    
+    // json_object *req_json = json_object_new_object();
+    qentry_t *req = qcgireq_parse(NULL, 0);
+    char* json_str ="";
+    MODEL_INIT(POST);
     REQUEST_REQUIRED_VAR_STRING(host_name, "userID");
-    //qentry_t *req = qcgireq_parse(NULL, 2);
-
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string1====%s\n",host_name);
+    GO_END_HANDLER;
 
     //read_stdin(NULL);                 
     //req->print(req, stdout, true);
@@ -392,8 +396,8 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
 
 
     //REQUEST_PARSER_INIT(POST);
-    response_add_header(res, "content-type", "application/json");
-    response_write(res, "{\"add\":\"0\"}");
+    //response_add_header(res, "content-type", "application/json");
+    //response_write(res, "{\"add\":\"0\"}");
     // response_write(res, host_name);
 }
 END_HANDLER
@@ -405,15 +409,15 @@ START_HANDLER(default_handler, GET, "/login", res, 0, matches)
                         
     cjson_cgi_getPostStr(&pt);
 
-    qentry_t *req = qcgireq_parse(NULL, 0);
+    //qentry_t *req = qcgireq_parse(NULL, 0);
 
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"Total %d entries.    pt=%s\n", req->size(req),pt);
+    //DEBUG_LOG(DEBUG_PATH,DEBUG,"Total %d entries.    pt=%s\n", req->size(req),pt);
     //req->print(req, stdout, true);
 
 
     // Get values
-    char *value = (char *)req->getstr(req, "userID", false);
-
+    //char *value = (char *)req->getstr(req, "userID", false);
+    char *value = NULL;
     if (value == NULL) value = "(nothing)";
 
     char *query_string = get_query_string();
@@ -454,6 +458,7 @@ int server_fcgi_main()
     char *username;
     char *password; 
     const char *pstr =  NULL;
+
 
     // while (FCGI_Accept() >= 0)
     // {
