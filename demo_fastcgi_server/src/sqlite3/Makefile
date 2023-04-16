@@ -7,8 +7,8 @@ CCSRCS	= $(wildcard *.c)
 CCOBJS = $(patsubst %.c,%.o, $(CCSRCS))
 
 CC = gcc
-DEBUG   =-DUSE_DEBUG
-CFLAGS  =-Wall
+DEBUG   = -DUSE_DEBUG
+CFLAGS  = -g -Wall -Wextra -pedantic -std=c11
 AR = ar
 ARFLAGS = -rv
 SOFLAGS = -shared  -fPIC
@@ -16,10 +16,10 @@ SOFLAGS = -shared  -fPIC
 INCPATH += -I$(PROJECT_ROOT_PATH) 
 
 
-LDFLAGS += -L.
-LDFLAGS += -ldl
+LDFLAGS += -L. -L/usr/lib/x86_64-linux-gnu/
+LDFLAGS += -ldl  -lpthread
 LIB_NAMES =  
-TARGET_AR = 1 
+#TARGET_AR = 1 
 TARGET_SO = 1
 
 #links
@@ -48,7 +48,7 @@ $(CCOBJS): %.o: %.c
 .PHONY: install
 install:
 	mkdir -p $(PROJECT_ROOT_PATH)/lib
-	cp $(TARGET) $(PROJECT_ROOT_PATH)/lib
+	cp $(TARGET) $(PROJECT_ROOT_PATH)/lib/$(LIB_NAME).so
 	
 .PHONY: clean
 clean:

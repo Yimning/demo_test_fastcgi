@@ -6,7 +6,7 @@ INCLUDES +=  ${TOPDIR}/src/debug/
 INCLUDES +=  ${TOPDIR}/src/cJSON/
 INCLUDES +=  ${TOPDIR}/src/api/
 INCLUDES +=  ${TOPDIR}/src/restservice/
-INCLUDES +=  ${TOPDIR}/src/sqlite3/
+#INCLUDES +=  ${TOPDIR}/src/sqlite3/
 
 lib=src
 EXT_CFLAGS +=-D_GNU_SOURCE -D_src_CLI_   

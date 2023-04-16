@@ -44,7 +44,7 @@ CFLAGS += -I$(CFLAGSPATHDIR)/fcgi2-2.4.2/_install/include
 CFLAGS += -I$(CFLAGSPATHDIR)/rudecgi-5.0.0/_install/include  # 后续删除
 CFLAGS += -I$(CFLAGSPATHDIR)/json-c
 CFLAGS += -I$(TOPDIR)/src/raphters
-#CFLAGS += -I$(TOPDIR)/src/qdecoder
+CFLAGS += -I$(TOPDIR)/src/sqlite3
 
 LIBDIR=.
 

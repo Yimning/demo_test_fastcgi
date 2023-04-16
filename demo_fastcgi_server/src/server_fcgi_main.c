@@ -525,6 +525,10 @@ int server_fcgi_main()
         sqlite3 *db;
         char *err_msg = 0;
 
+        int rc = sqlite3_open("mydatabase.db", &db);
+
+        FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
+
         add_handler(default_handler);
         add_handler(simple);
         //add_handler(getNetworkSideBand);

@@ -22,7 +22,7 @@ subdirs += src/qdecoder
 subdirs += src/cJSON 
 subdirs += src/restservice
 subdirs += src/raphters
-subdirs += src/sqlite3
+#subdirs += src/sqlite3
 
 include ${TOPDIR}/make/Make.subdirs
 include ${TOPDIR}/make/Make.build
@@ -36,13 +36,14 @@ ${TARGET}:${TARGET}_nostrip
 LIBS += -L/home/yimning/FastCGI/fcgi2-2.4.2/_install/lib
 LIBS += -L/home/yimning/FastCGI/rudecgi-5.0.0/_install/lib   #后续删除
 LIBS += -L/home/yimning/FastCGI/json-c/_install
-#LIBS += -L./src/lib
+LIBS += -L./src/sqlite3/
 
 
 LIBS += -lfcgi  # -lfcgi++
 LIBS += -lrudecgi  #后续删除
 LIBS += -ljson-c
-#LIBS += -lsqlite3
+LIBS += -ldl
+LIBS += -lsqlite3
 #LIBS += -lraphters
 #LIBS += -lqdecoder
 
@@ -52,7 +53,7 @@ ${TARGET}_nostrip:main.o ${STATIC_LIBS}
 	cp -rf ${TOPDIR}/src/cJSON/cJSON.1.0.0.a ${TOPDIR}/src/lib/cJSON.a
 #	cp -rf ${TOPDIR}/src/restservice/restservice.13.0.0.a ${TOPDIR}/src/lib/restservice.a  
 	cp -rf ${TOPDIR}/src/raphters/raphters.1.0.0.a  ${TOPDIR}/src/lib/raphters.a
-	cp -rf ${TOPDIR}/src/sqlite3/libsqlite3.3.41.2.a ${TOPDIR}/src/lib/libsqlite3.a
+#	cp -rf ${TOPDIR}/src/sqlite3/libsqlite3.3.41.2.a ${TOPDIR}/src/lib/libsqlite3.a
 	${CPP} main.o ${STATIC_LIBS} ${TOPDIR}/src/lib/* -lcrypt -lpthread -lm -lrt ${LIBS} -o $@
 	
 clean::
