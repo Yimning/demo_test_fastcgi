@@ -25,7 +25,7 @@
 #include "sys/stat.h"
 #include "fcntl.h"
 #include "errno.h"
-
+#include <iconv.h>
 
 #ifndef	__ssize_t_defined
 typedef __ssize_t ssize_t;
@@ -59,4 +59,8 @@ int empty_file(const char *file_name);
 
 /* save file */
 ssize_t savefile(const char *filepath, const void *buf, size_t size);
+
+char *get_current_dir();
+
+char* utf8_to_gb2312(const char *utf8_str);
 #endif

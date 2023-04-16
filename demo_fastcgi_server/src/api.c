@@ -26,11 +26,14 @@ struct tm* systemTimeNow()
     return tm; 
 }
 
-char* getDirCWD()
-{
-	char buf[256];   
-    getcwd(buf,sizeof(buf));   
-	return buf;
+char *get_current_dir() {
+    char *cwd = (char*)malloc(sizeof(char) * 1024);
+    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+        printf("Failed to get current working directory.\n");
+        return NULL;
+    } else {
+        return cwd;
+    }
 }
 
 int CONSOLELOG(const char *filename,char *signstr,char *data)

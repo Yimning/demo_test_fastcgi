@@ -9,6 +9,7 @@
 #define TIME_ARRAY  (TIME_LEN/sizeof(int))
 #define DEBUG_PATH ("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/debug.log")
 #define LOGIN_PATH ("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/login")
+#define SQLITE3_PATH ("/home/yimning/FastCGI/lighttpd/www/demo_test_fastcgi/demo_fastcgi_server/src/debug/mydatabase.db")
 
 
 static int compare_time(int tm1[TIME_ARRAY],int tm2[TIME_ARRAY])

@@ -289,6 +289,20 @@ printf("\
     return 0;
 }
 
+static int callback(void *NotUsed, int argc, char **argv, char **azColName)
+{
+    int i;
+
+    for (i = 0; i < argc; i++)
+    {
+        FPRINTF_LOG(DEBUG_PATH,"%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+
+    FPRINTF_LOG(DEBUG_PATH,"\n");
+
+    return 0;
+}
+
 static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
 {
     static int login_ok = -1;
@@ -299,6 +313,37 @@ static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
     char *pstr = NULL;
     pstr = tempBuffer;
     fread_file(LOGIN_PATH,&pstr);
+
+    sqlite3 *db;
+    char *errMsg = 0;
+
+    int rc = sqlite3_open(SQLITE3_PATH, &db);
+    if (rc != SQLITE_OK) {
+        // printf("Failed to open database: %s\n", sqlite3_errmsg(db));
+        FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+        //return 1;
+    } else {
+        // printf("Database opened successfully.\n");
+        FPRINTF_LOG(DEBUG_PATH,"Database opened successfully.\n");
+    }
+
+// 查询数据
+    char *sql_select = "SELECT * FROM \"userlist\";";
+
+    rc = sqlite3_exec(db, sql_select, callback, 0, &errMsg);
+
+    if (rc != SQLITE_OK)
+    {
+        //fprintf(stderr, "SQL error: %s\n", errMsg);
+        FPRINTF_LOG(DEBUG_PATH,"SQL error: %s\n", errMsg);
+        sqlite3_free(errMsg);
+        sqlite3_close(db);
+        //return 1;
+    }
+
+    FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
+    sqlite3_close(db);
 
     if (webcmd == WEB_CMD_LOGIN)
     {
@@ -521,13 +566,6 @@ int server_fcgi_main()
         //DEBUG_LOG(DEBUG_PATH,DEBUG,"Error in allocating memory \n");
         // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
         // printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
-
-        sqlite3 *db;
-        char *err_msg = 0;
-
-        int rc = sqlite3_open("mydatabase.db", &db);
-
-        FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
 
         add_handler(default_handler);
         add_handler(simple);
