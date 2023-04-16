@@ -32,9 +32,9 @@
 #include "dbgout.h"
 #include "rest_common.h"
 #include "raphters.h"
-#include "json.h"
+#include <json.h>
 #include <pthread.h>
-
+#include <sqlite3.h>
 
 #define RIGHT_HTML_BUFFER (right_html_str+strlen(right_html_str))
 
@@ -289,7 +289,7 @@ printf("\
     return 0;
 }
 
-static int login_ok_already(int webcmd, char* username, char* password)
+static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
 {
     static int login_ok = -1;
     static struct timeval t_start, t_end;
@@ -302,7 +302,7 @@ static int login_ok_already(int webcmd, char* username, char* password)
 
     if (webcmd == WEB_CMD_LOGIN)
     {
-        if((pstr != NULL) &&(!strcmp(username, cJSON_GetStrValue(pstr,"username"))) &&(!strcmp(password, cJSON_GetStrValue(pstr,"password"))))
+        if((pstr != NULL) &&(!strcmp(accountNumber, cJSON_GetStrValue(pstr,"accountNumber"))) &&(!strcmp(passWord, cJSON_GetStrValue(pstr,"passWord"))))
         {
             login_ok = 1; //  login ok
 			gettimeofday(&t_start, NULL);
@@ -354,7 +354,7 @@ struct response *res;
 START_HANDLER (simple, POST, "/login", res,0, matches) {
     char tempBuffer[256] = {0}; 
     char *pt = tempBuffer; 
-    char *userName = NULL;
+    char *accountNumber = NULL;
     char *passWord = NULL;
     char msg[256]={0};
     int ret = -1;
@@ -374,12 +374,12 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
 
     qentry_t *req = qcgireq_parse(NULL, 0);
     MODEL_INIT(POST);
-    REQUEST_REQUIRED_VAR_STRING(userName, "userID");
+    REQUEST_REQUIRED_VAR_STRING(accountNumber, "accountNumber");
     REQUEST_REQUIRED_VAR_STRING(passWord, "passWord");
-    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string====%s---%s\n",userName,passWord);
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"get_query_string====%s---%s\n",accountNumber,passWord);
     GO_END_HANDLER;
 
-    ret = login_ok_already(webcmd, userName, passWord);
+    ret = login_ok_already(webcmd, accountNumber, passWord);
 
     switch (ret)
     {
@@ -394,10 +394,10 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
         case -1:
             // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
             // printf("<p style=\"text-align:center; font-size:18px\">登录用户名密码错误!!!</p>");
-            strcpy(msg,"Login username or password error!");
+            strcpy(msg,"Login accountnumber or password error!");
             break;
     }
-    MODEL_ADD_STRING("userName", userName);
+    MODEL_ADD_STRING("accountNumber", accountNumber);
     MODEL_ADD_STRING("msg", msg);
 	MODEL_ADD_INTEGER("data", ret);
     MODEL_OUTPUT();
@@ -405,7 +405,7 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
     //req->print(req, stdout, true);
 
     // Get values
-    // char *value = (char *)req->getstr(req, "userID", false);
+    // char *value = (char *)req->getstr(req, "accountNumber", false);
 
     // if (value == NULL) value = "(nothing)";
 
@@ -443,7 +443,7 @@ START_HANDLER(default_handler, GET, "/login", res, 0, matches)
 
 
     // Get values
-    //char *value = (char *)req->getstr(req, "userID", false);
+    //char *value = (char *)req->getstr(req, "accountNumber", false);
     char *value = NULL;
     if (value == NULL) value = "(nothing)";
 
@@ -521,6 +521,10 @@ int server_fcgi_main()
         //DEBUG_LOG(DEBUG_PATH,DEBUG,"Error in allocating memory \n");
         // printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
         // printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
+
+        sqlite3 *db;
+        char *err_msg = 0;
+
         add_handler(default_handler);
         add_handler(simple);
         //add_handler(getNetworkSideBand);

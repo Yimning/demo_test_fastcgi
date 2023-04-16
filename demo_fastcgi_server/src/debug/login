@@ -1,4 +1,6 @@
 {
-	"username":	"admin",
-	"password":	"123"
+	"accountNumber":	"1",
+	"passWord":	"1",
+	"cardID":	"123456",
+	"userName":	"张三"
 }
