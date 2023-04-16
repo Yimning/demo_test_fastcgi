@@ -318,6 +318,7 @@ static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
     char *errMsg = 0;
 
     int rc = sqlite3_open(SQLITE3_PATH, &db);
+    //int rc = sqlite3_open_v2(SQLITE3_PATH, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_URI | SQLITE_OPEN_NOMUTEX,  "unix");
     if (rc != SQLITE_OK) {
         // printf("Failed to open database: %s\n", sqlite3_errmsg(db));
         FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
