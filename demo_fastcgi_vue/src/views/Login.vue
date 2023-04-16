@@ -4,8 +4,8 @@
         <div class="ms-login">
             <div class="ms-title">IOT设备控制管理系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
-                <el-form-item prop="userID">
-                    <el-input v-model="param.userID" placeholder="账号">
+                <el-form-item prop="accountNumber">
+                    <el-input v-model="param.accountNumber" placeholder="账号">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
@@ -140,7 +140,7 @@ export default {
     data: function () {
         return {
             param: {
-                userID: '',
+                accountNumber: '',
                 passWord: '',
                 //userFlag: '0'
             },
@@ -164,7 +164,7 @@ export default {
                 imgpath: ''
             },
             rules: {
-                userID: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+                accountNumber: [{ required: true, message: '请输入账号', trigger: 'blur' }],
                 passWord: [{ required: true, message: '请输入密码', trigger: 'blur' }],
                 //userFlag: [{ required: true, message: '请选择用户类型', trigger: 'blur' }]
                 // id: [{ required: true, message: '请输入账号', trigger: 'blur' }],
@@ -213,7 +213,7 @@ export default {
                         that.$store.commit('SET_TOKEN', jwt);
                         that.$store.commit('SET_USERINFO', userInfo);
 
-                        // 获取
+                        // 获取 
                         //console.log(that.$store.getters.getUser);
                         if (res.status === 200) {
                             if(userInfo.data === 1){
@@ -245,7 +245,7 @@ export default {
         },
         resetForm(formName) {
             //this.$refs[formName].resetFields();
-            this.param.userID = '';
+            this.param.accountNumber = '';
             this.param.passWord = '';
         },
         faceLogin() {
@@ -262,7 +262,7 @@ export default {
         },
         onSubmit() {
             const that = this; 
-            this.id = this.form.userID;
+            this.id = this.form.accountNumber;
             if (this.id != '' || this.id != null) {
                 if (this.str === 'A') {
                     this.form.adminPassword = this.form.pwd;
@@ -376,7 +376,7 @@ export default {
                         this.form.realName = this.form.studentName;
                     }
 
-                    if (this.form.userID === '' || this.form.userID) {
+                    if (this.form.accountNumber === '' || this.form.accountNumber) {
                         this.$message.error('用户不存在');
                     } else {
                         this.idIsCheck = true;
