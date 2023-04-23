@@ -18,7 +18,7 @@ Web 服务器把结果送回到用户<br>
 eg.<br>
 得到参数 char *query_string = "CMD=LOGON&SELECT=0&USERNAME=user&PASSWORD=123";<br>
 对其解析成字符串：
-```json
+```json  
 0---CMD=LOGON 
 1---SELECT=0
 2---USERNAME=user
