@@ -287,6 +287,22 @@ ssize_t savefile(const char *filepath, const void *buf, size_t size)
 
 
 //sqlite3 api
+
+
+static int callback(void *NotUsed, int argc, char **argv, char **azColName)
+{
+    int i;
+
+    for (i = 0; i < argc; i++)
+    {
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+
+    printf("\n");
+
+    return 0;
+}
+
 int getUserListSqlite3(const char *sql_select,const char *json_string)
 {
     sqlite3 *db;
@@ -358,47 +374,28 @@ int insertUserListSqlite3(const char *sql_insert,const char *json_string)
 {
     sqlite3 *db;
 	char errMsg[256] = {0};
-	
+
     int rc = sqlite3_open(SQLITE3_PATH, &db);
-    //int rc = sqlite3_open_v2(SQLITE3_PATH, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_URI | SQLITE_OPEN_NOMUTEX,  "unix");
+
     if (rc != SQLITE_OK) {
-        // printf("Failed to open database: %s\n", sqlite3_errmsg(db));
         FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
 		sprintf(errMsg,"Failed to open database: %s\n", sqlite3_errmsg(db));
 		memcpy(json_string,errMsg,strlen(errMsg));
         sqlite3_close(db);
         return rc;
-    } else {
-        // printf("Database opened successfully.\n");
-        FPRINTF_LOG(DEBUG_PATH,"Database opened successfully.\n");
     }
 
-    sqlite3_stmt *stmt;
-    rc = sqlite3_prepare_v2(db, sql_select, -1, &stmt, 0);
+    rc = sqlite3_exec(db, sql_insert, NULL, NULL, &errMsg);
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK)
+	{
 		FPRINTF_LOG(DEBUG_PATH,"Failed to prepare statement: %s\n", sqlite3_errmsg(db));
-		sprintf(errMsg,"Failed to prepare statement: %s\n", sqlite3_errmsg(db));
+		sprintf(errMsg,"SQL error: %s\n", errMsg);
 		memcpy(json_string,errMsg,strlen(errMsg));
+		sqlite3_free(errMsg);
         sqlite3_close(db);
         return rc;
     }
-
-    struct json_object *root = json_object_new_array();
-    while (sqlite3_step(stmt) == SQLITE_ROW) {
-        struct json_object *row = json_object_new_object();
-        json_object_object_add(row, "accountNumber", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
-        // json_object_object_add(row, "passWord", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
-        json_object_object_add(row, "cardID", json_object_new_string((const char*)sqlite3_column_text(stmt, 2)));
-        json_object_object_add(row, "userName", json_object_new_string((const char*)sqlite3_column_text(stmt, 3)));
-        json_object_object_add(row, "age", json_object_new_int(sqlite3_column_int(stmt, 4)));
-        json_object_array_add(root, row);
-    }
-    const char *json_string_temp = json_object_get_string(root);
-	memcpy(json_string,json_string_temp,strlen(json_string_temp));
-    FPRINTF_LOG(DEBUG_PATH,"%s\n", json_string_temp);
-
-    sqlite3_finalize(stmt);
     sqlite3_close(db);
     FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
 	return rc;
