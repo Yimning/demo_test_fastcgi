@@ -351,8 +351,8 @@ int getUserListSqlite3(const char *sql_select,const char *json_string)
     struct json_object *root = json_object_new_array();
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         struct json_object *row = json_object_new_object();
-        json_object_object_add(row, "accountNumber", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
-        // json_object_object_add(row, "passWord", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
+        json_object_object_add(row, "accountNumber", json_object_new_string((const char*)sqlite3_column_text(stmt, 0)));
+        // json_object_object_add(row, "passWord", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));  //Remove the password field.
         json_object_object_add(row, "cardID", json_object_new_string((const char*)sqlite3_column_text(stmt, 2)));
         json_object_object_add(row, "userName", json_object_new_string((const char*)sqlite3_column_text(stmt, 3)));
         json_object_object_add(row, "age", json_object_new_int(sqlite3_column_int(stmt, 4)));
@@ -369,7 +369,7 @@ int getUserListSqlite3(const char *sql_select,const char *json_string)
 }
 
 
-// insert uselist
+// insert userlist
 int insertUserListSqlite3(const char *sql_insert,const char *json_string)
 {
     sqlite3 *db;
@@ -402,3 +402,33 @@ int insertUserListSqlite3(const char *sql_insert,const char *json_string)
 }
 
 
+// delete userlist
+int deleteUserListSqlite3(const char *sql_delete,const char *json_string)
+{
+    sqlite3 *db;
+	char errMsg[256] = {0};
+
+    int rc = sqlite3_open(SQLITE3_PATH, &db);
+
+    if (rc != SQLITE_OK) {
+        FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
+		sprintf(errMsg,"Failed to open database: %s\n", sqlite3_errmsg(db));
+		memcpy(json_string,errMsg,strlen(errMsg));
+        sqlite3_close(db);
+        return rc;
+    }
+
+    rc = sqlite3_exec(db, sql_delete, NULL, NULL, &errMsg);
+    if (rc != SQLITE_OK)
+	{
+		FPRINTF_LOG(DEBUG_PATH,"Failed to prepare statement: %s\n", sqlite3_errmsg(db));
+		sprintf(errMsg,"SQL error: %s\n", errMsg);
+		memcpy(json_string,errMsg,strlen(errMsg));
+		sqlite3_free(errMsg);
+        sqlite3_close(db);
+        return rc;
+    }
+    sqlite3_close(db);
+    FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
+	return rc;
+}

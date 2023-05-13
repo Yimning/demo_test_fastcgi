@@ -74,4 +74,6 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 int getUserListSqlite3(const char *sql_select,const char *json_string);
 
 int insertUserListSqlite3(const char *sql_insert,const char *json_string);
+
+int deleteUserListSqlite3(const char *sql_delete,const char *json_string);
 #endif
