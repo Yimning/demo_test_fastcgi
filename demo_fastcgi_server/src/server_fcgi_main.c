@@ -314,66 +314,71 @@ static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
     pstr = tempBuffer;
     fread_file(LOGIN_PATH,&pstr);
 
-    sqlite3 *db;
-    char *errMsg = 0;
+//     sqlite3 *db;
+//     char *errMsg = 0;
 
-    int rc = sqlite3_open(SQLITE3_PATH, &db);
-    //int rc = sqlite3_open_v2(SQLITE3_PATH, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_URI | SQLITE_OPEN_NOMUTEX,  "unix");
-    if (rc != SQLITE_OK) {
-        // printf("Failed to open database: %s\n", sqlite3_errmsg(db));
-        FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-        //return 1;
-    } else {
-        // printf("Database opened successfully.\n");
-        FPRINTF_LOG(DEBUG_PATH,"Database opened successfully.\n");
-    }
+//     int rc = sqlite3_open(SQLITE3_PATH, &db);
+//     //int rc = sqlite3_open_v2(SQLITE3_PATH, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_URI | SQLITE_OPEN_NOMUTEX,  "unix");
+//     if (rc != SQLITE_OK) {
+//         // printf("Failed to open database: %s\n", sqlite3_errmsg(db));
+//         FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
+//         sqlite3_close(db);
+//         //return 1;
+//     } else {
+//         // printf("Database opened successfully.\n");
+//         FPRINTF_LOG(DEBUG_PATH,"Database opened successfully.\n");
+//     }
 
-// 查询数据
+// // 查询数据
     char *sql_select = "SELECT * FROM \"userlist\";";
 
-    // rc = sqlite3_exec(db, sql_select, callback, 0, &errMsg);
+//     // rc = sqlite3_exec(db, sql_select, callback, 0, &errMsg);
 
-    // if (rc != SQLITE_OK)
-    // {
-    //     //fprintf(stderr, "SQL error: %s\n", errMsg);
-    //     FPRINTF_LOG(DEBUG_PATH,"SQL error: %s\n", errMsg);
-    //     sqlite3_free(errMsg);
-    //     sqlite3_close(db);
-    //     //return 1;
-    // }
+//     // if (rc != SQLITE_OK)
+//     // {
+//     //     //fprintf(stderr, "SQL error: %s\n", errMsg);
+//     //     FPRINTF_LOG(DEBUG_PATH,"SQL error: %s\n", errMsg);
+//     //     sqlite3_free(errMsg);
+//     //     sqlite3_close(db);
+//     //     //return 1;
+//     // }
 
-    //const char* sql = "SELECT id, name, age FROM users";
-    sqlite3_stmt *stmt;
+//     //const char* sql = "SELECT id, name, age FROM users";
+//     sqlite3_stmt *stmt;
 
-    rc = sqlite3_prepare_v2(db, sql_select, -1, &stmt, 0);
+//     rc = sqlite3_prepare_v2(db, sql_select, -1, &stmt, 0);
 
-    if (rc != SQLITE_OK) {
-        //fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-        //return 1;
-    }
+//     if (rc != SQLITE_OK) {
+//         //fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
+//         sqlite3_close(db);
+//         //return 1;
+//     }
 
-    struct json_object *root = json_object_new_array();
+//     struct json_object *root = json_object_new_array();
 
-    while (sqlite3_step(stmt) == SQLITE_ROW) {
-        struct json_object *row = json_object_new_object();
-        json_object_object_add(row, "accountNumber", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
-        // json_object_object_add(row, "passWord", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
-        json_object_object_add(row, "cardID", json_object_new_string((const char*)sqlite3_column_text(stmt, 2)));
-        json_object_object_add(row, "userName", json_object_new_string((const char*)sqlite3_column_text(stmt, 3)));
-        json_object_object_add(row, "age", json_object_new_int(sqlite3_column_int(stmt, 4)));
-        json_object_array_add(root, row);
-    }
+//     while (sqlite3_step(stmt) == SQLITE_ROW) {
+//         struct json_object *row = json_object_new_object();
+//         json_object_object_add(row, "accountNumber", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
+//         // json_object_object_add(row, "passWord", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
+//         json_object_object_add(row, "cardID", json_object_new_string((const char*)sqlite3_column_text(stmt, 2)));
+//         json_object_object_add(row, "userName", json_object_new_string((const char*)sqlite3_column_text(stmt, 3)));
+//         json_object_object_add(row, "age", json_object_new_int(sqlite3_column_int(stmt, 4)));
+//         json_object_array_add(root, row);
+//     }
 
-    const char *json_str = json_object_get_string(root);
-    FPRINTF_LOG(DEBUG_PATH,"%s\n", json_str);
+    // const char *json_str = json_object_get_string(root);
+//     FPRINTF_LOG(DEBUG_PATH,"%s\n", json_str);
 
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
+//     sqlite3_finalize(stmt);
+//     sqlite3_close(db);
 
-    FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
+//     FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
     //sqlite3_close(db);
+
+
+    const char json_string[MAX_BUFFER_SIZE] = {0};
+    int ret = getUserListSqlite3(sql_select,json_string);
+    FPRINTF_LOG(DEBUG_PATH,"getUserListSqlite3 = %d-----%s\r\n",ret,json_string);
 
     if (webcmd == WEB_CMD_LOGIN)
     {
