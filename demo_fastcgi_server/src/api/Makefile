@@ -3,6 +3,8 @@ LIB_NAME = api
 PROJECT_ROOT_PATH = .
 VERSION     = 1.0.0
 
+CFLAGSPATHDIR = /home/yimning/FastCGI
+
 CCSRCS	= $(wildcard *.c)
 CCOBJS = $(patsubst %.c,%.o, $(CCSRCS))
 
@@ -12,8 +14,15 @@ CFLAGS  =-Wall
 AR = ar
 ARFLAGS = -rv
 SOFLAGS = -shared  -fPIC
-INCPATH = -I$(PROJECT_ROOT_PATH)
-LDFLAGS = -L.
+INCPATH += -I$(PROJECT_ROOT_PATH) 
+INCPATH += -I../include/  
+INCPATH += -I../sqlite3/
+INCPATH += -I$(CFLAGSPATHDIR)/json-c
+
+LDFLAGS += -L. 
+LDFLAGS += -L../sqlite3/ -lsqlite3
+LDFLAGS += -L$(CFLAGSPATHDIR)/json-c/_install  -ljson-c
+
 LIB_NAMES =  
 TARGET_AR = 1
 #links
