@@ -289,20 +289,6 @@ printf("\
     return 0;
 }
 
-static int callback(void *NotUsed, int argc, char **argv, char **azColName)
-{
-    int i;
-
-    for (i = 0; i < argc; i++)
-    {
-        FPRINTF_LOG(DEBUG_PATH,"%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }
-
-    FPRINTF_LOG(DEBUG_PATH,"\n");
-
-    return 0;
-}
-
 static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
 {
     static int login_ok = -1;
@@ -314,72 +300,70 @@ static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
     pstr = tempBuffer;
     fread_file(LOGIN_PATH,&pstr);
 
-//     sqlite3 *db;
-//     char *errMsg = 0;
-
-//     int rc = sqlite3_open(SQLITE3_PATH, &db);
-//     //int rc = sqlite3_open_v2(SQLITE3_PATH, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_URI | SQLITE_OPEN_NOMUTEX,  "unix");
-//     if (rc != SQLITE_OK) {
-//         // printf("Failed to open database: %s\n", sqlite3_errmsg(db));
-//         FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
-//         sqlite3_close(db);
-//         //return 1;
-//     } else {
-//         // printf("Database opened successfully.\n");
-//         FPRINTF_LOG(DEBUG_PATH,"Database opened successfully.\n");
-//     }
-
-// // 查询数据
-    char *sql_select = "SELECT * FROM \"userlist\";";
-
-//     // rc = sqlite3_exec(db, sql_select, callback, 0, &errMsg);
-
-//     // if (rc != SQLITE_OK)
-//     // {
-//     //     //fprintf(stderr, "SQL error: %s\n", errMsg);
-//     //     FPRINTF_LOG(DEBUG_PATH,"SQL error: %s\n", errMsg);
-//     //     sqlite3_free(errMsg);
-//     //     sqlite3_close(db);
-//     //     //return 1;
-//     // }
-
-//     //const char* sql = "SELECT id, name, age FROM users";
-//     sqlite3_stmt *stmt;
-
-//     rc = sqlite3_prepare_v2(db, sql_select, -1, &stmt, 0);
-
-//     if (rc != SQLITE_OK) {
-//         //fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
-//         sqlite3_close(db);
-//         //return 1;
-//     }
-
-//     struct json_object *root = json_object_new_array();
-
-//     while (sqlite3_step(stmt) == SQLITE_ROW) {
-//         struct json_object *row = json_object_new_object();
-//         json_object_object_add(row, "accountNumber", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
-//         // json_object_object_add(row, "passWord", json_object_new_string((const char*)sqlite3_column_text(stmt, 1)));
-//         json_object_object_add(row, "cardID", json_object_new_string((const char*)sqlite3_column_text(stmt, 2)));
-//         json_object_object_add(row, "userName", json_object_new_string((const char*)sqlite3_column_text(stmt, 3)));
-//         json_object_object_add(row, "age", json_object_new_int(sqlite3_column_int(stmt, 4)));
-//         json_object_array_add(root, row);
-//     }
-
-    // const char *json_str = json_object_get_string(root);
-//     FPRINTF_LOG(DEBUG_PATH,"%s\n", json_str);
-
-//     sqlite3_finalize(stmt);
-//     sqlite3_close(db);
-
-//     FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
-    //sqlite3_close(db);
-
-
     const char json_string[MAX_BUFFER_SIZE] = {0};
-    int ret = getUserListSqlite3(sql_select,json_string);
-    FPRINTF_LOG(DEBUG_PATH,"getUserListSqlite3 = %d-----%s\r\n",ret,json_string);
 
+    char *sql_select_temp = "SELECT * FROM userlist where accountNumber = %s;";
+
+    const char sql_select[256] = {0};
+
+    sprintf(sql_select,sql_select_temp,accountNumber);
+    
+    int ret = getUserListSqlite3(sql_select,json_string);
+
+    // const char *json_string1 = "[{\"accountNumber\":\"1\",\"cardID\":\"1\",\"userName\":\"Yimning\",\"age\":18}]";
+
+    // 解析JSON字符串
+    json_object *json_obj_arry = json_tokener_parse(json_string);
+    int len = json_object_array_length(json_obj_arry);     // 获取数组长度
+
+    if(len == 1)
+    {
+        json_object *user_obj = json_object_array_get_idx(json_obj_arry, 0);
+        json_object *accountNumber_obj = NULL;
+        json_object *passWord_obj = NULL;
+        if (!(json_object_object_get_ex(user_obj, "accountNumber", &accountNumber_obj)) || !(json_object_object_get_ex(user_obj, "accountNumber", &passWord_obj)))
+        {
+            login_ok = -1;
+        }
+
+        if (webcmd == WEB_CMD_LOGIN)
+        {
+            if((!strcmp(accountNumber, json_object_get_string(accountNumber_obj))) && (!strcmp(passWord, json_object_get_string(passWord_obj))))
+            {
+                login_ok = 1; //  login ok
+                gettimeofday(&t_start, NULL);
+                gettimeofday(&t_end, NULL);
+                FPRINTF_LOG(DEBUG_PATH,"%s登录操作---%s\r\n", web_cmd2str(webcmd), getenv("REQUEST_URI"));         
+            }
+            else
+            {
+                login_ok = -1;
+            }
+        }
+        else
+        {
+            gettimeofday(&t_end, NULL);
+            if((t_end.tv_sec-t_start.tv_sec)>600)    //Login again after 600 seconds
+            {
+                login_ok=0;
+            }
+            gettimeofday(&t_start, NULL);
+        }
+
+    }else{
+         login_ok = -1;
+    }
+    // for (int i = 0; i < len; i++) {
+    //     json_object *user_obj = json_object_array_get_idx(json_obj_arry, i);
+    //     json_object *name_obj = NULL;
+    //     if (json_object_object_get_ex(user_obj, "userName", &name_obj))
+    //     {
+    //         FPRINTF_LOG(DEBUG_PATH,"User name: %s\n", json_object_get_string(name_obj));
+    //     }
+    // }
+
+
+#if 0
     if (webcmd == WEB_CMD_LOGIN)
     {
         if((pstr != NULL) &&(!strcmp(accountNumber, cJSON_GetStrValue(pstr,"accountNumber"))) &&(!strcmp(passWord, cJSON_GetStrValue(pstr,"passWord"))))
@@ -393,7 +377,6 @@ static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
         {
             login_ok = -1;
         }
-
 	}
 	else
 	{
@@ -405,7 +388,9 @@ static int login_ok_already(int webcmd, char* accountNumber, char* passWord)
 		gettimeofday(&t_start, NULL);
 
 	}
+#endif
     free(pstr);
+    json_object_put(json_obj_arry);
 	return login_ok;
 }
 
