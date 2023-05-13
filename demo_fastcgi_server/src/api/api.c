@@ -289,7 +289,7 @@ ssize_t savefile(const char *filepath, const void *buf, size_t size)
 //sqlite3 api
 
 
-static int callback(void *NotUsed, int argc, char **argv, char **azColName)
+int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     int i;
 
@@ -311,37 +311,16 @@ int getUserListSqlite3(const char *sql_select,const char *json_string)
     int rc = sqlite3_open(SQLITE3_PATH, &db);
     //int rc = sqlite3_open_v2(SQLITE3_PATH, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_URI | SQLITE_OPEN_NOMUTEX,  "unix");
     if (rc != SQLITE_OK) {
-        // printf("Failed to open database: %s\n", sqlite3_errmsg(db));
-        FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
 		sprintf(errMsg,"Failed to open database: %s\n", sqlite3_errmsg(db));
 		memcpy(json_string,errMsg,strlen(errMsg));
         sqlite3_close(db);
         return rc;
-    } else {
-        // printf("Database opened successfully.\n");
-        FPRINTF_LOG(DEBUG_PATH,"Database opened successfully.\n");
     }
 
-	// 查询数据
-    // char *sql_select = "SELECT * FROM \"userlist\";";
-
-    // rc = sqlite3_exec(db, sql_select, callback, 0, &errMsg);
-
-    // if (rc != SQLITE_OK)
-    // {
-    //     //fprintf(stderr, "SQL error: %s\n", errMsg);
-    //     FPRINTF_LOG(DEBUG_PATH,"SQL error: %s\n", errMsg);
-    //     sqlite3_free(errMsg);
-    //     sqlite3_close(db);
-    //     //return 1;
-    // }
-
-    //const char* sql = "SELECT id, name, age FROM users";
     sqlite3_stmt *stmt;
     rc = sqlite3_prepare_v2(db, sql_select, -1, &stmt, 0);
 
     if (rc != SQLITE_OK) {
-		FPRINTF_LOG(DEBUG_PATH,"Failed to prepare statement: %s\n", sqlite3_errmsg(db));
 		sprintf(errMsg,"Failed to prepare statement: %s\n", sqlite3_errmsg(db));
 		memcpy(json_string,errMsg,strlen(errMsg));
         sqlite3_close(db);
@@ -360,11 +339,9 @@ int getUserListSqlite3(const char *sql_select,const char *json_string)
     }
     const char *json_string_temp = json_object_get_string(root);
 	memcpy(json_string,json_string_temp,strlen(json_string_temp));
-    FPRINTF_LOG(DEBUG_PATH,"%s\n", json_string_temp);
 
     sqlite3_finalize(stmt);
     sqlite3_close(db);
-    FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
 	return rc;
 }
 
@@ -378,7 +355,6 @@ int insertUserListSqlite3(const char *sql_insert,const char *json_string)
     int rc = sqlite3_open(SQLITE3_PATH, &db);
 
     if (rc != SQLITE_OK) {
-        FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
 		sprintf(errMsg,"Failed to open database: %s\n", sqlite3_errmsg(db));
 		memcpy(json_string,errMsg,strlen(errMsg));
         sqlite3_close(db);
@@ -389,7 +365,6 @@ int insertUserListSqlite3(const char *sql_insert,const char *json_string)
 
     if (rc != SQLITE_OK)
 	{
-		FPRINTF_LOG(DEBUG_PATH,"Failed to prepare statement: %s\n", sqlite3_errmsg(db));
 		sprintf(errMsg,"SQL error: %s\n", errMsg);
 		memcpy(json_string,errMsg,strlen(errMsg));
 		sqlite3_free(errMsg);
@@ -397,7 +372,6 @@ int insertUserListSqlite3(const char *sql_insert,const char *json_string)
         return rc;
     }
     sqlite3_close(db);
-    FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
 	return rc;
 }
 
@@ -411,7 +385,6 @@ int deleteUserListSqlite3(const char *sql_delete,const char *json_string)
     int rc = sqlite3_open(SQLITE3_PATH, &db);
 
     if (rc != SQLITE_OK) {
-        FPRINTF_LOG(DEBUG_PATH,"Failed to open database: %s\n", sqlite3_errmsg(db));
 		sprintf(errMsg,"Failed to open database: %s\n", sqlite3_errmsg(db));
 		memcpy(json_string,errMsg,strlen(errMsg));
         sqlite3_close(db);
@@ -421,7 +394,6 @@ int deleteUserListSqlite3(const char *sql_delete,const char *json_string)
     rc = sqlite3_exec(db, sql_delete, NULL, NULL, &errMsg);
     if (rc != SQLITE_OK)
 	{
-		FPRINTF_LOG(DEBUG_PATH,"Failed to prepare statement: %s\n", sqlite3_errmsg(db));
 		sprintf(errMsg,"SQL error: %s\n", errMsg);
 		memcpy(json_string,errMsg,strlen(errMsg));
 		sqlite3_free(errMsg);
@@ -429,6 +401,56 @@ int deleteUserListSqlite3(const char *sql_delete,const char *json_string)
         return rc;
     }
     sqlite3_close(db);
-    FPRINTF_LOG(DEBUG_PATH,"sqlite3_open = %d\r\n",rc);
 	return rc;
 }
+
+// update userlist
+int updateUserListSqlite3(const char *sql_update,const char *json_string)
+{
+    sqlite3 *db;
+	char errMsg[256] = {0};
+
+    int rc = sqlite3_open(SQLITE3_PATH, &db);
+
+    if (rc != SQLITE_OK) {
+		sprintf(errMsg,"Failed to open database: %s\n", sqlite3_errmsg(db));
+		memcpy(json_string,errMsg,strlen(errMsg));
+        sqlite3_close(db);
+        return rc;
+    }
+
+    rc = sqlite3_exec(db, sql_update, NULL, NULL, &errMsg);
+    if (rc != SQLITE_OK)
+	{
+		sprintf(errMsg,"SQL error: %s\n", errMsg);
+		memcpy(json_string,errMsg,strlen(errMsg));
+		sqlite3_free(errMsg);
+        sqlite3_close(db);
+        return rc;
+    }
+    sqlite3_close(db);
+	return rc;
+}
+
+/*
+api Usage:
+// const char json_string[MAX_BUFFER_SIZE] = {0};
+// char *sql_select = "SELECT * FROM \"userlist\";";
+// int ret = getUserListSqlite3(sql_select,json_string);
+// FPRINTF_LOG(DEBUG_PATH,"getUserListSqlite3 = %d-----%s\r\n",ret,json_string);
+
+
+// const char *sql_insert = "INSERT INTO userlist (accountNumber, passWord, cardID, userName,age) VALUES ('2', '1', '456789', '李四',20);";
+// int inset = insertUserListSqlite3(sql_insert,json_string);
+// FPRINTF_LOG(DEBUG_PATH,"insertUserListSqlite3 = %d-----%s\r\n",inset,json_string);
+
+
+// const char *sql_delete = "DELETE FROM userlist WHERE accountNumber = 2;";
+// int inset = deleteUserListSqlite3(sql_delete,json_string);
+// FPRINTF_LOG(DEBUG_PATH,"deleteUserListSqlite3 = %d-----%s\r\n",inset,json_string);
+
+
+// char *sql_update = "UPDATE userlist SET age = 19 WHERE accountNumber = 2;";
+// int update = updateUserListSqlite3(sql_update,json_string);
+// FPRINTF_LOG(DEBUG_PATH,"updateUserListSqlite3 = %d-----%s\r\n",update,json_string);
+*/
