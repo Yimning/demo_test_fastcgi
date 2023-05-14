@@ -50,15 +50,70 @@
             </el-form>
         </el-dialog>
 
-        <el-dialog title="找回密码" :visible.sync="ForgetPwd1Visible" width="45%" @close="closeDialog3">
-            <el-form ref="form" :rules="rules" label-width="100px" class="box-content">
-                <el-form-item label="账号:" prop="">
+        <el-dialog title="找回密码" :visible.sync="ForgetPwdVisible" width="45%" @close="closeDialog2">
+            <el-form :model="infoForm" ref="infoForm" :rules="rules_checkInfo" label-width="100px" class="box-content">
+                <el-form-item label="账号:" prop="accountNumber">
                     <!-- v-on:input="inputFunc"   //用于监听输入框的变化-->
                     <!--  @keyup.enter.native="handleSearch"   //用于监听回车键-->
                     <!-- v-on:input="inputFunc"   //用于监听光标的焦点-->
                     <!-- v-bind:disabled="dataForm.id!=0"  //动态绑定控件-->
                     <el-input
-                        v-model="id"
+                        v-model="infoForm.accountNumber"
+                        placeholder="请输入账号"
+                        class="handle-input mr10"
+                        id="idInput3"
+                        v-on:input="inputFunc"
+                        clearable 
+                    ></el-input>
+                    <!-- <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="isInfoFormCheck"></el-button> -->
+                    <!-- <el-button type="danger" icon="el-icon-close" circle class="item-check" v-else></el-button> -->
+                </el-form-item>
+
+                <el-form-item label="身份证号码:" prop="cardID">
+                    <el-input
+                        v-model="infoForm.cardID"
+                        placeholder="请输入身份证号码"
+                        class="handle-input mr10"
+                        id="idInput4"
+                        v-on:input="inputFunc2"
+                        clearable
+                    ></el-input>
+
+                    <!-- <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="pwdisInfoFormCheck"></el-button>
+                    <el-button type="danger" icon="el-icon-close" circle class="item-check" v-if="pwdNotCheck"></el-button> -->
+                </el-form-item>
+
+                <el-form-item label="姓名:" prop="userName">
+                    <el-input
+                        v-model="infoForm.userName"
+                        placeholder="请输入姓名"
+                        class="handle-input mr10"
+                        id="idInput5"
+                        v-on:input="inputFunc3"
+                        clearable
+                    ></el-input>
+
+                    <!-- <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="nameisInfoFormCheck"></el-button>
+                    <el-button type="danger" icon="el-icon-close" circle class="item-check" v-if="nameNotCheck"></el-button> -->
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="onSubmitInfoCheck()">信息校验</el-button>
+                    <el-button type="danger" plain @click="onCancelInfoCheck()">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
+
+        <el-dialog title="找回密码" :visible.sync="ForgetPwdVisible1" width="45%" @close="closeDialog3">
+            <el-form ref="form" :rules="rules" label-width="100px" class="box-content">
+                <el-form-item label="账号:" prop="accountNumber">
+                    <!-- v-on:input="inputFunc"   //用于监听输入框的变化-->
+                    <!--  @keyup.enter.native="handleSearch"   //用于监听回车键-->
+                    <!-- v-on:input="inputFunc"   //用于监听光标的焦点-->
+                    <!-- v-bind:disabled="dataForm.id!=0"  //动态绑定控件-->
+                    <el-input
+                        v-model="infoForm.accountNumber"
                         placeholder="请输入账号"
                         class="handle-input mr10"
                         @keyup.enter.native="handleSearch"
@@ -67,13 +122,13 @@
                         @blur.native.capture="handleSearch"
                         clearable 
                     ></el-input>
-                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="idIsCheck"></el-button>
+                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="isInfoFormCheck"></el-button>
                     <!-- <el-button type="danger" icon="el-icon-close" circle class="item-check" v-else></el-button> -->
                 </el-form-item>
 
-                <el-form-item label="身份证号码:" prop="pwdAnswer">
+                <el-form-item label="身份证号码:" prop="cardID">
                     <el-input
-                        v-model="form.cardID"
+                        v-model="infoForm.cardID"
                         placeholder="请输入身份证号码"
                         class="handle-input mr10"
                         id="idInput4"
@@ -81,13 +136,13 @@
                         clearable
                     ></el-input>
 
-                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="pwdIsCheck"></el-button>
+                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="pwdisInfoFormCheck"></el-button>
                     <el-button type="danger" icon="el-icon-close" circle class="item-check" v-if="pwdNotCheck"></el-button>
                 </el-form-item>
 
-                <el-form-item label="姓名:" prop="pwdAnswer">
+                <el-form-item label="姓名:" prop="userName">
                     <el-input
-                        v-model="form.userName"
+                        v-model="infoForm.userName"
                         placeholder="请输入姓名"
                         class="handle-input mr10"
                         id="idInput5"
@@ -95,12 +150,12 @@
                         clearable
                     ></el-input>
 
-                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="nameIsCheck"></el-button>
+                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="nameisInfoFormCheck"></el-button>
                     <el-button type="danger" icon="el-icon-close" circle class="item-check" v-if="nameNotCheck"></el-button>
                 </el-form-item>
 
-                <el-form-item label="重置密码:" prop="pwd">
-                    <el-input placeholder="请输入重置密码" v-model="form.pwd" v-bind:disabled="!allIsCheck" show-password></el-input>
+                <el-form-item label="重置密码:" prop="password">
+                    <el-input placeholder="请输入重置密码" v-model="infoForm.password" v-bind:disabled="!allisInfoFormCheck" show-password></el-input>
                 </el-form-item>
 
                 <el-form-item>
@@ -109,6 +164,8 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
+
+
         <el-dialog   
             title="提示"
             :visible.sync="Successdialog"
@@ -142,22 +199,12 @@ export default {
             param: {
                 accountNumber: '',
                 passWord: '',
-                //userFlag: '0'
             },
-            form: {
-                question: '',
-                pwdAnswer: '',
-                rightAnswer: '',
-                studentPassword: '',
-                adminPassword: '',
-                teacherPassword: '',
-                pwd: '',
+            infoForm: {
+                accountNumber: '',
+                passWord: '',
                 userName: '',
                 cardID: '',
-                realName: '',
-                studentName: '',
-                teacherName: '',
-                adminName: ''
             },
 
             face: {
@@ -166,12 +213,13 @@ export default {
             rules: {
                 accountNumber: [{ required: true, message: '请输入账号', trigger: 'blur' }],
                 passWord: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-                //userFlag: [{ required: true, message: '请选择用户类型', trigger: 'blur' }]
-                // id: [{ required: true, message: '请输入账号', trigger: 'blur' }],
-                // pwdAnswer: [{ required: true, message: '请输入密保答案', trigger: 'blur' }],
-                //pwd: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-                // pwdNew: [{ required: true, message: '再次输入密码', trigger: 'blur' }]
+             },
+            rules_checkInfo: {
+                accountNumber: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+                cardID: [{ required: true, message: '请输入身份证号', trigger: 'blur' }],
+                userName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
             },
+
             Successdialog: false, //控制弹出
             Sencond: 3, //设置初始倒计时
             isDisabled: false,
@@ -181,13 +229,13 @@ export default {
             SelectVisible: false,
             FaceLoginVisible: false,
             ForgetPwdVisible: false,
-            ForgetPwd1Visible: false,
-            idIsCheck: false,
-            pwdIsCheck: false,
+            ForgetPwdVisible1: false,
+            isInfoFormCheck: false,
+            pwdisInfoFormCheck: false,
             pwdNotCheck: false,
-            nameIsCheck: false,
+            nameisInfoFormCheck: false,
             nameNotCheck: false,
-            allIsCheck: false,
+            allisInfoFormCheck: false,
             idIsShow: false,
             videoEle: null,
             trackerTask: null,
@@ -258,70 +306,105 @@ export default {
         },
 
         onInfo() {
-            this.ForgetPwd1Visible = true;
+            this.ForgetPwdVisible = true;
         },
-        onSubmit() {
-            const that = this; 
-            this.id = this.form.accountNumber;
-            if (this.id != '' || this.id != null) {
-                if (this.str === 'A') {
-                    this.form.adminPassword = this.form.pwd;
-                } else if (this.str === 'T') {
-                    this.form.teacherPassword = this.form.pwd;
-                } else {
-                    this.form.studentPassword = this.form.pwd;
-                }
+        isInfoFormChecking(){
+            if (this.infoForm.accountNumber === '' || this.infoForm.accountNumber === null) 
+            {
+                this.$message.error('必填项不能为空');
+                this.isInfoFormCheck = false;
+            }else if(this.infoForm.cardID === '' || this.infoForm.cardID === null)
+            {
+                this.$message.error('必填项不能为空');
+                this.isInfoFormCheck = false;
+            }else if(this.infoForm.userName === '' || this.infoForm.userName === null)
+            {
+                this.$message.error('必填项不能为空');
+                this.isInfoFormCheck = false;
+            }else{
+                this.isInfoFormCheck = true;
             }
+            return this.isInfoFormCheck; 
+        },
+        onSubmitInfoCheck() {
+            const that = this; 
+            this.$refs.infoForm.validate((valid) => {
+                if (valid) {
+                    const that = this;
+                    console.log("infoForm:");
+                    this.$axios.post('/api/infoCheck', this.infoForm, {headers: {'Content-Type': 'application/json'}}).then((res) => {
+                        const jwt = res.headers['authorization'];
+                        const userInfo = res.data;
+                        // console.log(userInfo);
+                        // 把数据共享出去，存于this.store下
+                        that.$store.commit('SET_TOKEN', jwt);
+                        that.$store.commit('SET_USERINFO', userInfo);
 
-            if (this.form.pwd === '' || this.form.pwd == null) {
-                this.$message.error('重置密码不能为空');
-                this.idIsCheck = false;
-            } else {
+                        // 获取 
+                        //console.log(that.$store.getters.getUser);
+                        if (res.status === 200) {
+                            if(userInfo.data === 1){
+                                // that.$router.push('/dashboard'); //跳转页
+                                this.$message.success(res.data.msg);
+                            }else{
+                                this.$message.error(res.data.msg);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        // 请求失败后的处理逻辑
+                        if (error.response && error.response.status) {
+                            this.$message.error(error.response.status +" "+ error.response.statusText);
+                        }
+                    });
+                } else {
+                    this.$message.error('请输入账号和密码');
+                    return false;
+                }
+            });
+        },
+
+        onCancelInfoCheck() {
+            const that = this;
+            that.isInfoFormCheck = false;
+            that.infoForm.accountNumber = '';
+            that.infoForm.cardID = '';
+            that.infoForm.userName = '';
+        },
+        
+        onSubmit1() {
+            const that = this;
+            if (this.isInfoFormChecking()) {
                 this.$confirm('确定修改?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'info'
                 })
-                    .then(() => {
-                        that.$axios
-                            .post(that.updateOneUrl, that.form)
-                            .then((res) => {
-                                // console.log(res);
-                                that.getSencond();
-                            })
-                            .catch((err) => {
-                                console.error();
-                            });
-                    })
-                    .catch(() => {});
-            }
-        },
-        onCancel() {
-            this.idIsCheck = false;
-            this.idIsShow = false;
-            this.pwdIsCheck = false;
-            this.pwdNotCheck = false;
-            this.form = '';
-            this.id = '';
-        },
-        onSubmit1() {
-            const that = this;
-            if (this.id == '' || this.id == null) {
-                this.$message.error('请输入必填项');
-                this.onCancel1(); 
-            } else {
-                this.onSubmit();
+                .then(() => {
+                    that.$axios
+                        .post(that.updateOneUrl, that.form)
+                        .then((res) => {this.infoForm
+                            // console.log(res);
+                            that.getSencond();
+                        })
+                        .catch((err) => {
+                            console.error();
+                        });
+                })
+                .catch(() => {});
             }
         },
         onCancel1() {
-            this.idIsCheck = false;
+            this.isInfoFormCheck = false;
             this.idIsShow = false;
-            this.pwdIsCheck = false;
+            this.pwdisInfoFormCheck = false;
             this.pwdNotCheck = false;
             this.nameNotCheck = false;
-            this.nameIsCheck = false;
-            this.form = '';
-            this.id = '';
+            this.nameisInfoFormCheck = false;
+            // this.infoForm = {};
+            this.infoForm.accountNumber = '';
+            this.infoForm.cardID = '';
+            this.infoForm.userName = '';
         },
         //关闭弹框的事件
         closeDialog() {
@@ -333,24 +416,27 @@ export default {
             this.SelectVisible = false;
             this.reload(); //刷新 ----推荐
         },
+
         //关闭弹框的事件
         closeDialog2() {
-            this.idIsShow = false;
-            this.form = '';
-            this.id = '';
+            this.onCancelInfoCheck();
         },
+
         //关闭弹框的事件
         closeDialog3() {
-            this.onCancel1();
+            this.idIsShow = false;
+            // this.infoForm = {};
+            this.infoForm.accountNumber = '';
         },
+
 
         // 触发搜索按钮
         handleSearch() {
             const that = this;
             //console.log(this.id); //打印输入搜索的值
-            if (this.id == '' || this.id == null) {
-                //str = this.form.id.slice(0);//返回整个字符串
-                this.str = this.id.substring(0, 1); //打印输入值的首个字符
+            if (this.infoForm.accountNumber == '' || this.infoForm.accountNumber == null) {
+                //str = this.infoForm.id.slice(0);//返回整个字符串
+                this.str = this.infoForm.accountNumber.substring(0, 1); //打印输入值的首个字符
             }
             if (this.str === 'A') {
                 this.findUserUrl = '/api/admin/findAdminByID';
@@ -364,73 +450,59 @@ export default {
             }
 
             this.$axios
-                .get(this.findUserUrl, { params: { id: this.id } })
+                .get(this.findUserUrl, { params: { id: this.infoForm.accountNumber } })
                 .then((res) => {
                     console.log(res);
-                    this.form = res.data[res.data.length - 1];
+                    this.infoForm = res.data[res.data.length - 1];
                     if (this.str === 'A') {
-                        this.form.realName = this.form.adminName;
+                        this.infoForm.realName = this.infoForm.adminName;
                     } else if (this.str === 'T') {
-                        this.form.realName = this.form.teacherName;
+                        this.infoForm.realName = this.infoForm.teacherName;
                     } else {
-                        this.form.realName = this.form.studentName;
+                        this.infoForm.realName = this.infoForm.studentName;
                     }
 
-                    if (this.form.accountNumber === '' || this.form.accountNumber) {
+                    if (this.infoForm.accountNumber === '' || this.infoForm.accountNumber) {
                         this.$message.error('用户不存在');
                     } else {
-                        this.idIsCheck = true;
+                        this.isInfoFormCheck = true;
                     }
 
-                    this.form.rightAnswer = this.form.answer;
+                    this.infoForm.rightAnswer = this.infoForm.answer;
                     this.idIsShow = true;
                 })
                 .catch((err) => {
-                    this.idIsCheck = false;
+                    this.isInfoFormCheck = false;
                     this.$message.error('用户不存在');
                 });
         },
         //监听事件-输入框
         inputFunc(e) {
-            if (this.id == '' || this.id == null) {
-                this.form = '';
+            if (this.infoForm.accountNumber == '' || this.infoForm.accountNumber == null) {
+                this.infoForm.accountNumber = '';
             }
         },
         //监听事件-输入框
         inputFunc1(e) {
-            // console.log(this.form.rightAnswer);
-            if (this.form.rightAnswer === this.form.pwdAnswer) {
-                this.pwdIsCheck = true;
+            // console.log(this.infoForm.rightAnswer);
+            if (this.infoForm.rightAnswer === this.infoForm.pwdAnswer) {
+                this.pwdisInfoFormCheck = true;
                 this.pwdNotCheck = false;
             } else {
-                this.pwdIsCheck = false;
+                this.pwdisInfoFormCheck = false;
                 this.pwdNotCheck = true;
             }
         },
         //监听事件-输入框
         inputFunc2(e) {
-            // console.log(this.form.rightAnswer);
-            if (this.form.cardID === this.form.cardNo) {
-                this.pwdIsCheck = true;
-                this.pwdNotCheck = false;
-            } else {
-                this.pwdIsCheck = false;
-                this.pwdNotCheck = true;
+            if (this.infoForm.cardID === '' || this.infoForm.cardID === null) {
+                this.infoForm.cardID = '';
             }
         },
         //监听事件-输入框
         inputFunc3(e) {
-            if (this.form.userName === this.form.realName) {
-                this.nameIsCheck = true;
-                this.nameNotCheck = false;
-            } else {
-                this.nameIsCheck = false;
-                this.nameNotCheck = true;
-            }
-            if (this.idIsCheck && this.pwdIsCheck && this.nameIsCheck) {
-                this.allIsCheck = true;
-            } else {
-                this.allIsCheck = false;
+            if (this.infoForm.userName === '' || this.infoForm.userName === null) {
+                this.infoForm.userName = '';
             }
         },
         mounted() {},
