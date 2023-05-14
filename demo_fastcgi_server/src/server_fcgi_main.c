@@ -413,7 +413,7 @@ static int get_request_method_type(char* request_method)
         return -1;
 }
 
-START_HANDLER (login, POST, "/login", res,0, matches) {
+START_HANDLER (loginHandler, POST, "/login", res,0, matches) {
     char tempBuffer[256] = {0}; 
     char *pt = tempBuffer; 
     char *accountNumber = NULL;
@@ -479,7 +479,7 @@ START_HANDLER (login, POST, "/login", res,0, matches) {
 }
 END_HANDLER
 
-START_HANDLER (infoCheck, POST, "/infoCheck", res,0, matches) {
+START_HANDLER (infoCheckHandler, POST, "/infoCheck", res,0, matches) {
     char tempBuffer[256] = {0}; 
     char *pt = tempBuffer; 
     char *accountNumber = NULL;
@@ -551,6 +551,84 @@ START_HANDLER (infoCheck, POST, "/infoCheck", res,0, matches) {
 }
 END_HANDLER
 
+
+
+START_HANDLER (updatePasswordHandler, POST, "/updatePassword", res,0, matches) {
+    char tempBuffer[256] = {0}; 
+    char *pt = tempBuffer; 
+    char *accountNumber = NULL;
+    char *cardID = NULL;
+    char *userName = NULL;
+    char *passWord = NULL;
+    char msg[256]={0};
+    int ret = -1;
+    int status = 0;
+    int webcmd = 1;
+    int len = 0;
+
+    qentry_t *req = qcgireq_parse(NULL, 0);
+    MODEL_INIT(POST);
+    REQUEST_REQUIRED_VAR_STRING(accountNumber, "accountNumber");
+    REQUEST_REQUIRED_VAR_STRING(cardID, "cardID");
+    REQUEST_REQUIRED_VAR_STRING(userName, "userName");
+    REQUEST_REQUIRED_VAR_STRING(passWord, "passWord");
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"updatePasswordHandler get_query_string====%s---%s---%s\n",accountNumber,cardID,userName);
+    GO_END_HANDLER;
+
+    const char json_string[MAX_BUFFER_SIZE] = {0};
+
+    char *sql_select_temp = "SELECT * FROM userlist where accountNumber = %s;";
+
+    const char sql_exec_statement[256] = {0};
+
+    sprintf(sql_exec_statement,sql_select_temp,accountNumber);
+    
+    ret = getUserListSqlite3(sql_exec_statement,json_string);
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"updatePasswordHandler get_query_string====%d---%s\n",ret,json_string);
+    // const char *json_string1 = "[{\"accountNumber\":\"1\",\"cardID\":\"1\",\"userName\":\"Yimning\",\"age\":18}]";
+    if(!ret)
+    {
+        // 解析JSON字符串
+        json_object *json_obj_arry = json_tokener_parse(json_string);
+        len = json_object_array_length(json_obj_arry);     // 获取数组长度
+        if(len == 1)
+        {
+            json_object *user_obj = json_object_array_get_idx(json_obj_arry, 0);
+            json_object *accountNumber_obj = NULL;
+
+            FPRINTF_LOG(DEBUG_PATH,"修改密码---%s\r\n",getenv("REQUEST_URI"));  
+
+            if((json_object_object_get_ex(user_obj, "accountNumber", &accountNumber_obj))  && (!strcmp(accountNumber, json_object_get_string(accountNumber_obj))))
+            {
+                memset(json_string,0,sizeof(json_string));
+                memset(sql_exec_statement,0,sizeof(sql_exec_statement));
+                char *sql_update_temp = "UPDATE userlist SET passWord = %s WHERE accountNumber = %s;";
+
+                sprintf(sql_exec_statement,sql_update_temp,passWord,accountNumber);
+
+                int update = updateUserListSqlite3(sql_exec_statement,json_string);
+                if(update == 0)
+                {
+                    status = 0;
+                }else{
+                    status = 1;
+                }
+                FPRINTF_LOG(DEBUG_PATH,"updateUserListSqlite3 =%s---%d-----%s\r\n",sql_exec_statement,update,json_string);
+            }else{
+                status = 1;
+            }
+        }else
+        {
+            status = 1;
+        }
+    }else
+    {
+        status = 1;
+    }
+	MODEL_ADD_INTEGER("status", status);
+    MODEL_OUTPUT();  
+}
+END_HANDLER
 
 START_HANDLER(default_handler, GET, "/login", res, 0, matches)
 {
@@ -646,8 +724,9 @@ int server_fcgi_main()
         // printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
 
         add_handler(default_handler);
-        add_handler(login);
-        add_handler(infoCheck);
+        add_handler(loginHandler);
+        add_handler(infoCheckHandler);
+        add_handler(updatePasswordHandler);
         //add_handler(getNetworkSideBand);
         //int getNetworkSideBand();
         

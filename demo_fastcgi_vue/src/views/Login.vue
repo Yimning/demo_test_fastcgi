@@ -91,6 +91,7 @@
                         id="idInput5"
                         v-on:input="inputFunc3"
                         clearable
+                        @keyup.enter.native="onSubmitInfoCheck()"
                     ></el-input>
 
                     <!-- <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="nameisInfoFormCheck"></el-button>
@@ -106,12 +107,19 @@
 
 
         <el-dialog title="修改密码" :visible.sync="ForgetPwdVisible1" width="45%" @close="closeDialogOfForgetPwdVisible1">
-            <el-form ref="forgetPwd" :rules="rules_checkPwd" label-width="100px" class="box-content">
-                <el-form-item label="新密码:" prop="newPassword">
-                    <el-input placeholder="请输入重置密码" v-model.trim="passwordForm.newPassword" show-password></el-input>
+            <el-form :model="passwordForm" ref="passwordForm" :rules="rules_checkPwd" label-width="100px" class="box-content">
+                <el-form-item label="新密码:" prop="newPassWord">
+                    <el-input placeholder="请输入重置密码" 
+                        v-model.trim="passwordForm.newPassWord" 
+                        show-password
+                    ></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码:" prop="checkPassWord">
-                    <el-input placeholder="再次请输入重置密码" v-model.trim="passwordForm.checkPassWord" show-password></el-input>
+                    <el-input placeholder="再次请输入重置密码" 
+                        v-model.trim="passwordForm.checkPassWord" 
+                        show-password
+                        @keyup.enter.native="onSubmitUpdatePassword()">
+                    </el-input>
                 </el-form-item>
 
                 <el-form-item>
@@ -181,7 +189,8 @@ export default {
             },
 
             rules_checkPwd:{
-                
+                newPassWord: [{ required: true, message: '请输入重置密码', trigger: 'blur' }],
+                checkPassWord: [{ required: true, message: '再次请输入重置密码', trigger: 'blur' }],
             },
 
             Successdialog: false, //控制弹出
@@ -345,32 +354,88 @@ export default {
         },
         
         onSubmitUpdatePassword() {
-            const that = this;
-            if (this.isInfoFormChecking()) {
-                this.$confirm('确定修改?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'info'
-                })
-                .then(() => {
-                    that.$axios
-                        .post(that.updateOneUrl, that.form)
-                        .then((res) => {this.infoForm
-                            // console.log(res);
-                            that.getSencond();
+            const that = this; 
+            this.$refs.passwordForm.validate((valid) => {
+                if (valid)
+                {
+                    console.log("------------------------");
+                    if(this.passwordForm.newPassWord === this.passwordForm.checkPassWord)
+                    {
+                        this.infoForm.passWord = this.passwordForm.checkPassWord;
+                        this.$confirm('确定修改?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'info'
                         })
-                        .catch((err) => {
-                            console.error();
+                        .then(() => {
+                            that.$axios
+                                .post("api/updatePassword", that.infoForm)
+                                .then((res) => {
+                                    console.log(res);
+                                    if (res.status === 200) {
+                                        if(res.data.status == 0){
+                                            that.getSencond();
+                                        }else{
+                                            this.$message.error("修改密码失败！");
+                                        }
+                                    }
+                                    
+                                })
+                                .catch((err) => {
+                                    console.error();
+                                });
+                        })
+                        .catch(error => {
+                            // 请求失败后的处理逻辑
+                            if (error.response && error.response.status) {
+                                this.$message.error(error.response.status +" "+ error.response.statusText);
+                            }
                         });
-                })
-                .catch(() => {});
-            }
+                    }else{
+                        this.$message.error("输入的两次密码不一致！");
+                    }
+
+                
+                    // const that = this;
+                    // this.$axios.post('/api/infoCheck', this.infoForm, {headers: {'Content-Type': 'application/json'}}).then((res) => {
+                    //     const jwt = res.headers['authorization'];
+                    //     const pRes = res.data;
+                    //     console.log(pRes);
+
+                    //     // 获取 
+                    //     //console.log(that.$store.getters.getUser);
+                    //     if (res.status === 200) {
+                    //         if(pRes.status === 0){
+                    //             this.ForgetPwdVisible1 = true;
+                    //         }else{
+                    //             if((pRes.status) & 1){
+                    //                 setTimeout(() => {
+                    //                     this.$message.error("此账号不存在!");
+                    //                 }, 10);
+                    //                 that.infoForm.accountNumber = '';
+                    //                 that.infoForm.cardID = '';
+                    //                 that.infoForm.userName = '';
+                    //             }
+                    //             if(((pRes.status >> 1) & 1) || ((pRes.status >> 2) & 1)){
+                    //                 setTimeout(() => {
+                    //                     this.$message.error("身份证号码/姓名校验失败！");
+                    //                 }, 10);
+                    //                 that.infoForm.cardID = '';
+                    //                 that.infoForm.userName = '';
+                    //             }
+                    //         }
+                    //     }
+                    // })
+                } else {
+                    return false;
+                }
+            });
         },
         onRestPasswordForm() {
             this.ForgetPwdVisible1 = false;
             // this.isInfoFormCheck = true;
             this.passwordForm.newPassWord = '';
-            this.passwordForm.cheackPassWord = '';
+            this.passwordForm.checkPassWord = '';
         },
         //关闭弹框的事件
         closeDialog() {
@@ -489,7 +554,7 @@ export default {
             //删除session缓存信息
             //this.ForgetPwdVisible = false;
             this.SelectVisible = false;  
-            this.ForgetPwd1Visible = false;
+            this.ForgetPwdVisible1 = false;
             this.$store.commit('REMOVE_INFO');
             this.$router.push('/login');
         }

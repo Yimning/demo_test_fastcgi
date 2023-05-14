@@ -287,8 +287,6 @@ ssize_t savefile(const char *filepath, const void *buf, size_t size)
 
 
 //sqlite3 api
-
-
 int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     int i;
