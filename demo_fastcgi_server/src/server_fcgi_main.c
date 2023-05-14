@@ -489,6 +489,7 @@ START_HANDLER (infoCheck, POST, "/infoCheck", res,0, matches) {
     int ret = -1;
     int status = 0;
     int webcmd = 1;
+    int len = 0;
 
     qentry_t *req = qcgireq_parse(NULL, 0);
     MODEL_INIT(POST);
@@ -507,38 +508,44 @@ START_HANDLER (infoCheck, POST, "/infoCheck", res,0, matches) {
     sprintf(sql_select,sql_select_temp,accountNumber);
     
     ret = getUserListSqlite3(sql_select,json_string);
-
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"infoCheck get_query_string====%d---%s\n",ret,json_string);
     // const char *json_string1 = "[{\"accountNumber\":\"1\",\"cardID\":\"1\",\"userName\":\"Yimning\",\"age\":18}]";
-
-    // 解析JSON字符串
-    json_object *json_obj_arry = json_tokener_parse(json_string);
-    int len = json_object_array_length(json_obj_arry);     // 获取数组长度
-
-    if(len == 1)
+    if(!ret)
     {
-        json_object *user_obj = json_object_array_get_idx(json_obj_arry, 0);
-        json_object *accountNumber_obj = NULL;
-        json_object *cardID_obj = NULL;
-        json_object *userName_obj = NULL;
+        // 解析JSON字符串
+        json_object *json_obj_arry = json_tokener_parse(json_string);
+        len = json_object_array_length(json_obj_arry);     // 获取数组长度
+        if(len == 1)
+        {
+            json_object *user_obj = json_object_array_get_idx(json_obj_arry, 0);
+            json_object *accountNumber_obj = NULL;
+            json_object *cardID_obj = NULL;
+            json_object *userName_obj = NULL;
 
-        FPRINTF_LOG(DEBUG_PATH,"信息校验---%s\r\n",getenv("REQUEST_URI"));  
+            FPRINTF_LOG(DEBUG_PATH,"信息校验---%s\r\n",getenv("REQUEST_URI"));  
 
-        if(!(json_object_object_get_ex(user_obj, "accountNumber", &accountNumber_obj))  || strcmp(accountNumber, json_object_get_string(accountNumber_obj)))
+            if(!(json_object_object_get_ex(user_obj, "accountNumber", &accountNumber_obj))  || strcmp(accountNumber, json_object_get_string(accountNumber_obj)))
+            {
+                status |= 1;
+            }
+            if(!(json_object_object_get_ex(user_obj, "cardID", &cardID_obj)) || strcmp(cardID, json_object_get_string(cardID_obj)))
+            {
+                status |= (1<<1);
+            }
+            if(!(json_object_object_get_ex(user_obj, "userName", &userName_obj)) || strcmp(userName, json_object_get_string(userName_obj)))
+            {
+                status |= (1<<2);
+            }
+        }else
         {
-            status |= 1;
-        }
-        if(!(json_object_object_get_ex(user_obj, "cardID", &cardID_obj)) || strcmp(cardID, json_object_get_string(cardID_obj)))
-        {
-            status |= (1<<1);
-        }
-        if(!(json_object_object_get_ex(user_obj, "userName", &userName_obj)) || strcmp(userName, json_object_get_string(userName_obj)))
-        {
-            status |= (1<<2);
+            status = 1;
         }
     }else
     {
-        status = 7;
+        status = 1;
     }
+
+
 	MODEL_ADD_INTEGER("status", status);
     MODEL_OUTPUT();  
 }
