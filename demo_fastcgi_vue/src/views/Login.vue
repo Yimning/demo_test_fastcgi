@@ -41,7 +41,7 @@
         </div>
 
 
-        <el-dialog title="找回密码" :visible.sync="SelectVisible" width="45%" @close="closeDialog1">
+        <el-dialog title="找回密码" :visible.sync="SelectVisible" width="45%" @close="closeDialogOfSelectVisible">
             <el-form>
                 <el-form-item class="select-item">
                     <!-- <el-button class="select-item button" type="primary" @click="onPwd()">通过密保问题找回密码</el-button> -->
@@ -50,7 +50,7 @@
             </el-form>
         </el-dialog>
 
-        <el-dialog title="找回密码" :visible.sync="ForgetPwdVisible" width="45%" @close="closeDialog2">
+        <el-dialog title="通过信息校验修改密码" :visible.sync="ForgetPwdVisible" width="45%" @close="closeDialogOfInfoCheck">
             <el-form :model="infoForm" ref="infoForm" :rules="rules_checkInfo" label-width="100px" class="box-content">
                 <el-form-item label="账号:" prop="accountNumber">
                     <!-- v-on:input="inputFunc"   //用于监听输入框的变化-->
@@ -58,7 +58,7 @@
                     <!-- v-on:input="inputFunc"   //用于监听光标的焦点-->
                     <!-- v-bind:disabled="dataForm.id!=0"  //动态绑定控件-->
                     <el-input
-                        v-model="infoForm.accountNumber"
+                        v-model.trim="infoForm.accountNumber"
                         placeholder="请输入账号"
                         class="handle-input mr10"
                         id="idInput3"
@@ -71,7 +71,7 @@
 
                 <el-form-item label="身份证号码:" prop="cardID">
                     <el-input
-                        v-model="infoForm.cardID"
+                        v-model.trim="infoForm.cardID"
                         placeholder="请输入身份证号码"
                         class="handle-input mr10"
                         id="idInput4"
@@ -82,10 +82,10 @@
                     <!-- <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="pwdisInfoFormCheck"></el-button>
                     <el-button type="danger" icon="el-icon-close" circle class="item-check" v-if="pwdNotCheck"></el-button> -->
                 </el-form-item>
-
+                <!-- v-model.trim 表单检验里去掉输入框的前后空格 -->
                 <el-form-item label="姓名:" prop="userName">
                     <el-input
-                        v-model="infoForm.userName"
+                        v-model.trim="infoForm.userName"
                         placeholder="请输入姓名"
                         class="handle-input mr10"
                         id="idInput5"
@@ -105,62 +105,18 @@
         </el-dialog>
 
 
-        <el-dialog title="找回密码" :visible.sync="ForgetPwdVisible1" width="45%" @close="closeDialog3">
-            <el-form ref="form" :rules="rules" label-width="100px" class="box-content">
-                <el-form-item label="账号:" prop="accountNumber">
-                    <!-- v-on:input="inputFunc"   //用于监听输入框的变化-->
-                    <!--  @keyup.enter.native="handleSearch"   //用于监听回车键-->
-                    <!-- v-on:input="inputFunc"   //用于监听光标的焦点-->
-                    <!-- v-bind:disabled="dataForm.id!=0"  //动态绑定控件-->
-                    <el-input
-                        v-model="infoForm.accountNumber"
-                        placeholder="请输入账号"
-                        class="handle-input mr10"
-                        @keyup.enter.native="handleSearch"
-                        id="idInput3"
-                        v-on:input="inputFunc"
-                        @blur.native.capture="handleSearch"
-                        clearable 
-                    ></el-input>
-                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="isInfoFormCheck"></el-button>
-                    <!-- <el-button type="danger" icon="el-icon-close" circle class="item-check" v-else></el-button> -->
+        <el-dialog title="修改密码" :visible.sync="ForgetPwdVisible1" width="45%" @close="closeDialogOfForgetPwdVisible1">
+            <el-form ref="forgetPwd" :rules="rules_checkPwd" label-width="100px" class="box-content">
+                <el-form-item label="新密码:" prop="newPassword">
+                    <el-input placeholder="请输入重置密码" v-model.trim="passwordForm.newPassword" show-password></el-input>
                 </el-form-item>
-
-                <el-form-item label="身份证号码:" prop="cardID">
-                    <el-input
-                        v-model="infoForm.cardID"
-                        placeholder="请输入身份证号码"
-                        class="handle-input mr10"
-                        id="idInput4"
-                        v-on:input="inputFunc2"
-                        clearable
-                    ></el-input>
-
-                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="pwdisInfoFormCheck"></el-button>
-                    <el-button type="danger" icon="el-icon-close" circle class="item-check" v-if="pwdNotCheck"></el-button>
-                </el-form-item>
-
-                <el-form-item label="姓名:" prop="userName">
-                    <el-input
-                        v-model="infoForm.userName"
-                        placeholder="请输入姓名"
-                        class="handle-input mr10"
-                        id="idInput5"
-                        v-on:input="inputFunc3"
-                        clearable
-                    ></el-input>
-
-                    <el-button type="success" icon="el-icon-check" circle class="item-check" v-if="nameisInfoFormCheck"></el-button>
-                    <el-button type="danger" icon="el-icon-close" circle class="item-check" v-if="nameNotCheck"></el-button>
-                </el-form-item>
-
-                <el-form-item label="重置密码:" prop="password">
-                    <el-input placeholder="请输入重置密码" v-model="infoForm.password" v-bind:disabled="!allisInfoFormCheck" show-password></el-input>
+                <el-form-item label="确认密码:" prop="checkPassWord">
+                    <el-input placeholder="再次请输入重置密码" v-model.trim="passwordForm.checkPassWord" show-password></el-input>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit1()">确认修改</el-button>
-                    <el-button type="danger" plain @click="onCancel1()">取消</el-button>
+                    <el-button type="primary" @click="onSubmitUpdatePassword()">确认修改</el-button>
+                    <el-button type="danger" plain @click="onRestPasswordForm()">取消</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -206,6 +162,10 @@ export default {
                 userName: '',
                 cardID: '',
             },
+            passwordForm:{
+                newPassWord: '',
+                checkPassWord: '',
+            },
 
             face: {
                 imgpath: ''
@@ -218,6 +178,10 @@ export default {
                 accountNumber: [{ required: true, message: '请输入账号', trigger: 'blur' }],
                 cardID: [{ required: true, message: '请输入身份证号', trigger: 'blur' }],
                 userName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+            },
+
+            rules_checkPwd:{
+                
             },
 
             Successdialog: false, //控制弹出
@@ -301,7 +265,6 @@ export default {
             this.created();
         },
         forgetPwd() {
-            //this.$router.push('/resetPwd');
             this.SelectVisible = true;
         },
 
@@ -331,23 +294,32 @@ export default {
             this.$refs.infoForm.validate((valid) => {
                 if (valid) {
                     const that = this;
-                    console.log("infoForm:");
                     this.$axios.post('/api/infoCheck', this.infoForm, {headers: {'Content-Type': 'application/json'}}).then((res) => {
                         const jwt = res.headers['authorization'];
-                        const userInfo = res.data;
-                        // console.log(userInfo);
-                        // 把数据共享出去，存于this.store下
-                        that.$store.commit('SET_TOKEN', jwt);
-                        that.$store.commit('SET_USERINFO', userInfo);
+                        const pRes = res.data;
+                        console.log(pRes);
 
                         // 获取 
                         //console.log(that.$store.getters.getUser);
                         if (res.status === 200) {
-                            if(userInfo.data === 1){
-                                // that.$router.push('/dashboard'); //跳转页
-                                this.$message.success(res.data.msg);
+                            if(pRes.status === 0){
+                                this.ForgetPwdVisible1 = true;
                             }else{
-                                this.$message.error(res.data.msg);
+                                if((pRes.status) & 1){
+                                    setTimeout(() => {
+                                        this.$message.error("此账号不存在!");
+                                    }, 10);
+                                    that.infoForm.accountNumber = '';
+                                    that.infoForm.cardID = '';
+                                    that.infoForm.userName = '';
+                                }
+                                if(((pRes.status >> 1) & 1) || ((pRes.status >> 2) & 1)){
+                                    setTimeout(() => {
+                                        this.$message.error("身份证号码/姓名校验失败！");
+                                    }, 10);
+                                    that.infoForm.cardID = '';
+                                    that.infoForm.userName = '';
+                                }
                             }
                         }
                     })
@@ -358,7 +330,7 @@ export default {
                         }
                     });
                 } else {
-                    this.$message.error('请输入账号和密码');
+                    // this.$message.error('请输入必填项');
                     return false;
                 }
             });
@@ -372,7 +344,7 @@ export default {
             that.infoForm.userName = '';
         },
         
-        onSubmit1() {
+        onSubmitUpdatePassword() {
             const that = this;
             if (this.isInfoFormChecking()) {
                 this.$confirm('确定修改?', '提示', {
@@ -394,17 +366,11 @@ export default {
                 .catch(() => {});
             }
         },
-        onCancel1() {
-            this.isInfoFormCheck = false;
-            this.idIsShow = false;
-            this.pwdisInfoFormCheck = false;
-            this.pwdNotCheck = false;
-            this.nameNotCheck = false;
-            this.nameisInfoFormCheck = false;
-            // this.infoForm = {};
-            this.infoForm.accountNumber = '';
-            this.infoForm.cardID = '';
-            this.infoForm.userName = '';
+        onRestPasswordForm() {
+            this.ForgetPwdVisible1 = false;
+            // this.isInfoFormCheck = true;
+            this.passwordForm.newPassWord = '';
+            this.passwordForm.cheackPassWord = '';
         },
         //关闭弹框的事件
         closeDialog() {
@@ -412,21 +378,19 @@ export default {
             this.closeCamera(); //清空数据
         },
         //关闭弹框的事件
-        closeDialog1() {
+        closeDialogOfSelectVisible() {
             this.SelectVisible = false;
             this.reload(); //刷新 ----推荐
         },
 
         //关闭弹框的事件
-        closeDialog2() {
+        closeDialogOfInfoCheck() {
             this.onCancelInfoCheck();
         },
 
         //关闭弹框的事件
-        closeDialog3() {
-            this.idIsShow = false;
-            // this.infoForm = {};
-            this.infoForm.accountNumber = '';
+        closeDialogOfForgetPwdVisible1() {
+            this.onRestPasswordForm();
         },
 
 
