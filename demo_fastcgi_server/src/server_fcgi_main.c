@@ -44,10 +44,8 @@ struct WebServerCtrl_T
 };
 
 static struct WebServerCtrl_T webServerCtrl;
-
+struct response *res;
    
-
-
 int init_dashboard_page(char *top_html_str, char *left_html_str, char *right_html_str)
 {
     printf("%s\n\n", "Content-Type:text/html;charset=utf-8");
@@ -415,8 +413,7 @@ static int get_request_method_type(char* request_method)
         return -1;
 }
 
-struct response *res;
-START_HANDLER (simple, POST, "/login", res,0, matches) {
+START_HANDLER (login, POST, "/login", res,0, matches) {
     char tempBuffer[256] = {0}; 
     char *pt = tempBuffer; 
     char *accountNumber = NULL;
@@ -424,18 +421,6 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
     char msg[256]={0};
     int ret = -1;
     int webcmd = 1;
-    
-    // char *get_query_string1 = qcgireq_getquery(Q_CGI_POST);
-
-    // DEBUG_LOG(DEBUG_PATH,DEBUG,"qcgireq_getquery(Q_CGI_POST)=%s\n",get_query_string1);
-
-    // if(get_query_string1 != NULL) {
-    //     free(get_query_string1);
-    // }
-    //cjson_cgi_getPostStr(&pt);
-
-    
-    // json_object *req_json = json_object_new_object();
 
     qentry_t *req = qcgireq_parse(NULL, 0);
     MODEL_INIT(POST);
@@ -487,12 +472,78 @@ START_HANDLER (simple, POST, "/login", res,0, matches) {
     // qcgires_setcontenttype(req, "application/json");
 
 
-    //REQUEST_PARSER_INIT(POST);
-    //response_add_header(res, "content-type", "application/json");
-    //response_write(res, "{\"add\":\"0\"}");
+    // REQUEST_PARSER_INIT(POST);
+    // response_add_header(res, "content-type", "application/json");
+    // response_write(res, "{\"add\":\"0\"}");
     // response_write(res, host_name);
 }
 END_HANDLER
+
+START_HANDLER (infoCheck, POST, "/infoCheck", res,0, matches) {
+    char tempBuffer[256] = {0}; 
+    char *pt = tempBuffer; 
+    char *accountNumber = NULL;
+    char *cardID = NULL;
+    char *userName = NULL;
+    char msg[256]={0};
+    int ret = -1;
+    int status = 0;
+    int webcmd = 1;
+
+    qentry_t *req = qcgireq_parse(NULL, 0);
+    MODEL_INIT(POST);
+    REQUEST_REQUIRED_VAR_STRING(accountNumber, "accountNumber");
+    REQUEST_REQUIRED_VAR_STRING(cardID, "cardID");
+    REQUEST_REQUIRED_VAR_STRING(userName, "userName");
+    DEBUG_LOG(DEBUG_PATH,DEBUG,"infoCheck get_query_string====%s---%s---%s\n",accountNumber,cardID,userName);
+    GO_END_HANDLER;
+
+    const char json_string[MAX_BUFFER_SIZE] = {0};
+
+    char *sql_select_temp = "SELECT * FROM userlist where accountNumber = %s;";
+
+    const char sql_select[256] = {0};
+
+    sprintf(sql_select,sql_select_temp,accountNumber);
+    
+    ret = getUserListSqlite3(sql_select,json_string);
+
+    // const char *json_string1 = "[{\"accountNumber\":\"1\",\"cardID\":\"1\",\"userName\":\"Yimning\",\"age\":18}]";
+
+    // 解析JSON字符串
+    json_object *json_obj_arry = json_tokener_parse(json_string);
+    int len = json_object_array_length(json_obj_arry);     // 获取数组长度
+
+    if(len == 1)
+    {
+        json_object *user_obj = json_object_array_get_idx(json_obj_arry, 0);
+        json_object *accountNumber_obj = NULL;
+        json_object *cardID_obj = NULL;
+        json_object *userName_obj = NULL;
+
+        FPRINTF_LOG(DEBUG_PATH,"信息校验---%s\r\n",getenv("REQUEST_URI"));  
+
+        if(!(json_object_object_get_ex(user_obj, "accountNumber", &accountNumber_obj))  || strcmp(accountNumber, json_object_get_string(accountNumber_obj)))
+        {
+            status |= 1;
+        }
+        if(!(json_object_object_get_ex(user_obj, "cardID", &cardID_obj)) || strcmp(cardID, json_object_get_string(cardID_obj)))
+        {
+            status |= (1<<1);
+        }
+        if(!(json_object_object_get_ex(user_obj, "userName", &userName_obj)) || strcmp(userName, json_object_get_string(userName_obj)))
+        {
+            status |= (1<<2);
+        }
+    }else
+    {
+        status = 7;
+    }
+	MODEL_ADD_INTEGER("status", status);
+    MODEL_OUTPUT();  
+}
+END_HANDLER
+
 
 START_HANDLER(default_handler, GET, "/login", res, 0, matches)
 {
@@ -588,7 +639,8 @@ int server_fcgi_main()
         // printf("<p style=\"text-align:center; font-size:18px\">1111!!!</p>");
 
         add_handler(default_handler);
-        add_handler(simple);
+        add_handler(login);
+        add_handler(infoCheck);
         //add_handler(getNetworkSideBand);
         //int getNetworkSideBand();
         
