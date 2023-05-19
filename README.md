@@ -15,7 +15,7 @@ Web 服务器接收到用户请求并交给CGI 程序<br>
 CGI 程序把处理结果传送给Web 服务器<br>
 Web 服务器把结果送回到用户<br> 
 # Demo  
-eg.<br>
+eg.<br>    
 得到参数 char *query_string = "CMD=LOGON&SELECT=0&USERNAME=user&PASSWORD=123";<br>
 对其解析成字符串：
 ```json  
