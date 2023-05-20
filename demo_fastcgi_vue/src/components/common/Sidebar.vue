@@ -49,7 +49,7 @@ export default {
             collapse: false,
             roseID: this.$store.getters.getUser.roseID,
             Items: [],
-            studentsItems: [
+            userListItems: [
                 {
                     icon: 'el-icon-lx-home',
                     index: 'dashboard',
@@ -69,170 +69,23 @@ export default {
                 {
                     icon: 'el-icon-picture',
                     index: '4',
-                    title: '人脸库管理',
+                    title: '数据监控',
                     subs: [
                         {
-                            index: 'UploadFace',
-                            title: '上传人脸'
-                        },
-                        {
-                            index: 'UpdateFace',
-                            title: '更新人脸'
-                        },
-                        {
-                            index: 'personInfo',
-                            title: '人脸信息'
+                            index: 'dataMonitor',
+                            title: '实时数据'
                         }
                     ]
                 },
                 {
                     icon: 'el-icon-camera-solid',
-                    index: 'photograph',
-                    title: '图片拍照'
-                },
-                {
-                    icon: 'el-icon-reading',
-                    index: 'courses',
-                    title: '课程表',
-                    title: '课程管理',
-                    subs: [
-                        {
-                            index: 'courses',
-                            title: '课程表'
-                        },
-                        {
-                            index: 'personInfo',
-                            title: '人脸信息'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-edit-outline',
-                    index: 'records',
-                    title: '考勤管理',
-                    subs: [
-                        {
-                            index: 'stuAttendenceRecords',
-                            title: '考勤记录'
-                        },
-                        {
-                            index: 'recentAttendence',
-                            title: '课程签到情况'
-                        },
-                        // {
-                        //     index: 'webSocket',
-                        //     title: 'webSocket'
-                        // }
-                    ]
-                },
-
-                {
-                    icon: 'el-icon-s-tools',
-                    index: 'account',
-                    title: '账户安全设置',
-                    subs: [
-                        {
-                            index: 'changePwd',
-                            title: '修改密码'
-                        },
-                        {
-                            index: 'changePwdN',
-                            title: '密保设置'
-                        },
-                        {
-                            index: 'accountStatus',
-                            title: '账户冻结'
-                        }
-                    ]
-                }
-            ],
-
-            teachersItems: [
-                {
-                    icon: 'el-icon-lx-home',
-                    index: 'dashboard',
-                    title: '系统首页'
-                },
-                {
-                    icon: 'el-icon-user',
-                    index: 'admin',
-                    title: '用户信息管理',
-                    subs: [
-                        {
-                            index: 'personInfo',
-                            title: '个人信息'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-picture',
-                    index: '4',
-                    title: '人脸库管理',
-                    subs: [
-                        {
-                            index: 'UploadFace',
-                            title: '上传人脸'
-                        },
-                        {
-                            index: 'UpdateFace',
-                            title: '更新人脸'
-                        },
-                        {
-                            index: 'personInfo',
-                            title: '人脸信息'
-                        }
-                    ]
+                    index: 'deviceControl',
+                    title: '设备控制'
                 },
                 {
                     icon: 'el-icon-camera-solid',
-                    index: 'photograph',
-                    title: '图片拍照'
-                },
-                {
-                    icon: 'el-icon-reading',
-                    index: 'courses',
-                    title: '课程管理',
-                    subs: [
-                        {
-                            index: 'addcourse',
-                            title: '添加课程'
-                        },
-                        {
-                            index: 'courses',
-                            title: '课程表'
-                        },
-                        {
-                            index: 'arrangeCourse',
-                            title: '安排课程'
-                        },
-                        {
-                            index: 'studenttable',
-                            title: '选课情况'
-                        },
-                        {
-                            index: 'personInfo',
-                            title: '人脸信息'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-edit-outline',
-                    index: 'records',
-                    title: '考勤管理',
-                    subs: [
-                        {
-                            index: 'attendenceCourse',
-                            title: '考勤课程'
-                        },
-                        {
-                            index: 'recentAttendence',
-                            title: '课程签到情况'
-                        },
-                        {
-                            index: 'attendenceRecords',
-                            title: '考勤记录'
-                        }
-                    ]
+                    index: 'systemLog',
+                    title: '系统日志'
                 },
                 {
                     icon: 'el-icon-s-tools',
@@ -242,170 +95,31 @@ export default {
                         {
                             index: 'changePwd',
                             title: '修改密码'
-                        },
-                        {
-                            index: 'changePwdN',
-                            title: '密保设置'
-                        },
-                        {
-                            index: 'accountStatus',
-                            title: '账户冻结'
-                        }
-                    ]
-                }
-            ],
-
-            adminItems: [
-                {
-                    icon: 'el-icon-lx-home',
-                    index: 'dashboard',
-                    title: '系统首页'
-                },
-                // {
-                //     icon: 'el-icon-lx-cascades',
-                //     index: 'table',
-                //     title: '基础表格'
-                // },
-                {
-                    icon: 'el-icon-user',
-                    index: 'admin',
-                    title: '用户信息管理',
-                    subs: [
-                        {
-                            index: 'students',
-                            title: '学生信息管理'
-                        },
-
-                        {
-                            index: 'teachers',
-                            title: '教师信息管理'
-                        },
-                        {
-                            index: 'personInfo',
-                            title: '管理员个人信息'
                         }
                     ]
                 },
                 // {
-                //     icon: 'el-icon-lx-copy',
-                //     index: 'tabs',
-                //     title: 'tab选项卡'
-                // },
-                // {
-                //     icon: 'el-icon-lx-calendar',
-                //     index: '3',
-                //     title: '表单相关',
+                //     icon: 'el-icon-lx-warn',
+                //     index: '7',
+                //     title: '错误处理',
                 //     subs: [
                 //         {
-                //             index: 'form',
-                //             title: '基本表单'
+                //             index: 'permission',
+                //             title: '权限测试'
                 //         },
                 //         {
-                //             index: '3-2',
-                //             title: '三级菜单',
-                //             subs: [
-                //                 {
-                //                     index: 'editor',
-                //                     title: '富文本编辑器'
-                //                 },
-                //                 {
-                //                     index: 'markdown',
-                //                     title: 'markdown编辑器'
-                //                 }
-                //             ]
-                //         },
-                //         {
-                //             index: 'upload',
-                //             title: '文件上传'
+                //             index: '404',
+                //             title: '404页面'
                 //         }
                 //     ]
                 // },
-
-                {
-                    icon: 'el-icon-picture',
-                    index: '4',
-                    title: '人脸库管理',
-                    subs: [
-                        {
-                            index: 'studentsFaces',
-                            title: '学生人脸库'
-                        },
-                        {
-                            index: 'teachersFaces',
-                            title: '教师人脸库'
-                        },
-                        {
-                            index: 'UploadFace',
-                            title: '上传人脸'
-                        },
-                        {
-                            index: 'UpdateFace',
-                            title: '更新人脸'
-                        },
-                        {
-                            index: 'personInfo',
-                            title: '人脸信息'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-camera-solid',
-                    index: 'photograph',
-                    title: '图片拍照'
-                },
-                {
-                    icon: 'el-icon-s-tools',
-                    index: 'account',
-                    title: '账户安全设置',
-                    subs: [
-                        {
-                            index: 'changePwd',
-                            title: '修改密码'
-                        },
-                        {
-                            index: 'changePwdN',
-                            title: '密保设置'
-                        },
-                        {
-                            index: 'accountStatus',
-                            title: '账户冻结'
-                        }
-                    ]
-                },
-
-                // {
-                //     icon: 'el-icon-rank',
-                //     index: '6',
-                //     title: '拖拽组件',
-                //     subs: [
-                //         {
-                //             index: 'drag',
-                //             title: '拖拽列表'
-                //         },
-                //     ]
-                // },
-
-                {
-                    icon: 'el-icon-lx-warn',
-                    index: '7',
-                    title: '错误处理',
-                    subs: [
-                        {
-                            index: 'permission',
-                            title: '权限测试'
-                        },
-                        {
-                            index: '404',
-                            title: '404页面'
-                        }
-                    ]
-                },
                 // {
                 //     icon: 'el-icon-lx-redpacket_fill',
                 //     index: '/donate',
                 //     title: '支持作者'
                 // }
-            ]
+            ],
+
         };
     },
     computed: {

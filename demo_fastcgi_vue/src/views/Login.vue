@@ -32,7 +32,7 @@
 
                 <div class="btn-txt">
                     <el-button type="text" @click="forgetPwd">忘记密码</el-button>
-                    <el-button class="btn-right" type="text" @click="faceLogin">注册账号</el-button>
+                    <el-button class="btn-right" type="text" @click="SignUp">注册账号</el-button>
                 </div>
                 <!-- <div class="login-tips">
                     <p class="text">Tips : 若无账号则联系管理员</p>
@@ -269,9 +269,9 @@ export default {
             this.param.accountNumber = '';
             this.param.passWord = '';
         },
-        faceLogin() {
+        SignUp() {
             this.FaceLoginVisible = true;
-            this.created();
+            this.$message.error('暂未实现注册账号功能！');
         },
         forgetPwd() {
             this.SelectVisible = true;
