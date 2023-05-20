@@ -613,7 +613,7 @@ START_HANDLER (updatePasswordHandler, POST, "/updatePassword", res,0, matches) {
                 }else{
                     status = 1;
                 }
-                FPRINTF_LOG(DEBUG_PATH,"updateUserListSqlite3 =%s---%d-----%s\r\n",sql_exec_statement,update,json_string);
+                FPRINTF_LOG(DEBUG_PATH,"[DEBUG] updateUserListSqlite3 = %s---%d-----%s\r\n",sql_exec_statement,update,json_string);
             }else{
                 status = 1;
             }
